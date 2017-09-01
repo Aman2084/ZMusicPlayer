@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zw.MainActivity">
+
+    <fragment
+        android:id="@+id/mainTitle"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:name="com.zw.main.MainTitleFragment"/>
+
+
+    <fragment
+        android:id="@+id/mainNavigation"
+        android:name="com.zw.main.MainNavigationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"/>
+
+
+    <fragment
+        android:id="@+id/mainMusic"
+        android:name="com.zw.main.MainMusicFragment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@id/mainNavigation"/>
+
+
+    <fragment
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.zw.main.MainContainerFragment"
+        android:layout_below="@id/mainTitle"
+        android:layout_above="@id/mainMusic"/>
+
+    <FrameLayout
+        android:id="@+id/secondLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/mainMusic"/>
+
+    <FrameLayout
+        android:id="@+id/thirdLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/popUpLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

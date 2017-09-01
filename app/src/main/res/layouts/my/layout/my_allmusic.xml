@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"/>
+
+    <com.zw.ui.containers.SubPageTitle
+        android:id="@+id/title"
+        style="@style/subPageTitle"
+        my:titleText = "@string/my_allmusic">
+
+        <TextView
+            android:id="@+id/txt_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_scan"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </com.zw.ui.containers.SubPageTitle>
+
+
+
+
+    <RadioGroup
+        android:id="@+id/raidoGroup"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/title">
+        <RadioButton
+            android:id="@+id/btn_music"
+            style="@style/main_navigation"
+            android:textSize="20dp"
+            android:text="@string/my_music"
+            android:textColor="@color/red"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/btn_singer"
+            style="@style/main_navigation"
+            android:textSize="20dp"
+            android:text="@string/my_songer"/>
+        <RadioButton
+            android:id="@+id/btn_album"
+            style="@style/main_navigation"
+            android:textSize="20dp"
+            android:text="@string/my_album"/>
+        <RadioButton
+            android:id="@+id/btn_folder"
+            style="@style/main_navigation"
+            android:textSize="20dp"
+            android:text="@string/my_folder"/>
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/raidoGroup"/>
+
+</merge>

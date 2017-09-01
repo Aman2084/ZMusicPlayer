@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <com.zw.my.parts.MyMainItem
+        android:id="@+id/item_all"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        my:itemName = "@string/my_allmusic"
+        my:imgSrc="@drawable/my_main_ic_music"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/my_main_linebg"/>
+
+
+    <com.zw.my.parts.MyMainItem
+        android:id="@+id/item_fav"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        my:itemName = "@string/my_myfav"
+        my:imgSrc="@drawable/my_main_ic_fav"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/my_main_linebg"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/my_main_linebg"/>
+
+</merge>

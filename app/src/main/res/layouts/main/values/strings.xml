@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mainTitle">Aman的音乐</string>
+    <string name="main_nav_my">我的</string>
+    <string name="main_nav_music">音乐</string>
+    <string name="main_nav_time">定时</string>
+    <string name="main_nav_setting">设置</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_allmusic">所有音乐</string>
+    <string name="my_myfav">我的收藏</string>
+    <string name="my_music">音乐</string>
+    <string name="my_songer">歌手</string>
+    <string name="my_album">专辑</string>
+    <string name="my_folder">文件夹</string>
+    <string name="my_scan">扫描</string>
+    <string name="my_scanTitle">扫描歌曲</string>
+    <string name="my_importMusicTitle">要导入的文件夹</string>
+    <string name="my_importSong">导入%s首</string>
+    <string name="global_cancel">取消</string>
+    <string name="global_selectedAll">全选</string>
+    <string name="global_songUnit">首</string>
+    <string name="global_songNum">%s首</string>
+</resources>

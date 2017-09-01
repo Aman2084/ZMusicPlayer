@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zw.main.MainMusicFragment"
+    android:background="@drawable/main_music_bg">
+
+
+       <com.zw.ui.CircleImageView
+           android:id="@+id/icon"
+           android:layout_width="32dp"
+           android:layout_height="32dp"
+           android:layout_marginLeft="6dp"
+           android:layout_centerVertical="true"
+           android:src="@drawable/main_music_defaulticon"/>
+
+       <ImageView
+           android:id="@+id/btn_next"
+           android:layout_width="20dp"
+           android:layout_height="30dp"
+           android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"
+           android:layout_marginRight="5dp"
+           android:src="@drawable/main_music_nextbtn"/>
+
+       <ImageView
+           android:id="@+id/btn_play"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_centerVertical="true"
+           android:layout_toLeftOf="@id/btn_next"
+           android:layout_marginRight="6dp"
+           android:src="@drawable/main_music_playbtn"/>
+
+       <TextView
+           android:id="@+id/txt_song"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_toLeftOf="@id/btn_play"
+           android:layout_toRightOf="@id/icon"
+           android:textSize="12sp"
+           android:padding="2dp"
+           android:gravity="center_horizontal"
+           android:text="歌曲名"
+           android:textColor="@color/black"/>
+
+       <TextView
+           android:id="@+id/txt_singer"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_toLeftOf="@id/btn_play"
+           android:layout_toRightOf="@id/icon"
+           android:layout_below="@id/txt_song"
+           android:gravity="center_horizontal"
+           android:textSize="10sp"
+           android:text="演唱者"
+           android:textColor="@color/gray"/>
+
+
+
+</RelativeLayout>
