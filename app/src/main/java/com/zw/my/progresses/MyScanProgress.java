@@ -58,14 +58,14 @@ public class MyScanProgress extends ZObservable {
 //scan
     private Handler hander = new Handler(){
         public void handleMessage(Message $msg) {
-        switch ($msg.arg1){
-            case 1:
-                _diaplog.setProgress($msg.what);
-                break;
-            case 0:
-                complete();
-                break;
-        }
+            switch ($msg.arg1){
+                case 1:
+                    _diaplog.setProgress($msg.what);
+                    break;
+                case 0:
+                    complete();
+                    break;
+            }
         }
     };
 
