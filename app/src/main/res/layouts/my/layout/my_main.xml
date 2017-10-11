@@ -4,37 +4,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <com.zw.my.parts.MyMainItem
         android:id="@+id/item_all"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
+        android:minHeight="50dp"
         my:itemName = "@string/my_allmusic"
         my:imgSrc="@drawable/my_main_ic_music"/>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
+        android:minHeight="1dp"
         android:background="@drawable/my_main_linebg"/>
-
 
     <com.zw.my.parts.MyMainItem
         android:id="@+id/item_fav"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
+        android:minHeight="50dp"
         my:itemName = "@string/my_myfav"
         my:imgSrc="@drawable/my_main_ic_fav"/>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
+        android:minHeight="1dp"
         android:background="@drawable/my_main_linebg"/>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginTop="3dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:minHeight="1dp"
         android:background="@drawable/my_main_linebg"/>
+    <RelativeLayout
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:minHeight="50dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/my_main_add"
+            android:layout_centerVertical="true"
+            android:clickable="false"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:text="@string/my_creatList"
+            android:textSize="20sp"
+            android:clickable="false"/>
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 
 </merge>

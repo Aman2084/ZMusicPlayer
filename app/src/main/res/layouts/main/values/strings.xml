@@ -21,4 +21,6 @@
     <string name="global_selectedAll">全选</string>
     <string name="global_songUnit">首</string>
     <string name="global_songNum">%s首</string>
+    <string name="my_creatList">新建歌单</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>

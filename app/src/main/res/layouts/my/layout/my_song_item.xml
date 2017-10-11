@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View android:minHeight="60dp" android:layout_width="0dp" android:layout_height="60dp"/>
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
@@ -12,6 +12,16 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txt_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/global_singleLineText"
+        android:textSize="10sp"
+        android:layout_alignTop="@id/img"
+        android:layout_toRightOf="@id/img"
+        android:layout_marginLeft="2dp" />
 
     <ImageView
         android:id="@+id/img"
@@ -24,13 +34,28 @@
         android:layout_marginTop="2dp"
         android:clickable="false"/>
 
-    <TextView
-        android:id="@+id/txt_singer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/global_singleLineText"
-        android:textSize="10sp"
-        android:layout_alignTop="@id/img"
-        android:layout_toRightOf="@id/img"
-        android:layout_marginLeft="2dp" />
+
+    <LinearLayout
+        android:id="@+id/core_btn"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:minHeight="60dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_fav"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/my_global_unfav"
+            android:background="@color/orange"
+            android:scaleType="centerInside"/>
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/my_global_delete"
+            android:background="@color/darkGray"
+            android:scaleType="centerInside"/>
+    </LinearLayout>
 </merge>
