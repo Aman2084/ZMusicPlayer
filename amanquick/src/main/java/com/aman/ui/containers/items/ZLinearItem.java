@@ -1,10 +1,8 @@
 package com.aman.ui.containers.items;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 
-import com.aman.ui.ZItemListener;
 import com.aman.ui.containers.ZLinearLayout;
 
 /**
@@ -17,16 +15,11 @@ import com.aman.ui.containers.ZLinearLayout;
 
 public class ZLinearItem extends ZLinearLayout {
 
-    protected ZItemListener itemListener = null;
 
-    public ZLinearItem(Context $c , int $layout , @Nullable ZItemListener $l){
+    public ZLinearItem(Context $c , int $layout){
         super($c , null);
 
         LayoutInflater.from($c).inflate($layout , this);
-        itemListener = $l;
     }
 
-    public void setItemListener(ZItemListener $l){
-        itemListener = $l;
-    }
 }

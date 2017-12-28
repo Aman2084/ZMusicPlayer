@@ -49,6 +49,12 @@ public class ZViewGroup extends ViewGroup implements IZObservable {
 
     @Override
     public void sendNotification(ZNotification $n) {
+        if($n.target==null){
+            $n.target = observable;
+        }
+        if($n.owner==null){
+            $n.owner = this;
+        }
         observable.sendNotification($n);
     }
 

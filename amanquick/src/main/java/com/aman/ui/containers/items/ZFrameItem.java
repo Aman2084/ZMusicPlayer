@@ -1,11 +1,8 @@
 package com.aman.ui.containers.items;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-
-import com.aman.ui.ZItemListener;
 
 /**
  * AmanQuick 1.0
@@ -17,15 +14,9 @@ import com.aman.ui.ZItemListener;
 
 public class ZFrameItem extends FrameLayout {
 
-    protected ZItemListener itemListener = null;
-
-    public ZFrameItem(Context $c , int $layout , @Nullable ZItemListener $l){
+    public ZFrameItem(Context $c , int $layout){
         super($c , null);
         LayoutInflater.from($c).inflate($layout , this);
-        itemListener = $l;
     }
 
-    public void setItemListener(ZItemListener $l){
-        itemListener = $l;
-    }
 }

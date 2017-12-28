@@ -14,6 +14,9 @@ public class ZNotification {
     public Object data = null;
     public String action = null;
 
+    public Object owner;
+    public ZObservable target;
+
     public ZNotification(String $name){
         name = $name;
     }
@@ -28,7 +31,6 @@ public class ZNotification {
         data = $data;
         action = $action;
     }
-
 }
 
 

@@ -9,5 +9,5 @@ package com.aman.ui.containers.subPage;
  */
 
 public enum AnimationTypes {
-    Left,Right,Top,Bottom
+    Left,Right,Top,Bottom,None
 }

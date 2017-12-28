@@ -45,6 +45,12 @@ public class ZRelativeLayout extends RelativeLayout implements IZObservable {
 
     @Override
     public void sendNotification(ZNotification $n) {
+        if($n.target==null){
+            $n.target = observable;
+        }
+        if($n.owner==null){
+            $n.owner = this;
+        }
         observable.sendNotification($n);
     }
 

@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 
-import com.aman.ui.ZItemListener;
 import com.aman.ui.containers.ZRelativeLayout;
+
+import java.util.Observer;
 
 /**
  * AmanQuick 1.0
@@ -17,15 +18,11 @@ import com.aman.ui.containers.ZRelativeLayout;
 
 public class ZRelativeItem extends ZRelativeLayout {
 
-    protected ZItemListener itemListener = null;
-
-    public ZRelativeItem(Context $c , int $layout , @Nullable ZItemListener $l){
+    public ZRelativeItem(Context $c , int $layout , @Nullable Observer $b){
         super($c , null);
         LayoutInflater.from($c).inflate($layout , this);
-        itemListener = $l;
-    }
-
-    public void setItemListener(ZItemListener $l){
-        itemListener = $l;
+        if($b!=null){
+            addObserver($b);
+        }
     }
 }

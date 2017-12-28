@@ -1,5 +1,8 @@
 package com.aman.utils;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +14,6 @@ import android.view.ViewGroup;
  * Email: 1390792438@qq.com
  */
 public class UIUtils {
-
 
     public static View[] findViewsByIds(ViewGroup $g , int[] $a){
         if($a==null || $a.length==0){
@@ -26,7 +28,7 @@ public class UIUtils {
     }
 
 
-    public static View[] setOnclickByIds(ViewGroup $g , int[] $a , View.OnClickListener $l){
+    public static View[] setOnClickByIds(ViewGroup $g , int[] $a , View.OnClickListener $l){
         if($a==null || $a.length==0){
             return new View[]{};
         }
@@ -38,5 +40,33 @@ public class UIUtils {
         }
         return a;
     }
+
+
+
+    public static AlertDialog alert(Context $c , String $title , String $msg, String $ok,
+                                    DialogInterface.OnClickListener $onOK){
+        AlertDialog.Builder builder = new AlertDialog.Builder($c);
+        builder.setTitle($title);
+        builder.setMessage($msg);
+        builder.setNegativeButton($ok , $onOK);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        return dialog;
+    };
+
+
+    public static AlertDialog alert(Context $c ,
+            String $title , String $msg, String $ok, String $cancel,
+            DialogInterface.OnClickListener $onOK , DialogInterface.OnClickListener $onCancle){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder($c);
+        builder.setTitle($title);
+        builder.setMessage($msg);
+        builder.setNegativeButton($cancel, $onCancle);
+        builder.setPositiveButton($ok , $onOK);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        return dialog;
+    };
 
 }

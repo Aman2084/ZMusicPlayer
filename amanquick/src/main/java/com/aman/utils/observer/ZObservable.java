@@ -33,6 +33,8 @@ public class ZObservable extends Observable implements IZObservable {
      * @see java.util.Observer
      */
     public void sendNotification(ZNotification $n){
+        $n.target = this;
+        $n.owner = _owner;
         setChanged();
         notifyObservers($n);
     }
