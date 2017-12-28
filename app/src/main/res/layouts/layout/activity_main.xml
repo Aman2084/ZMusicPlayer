@@ -18,7 +18,7 @@
         android:name="com.zw.main.MainNavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_below="@id/mainTitle"/>
 
 
     <fragment
@@ -26,7 +26,7 @@
         android:name="com.zw.main.MainMusicFragment"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_above="@id/mainNavigation"/>
+        android:layout_alignParentBottom="true"/>
 
 
     <fragment
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.zw.main.MainContainerFragment"
-        android:layout_below="@id/mainTitle"
+        android:layout_below="@id/mainNavigation"
         android:layout_above="@id/mainMusic"/>
 
     <FrameLayout

@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
 
+import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZObservable;
 import com.zw.R;
 import com.zw.global.AppInstance;
-import com.zw.global.NotificationNames;
 import com.zw.global.model.data.Song;
 import com.zw.utils.AppUtils;
 
@@ -77,6 +77,6 @@ public class MyScanProgress extends ZObservable {
         List<Song> a = _arr;
         _arr = null;
         _scaning = false;
-        sendNotification(NotificationNames.Complete , a);
+        sendNotification(ZNotifcationNames.Complete , a);
     }
 }

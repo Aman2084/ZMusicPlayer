@@ -1,4 +1,4 @@
-package com.zw.my.parts;
+package com.zw.my.ui.item;
 
 import android.content.Context;
 import android.content.res.TypedArray;

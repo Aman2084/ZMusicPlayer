@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zw.my.parts.MyMainItem
+    <com.zw.my.ui.item.MyMainItem
         android:id="@+id/item_all"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -18,7 +18,7 @@
         android:minHeight="1dp"
         android:background="@drawable/my_main_linebg"/>
 
-    <com.zw.my.parts.MyMainItem
+    <com.zw.my.ui.item.MyMainItem
         android:id="@+id/item_fav"
         android:layout_width="match_parent"
         android:layout_height="50dp"

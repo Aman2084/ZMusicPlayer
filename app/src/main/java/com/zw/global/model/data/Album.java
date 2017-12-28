@@ -15,7 +15,6 @@ public class Album {
     public String name = null;
     public int numSong = 0;
 
-
     public Album(String $id , String $name , int $num){
         id = $id;
         name = $name;

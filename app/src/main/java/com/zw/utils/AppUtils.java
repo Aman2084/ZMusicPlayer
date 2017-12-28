@@ -30,28 +30,28 @@ public class AppUtils {
         if(cursor!=null){
             while (cursor.moveToNext()){
                 Song s = new Song();
-                s.id = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-                s.name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
-//                s.singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
-                s.singerId = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST_ID));
-//                s.album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
-                s.albumId = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                s.set_id(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)));
+                s.setName(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)));
+//              s.singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                s.setSingerId(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST_ID)));
+//              s.album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+                s.setAlbumId(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)));
                 s.set_path(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)));
-                s.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
-                s.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
-                if(s.size>800000 && s.name!=null && s.name.contains("-")){
-                    String[] str = s.name.split("-");
-                    s.singer = str[0];
-                    s.name = str[1];
-                    int i = s.name.lastIndexOf(".");
+                s.setDuration(cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)));
+                s.setSize(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)));
+                if(s.getSize()>800000 && s.getName()!=null && s.getName().contains("-")){
+                    String[] str = s.getName().split("-");
+                    s.setSinger(str[0]);
+                    s.setName(str[1]);
+                    int i = s.getName().lastIndexOf(".");
                     if(i>-1){
-                        s.name = s.name.substring(0,i);
+                        s.setName(s.getName().substring(0,i));
                     }
                 }
 
                 String mUriAlbums = "content://media/external/audio/albums";
                 String[] projection = new String[] { "album_art" };
-                Cursor cur = $c.getContentResolver().query(Uri.parse(mUriAlbums + "/" + s.albumId),  projection, null, null, null);
+                Cursor cur = $c.getContentResolver().query(Uri.parse(mUriAlbums + "/" + s.getAlbumId()),  projection, null, null, null);
                 String album_art = null;
                 if (cur.getCount() > 0 && cur.getColumnCount() > 0){
                     cur.moveToNext();

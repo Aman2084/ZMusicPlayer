@@ -40,14 +40,24 @@ public class MyScanThread extends Thread {
             Song s = _arr.get(i);
 
             MediaMetadataRetriever m = new MediaMetadataRetriever();
-            m.setDataSource(s.path);
+            m.setDataSource(s.getPath());
 
+            String str = null;
             //歌曲名（null）
-            s.name = s.name==null ? m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE) : s.name;
+            str = s.getName();
+            if(str==null){
+                s.setName(m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+            }
             //专辑名（null）
-            s.album = s.album==null ? m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM) : s.album;
+            str = s.getAlbum();
+            if(str==null){
+                s.setAlbum(m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+            }
             //歌手名（null）
-            s.singer = s.singer==null ? m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST) : s.singer;
+            str = s.getSinger();
+            if(str==null){
+                s.setSinger(m.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+            }
             Message mg = new Message();
             mg.what = i+1;
             mg.arg1 = 1;

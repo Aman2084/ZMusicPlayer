@@ -1,4 +1,4 @@
-package com.zw.my;
+package com.zw.my.ui;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.aman.ui.ZItemListener;
 import com.aman.ui.containers.ZRelativeLayout;
 import com.aman.ui.containers.items.ZRelativeItem;
 import com.aman.ui.containers.subPage.AnimationTypes;
@@ -20,20 +19,23 @@ import com.aman.ui.containers.subPage.ISubpage;
 import com.aman.utils.UIUtils;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
+import com.aman.utils.observer.ZObserver;
 import com.zw.R;
 import com.zw.global.AppInstance;
-import com.zw.global.NotificationNames;
-import com.zw.global.model.AppModel;
+import com.zw.global.AppNotificationNames;
 import com.zw.global.model.data.Album;
 import com.zw.global.model.data.Folder;
-import com.zw.global.model.data.PlayListModel;
+import com.zw.global.model.data.PlayList;
 import com.zw.global.model.data.Singer;
 import com.zw.global.model.data.Song;
-import com.zw.global.model.data.SongListModel;
+import com.zw.global.model.data.SongGroup;
+import com.zw.global.model.my.SongModel;
+import com.zw.my.ui.item.MySongItem;
 import com.zw.ui.containers.SubPageTitle;
 import com.zw.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * ZMusicPlayer 1.0
@@ -64,13 +66,15 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
         _adapter_folder = new Adapter_Folder(null , onItem);
 
         int[] a = {R.id.btn_music , R.id.btn_singer , R.id.btn_album , R.id.btn_folder};
-        _btns = UIUtils.setOnclickByIds(this , a , onRadioButton);
+        _btns = UIUtils.setOnClickByIds(this , a , onRadioButton);
         _list = (ListView)findViewById(R.id.list);
 
         SubPageTitle t = (SubPageTitle)findViewById(R.id.title);
         t.set_observable(this);
 
         TextView txt = (TextView) findViewById(R.id.txt_scan);
+        txt.setOnClickListener(onClick);
+        txt = (TextView) findViewById(R.id.txt_manage);
         txt.setOnClickListener(onClick);
 
         refause();
@@ -79,7 +83,7 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
 
 //interface
     public void refause() {
-        AppModel m = AppInstance.model;
+        SongModel m = AppInstance.model.song.song;
         _adapter_song.setData(m.get_allSongs());
         _adapter_album.setData(m.get_allAlbums());
         _adapter_singer.setData(m.get_allSingers());
@@ -91,7 +95,14 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
     private  OnClickListener onClick = new OnClickListener() {
         @Override
         public void onClick(View $v) {
-         sendNotification(NotificationNames.Scan);
+            switch ($v.getId()){
+                case R.id.txt_scan:
+                    sendNotification(AppNotificationNames.Scan);
+                    break;
+                case R.id.txt_manage:
+                    sendNotification(AppNotificationNames.Manage);
+                    break;
+            }
         }
     };
 
@@ -120,31 +131,32 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
         }
     };
 
-    private ZItemListener onItem = new ZItemListener() {
+    private ZObserver onItem = new ZObserver() {
         @Override
-        public void onItem(ZNotification $n) {
-            AppModel m = AppInstance.model;
+        public void onNotification(ZNotification $n) {
+            SongModel m = AppInstance.model.song.song;
 
             Object o = $n.data;
-            SongListModel l = new SongListModel();
+            SongGroup l = new SongGroup();
 
             if(o instanceof Song){
                 ArrayList<Song> a = m.get_allSongs();
                 int i = a.indexOf(o);
-                PlayListModel p = new PlayListModel(a , i);
-                sendNotification(NotificationNames.PlaySongList , p);
+                PlayList p = new PlayList(a , i);
+                sendNotification(AppNotificationNames.PlaySongList , p);
             }else if(o instanceof Singer){
-                l.title = ((Singer) o).name;
-                l.songList = m.getSongsBySinger(((Singer) o).id);
+                l.name = ((Singer) o).name;
+                l.songs = m.getSongsBySinger(((Singer) o).id);
             }else if(o instanceof Album){
-                l.title = ((Album) o).name;
-                l.songList = m.getSongsByAlumb(((Singer) o).id);
+                Album album = (Album) o;
+                l.name = album.name;
+                l.songs = m.getSongsByAlumb(album.id);
             }else if(o instanceof Folder){
-                l.title =((Folder) o).path;
-                l.songList = m.getSongsByFolder(((Folder) o).path);
+                l.name =((Folder) o).name;
+                l.songs = m.getSongsByFolder(((Folder) o).path);
             }
-            if(l.title!=null){
-                sendNotification(NotificationNames.ShowSongList , l);
+            if(l.name !=null){
+                sendNotification(AppNotificationNames.ShowSongGroup, l);
             }
         }
     };
@@ -165,9 +177,9 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
 private class Adapter_Song extends BaseAdapter{
 
     private ArrayList<Song> _data;
-    private ZItemListener _istener;
+    private ZObserver _istener;
 
-    public Adapter_Song(ArrayList<Song> $a , ZItemListener $l) {
+    public Adapter_Song(ArrayList<Song> $a , ZObserver $l) {
         super();
         _data = $a;
         _istener = $l;
@@ -190,9 +202,9 @@ private class Adapter_Song extends BaseAdapter{
 
     @Override
     public View getView(int $position, View $convertView, ViewGroup $parent) {
-        Item_Song m = (Item_Song)$convertView;
+        MySongItem m = (MySongItem)$convertView;
         if(m==null){
-            m = new Item_Song(AppInstance.mainActivity, _istener);
+            m = new MySongItem(AppInstance.mainActivity, _istener);
         }
         m.setData(_data.get($position));
         return m;
@@ -207,9 +219,9 @@ private class Adapter_Song extends BaseAdapter{
 private class Adapter_Singer extends BaseAdapter{
 
     private ArrayList<Singer> _data;
-    private ZItemListener _istener;
+    private ZObserver _istener;
 
-    public Adapter_Singer(ArrayList<Singer> $a , ZItemListener $l) {
+    public Adapter_Singer(ArrayList<Singer> $a , ZObserver $l) {
         super();
         _data = $a;
         _istener = $l;
@@ -249,9 +261,9 @@ private class Adapter_Singer extends BaseAdapter{
 private class Adapter_Album extends BaseAdapter{
 
     private ArrayList<Album> _data;
-    private ZItemListener _istener;
+    private ZObserver _istener;
 
-    public Adapter_Album(ArrayList<Album> $a , ZItemListener $l) {
+    public Adapter_Album(ArrayList<Album> $a , ZObserver $l) {
         super();
         _data = $a;
         _istener = $l;
@@ -291,9 +303,9 @@ private class Adapter_Album extends BaseAdapter{
 private class Adapter_Folder extends BaseAdapter{
 
     private ArrayList<Folder> _data;
-    private ZItemListener _istener;
+    private ZObserver _istener;
 
-    public Adapter_Folder(ArrayList<Folder> $a , ZItemListener $l) {
+    public Adapter_Folder(ArrayList<Folder> $a , ZObserver $l) {
         super();
         _data = $a;
         _istener = $l;
@@ -329,15 +341,15 @@ private class Adapter_Folder extends BaseAdapter{
         notifyDataSetChanged();
     }
 }
-
+/**
 private class Item_Song extends ZRelativeItem{
     private TextView _txt_name;
     private TextView _txt_singer;
 
-    public Item_Song(Context $c, @Nullable ZItemListener $l) {
+    public Item_Song(Context $c, @Nullable ZNotificationListener $l) {
         super($c, R.layout.my_song_item, $l);
-        _txt_name = (TextView)findViewById(R.id.txt_name);
-        _txt_singer = (TextView)findViewById(R.id.txt_singer);
+        _txt_name = (TextView)findViewById(R._id.txt_name);
+        _txt_singer = (TextView)findViewById(R._id.txt_singer);
         setOnClickListener(new OnClickListener() {
             public void onClick(View $v) {
                 itemListener.sendNotification(ZNotifcationNames.Click , data);
@@ -355,21 +367,21 @@ private class Item_Song extends ZRelativeItem{
         }
     }
 }
-
+*/
 
 private class Item_Singer extends ZRelativeItem{
 
     private TextView _txt_name;
     private TextView _txt_num;
 
-    public Item_Singer(Context $c, @Nullable ZItemListener $l) {
+    public Item_Singer(Context $c, @Nullable Observer $l) {
         super($c, R.layout.my_singer_item, $l);
 
         _txt_name = (TextView)findViewById(R.id.txt_name);
         _txt_num = (TextView)findViewById(R.id.txt_num);
         setOnClickListener(new OnClickListener() {
             public void onClick(View $v) {
-                itemListener.sendNotification(ZNotifcationNames.Click , data);
+                sendNotification(ZNotifcationNames.Click , data);
             }
         });
     }
@@ -392,14 +404,14 @@ private class Item_Album extends ZRelativeItem{
     private TextView _txt_name;
     private TextView _txt_num;
 
-    public Item_Album(Context $c, @Nullable ZItemListener $l) {
+    public Item_Album(Context $c, @Nullable Observer $l) {
         super($c, R.layout.my_singer_item, $l);
 
         _txt_name = (TextView)findViewById(R.id.txt_name);
         _txt_num = (TextView)findViewById(R.id.txt_num);
         setOnClickListener(new OnClickListener() {
             public void onClick(View $v) {
-                itemListener.sendNotification(ZNotifcationNames.Click , data);
+                sendNotification(ZNotifcationNames.Click , data);
             }
         });
     }
@@ -415,7 +427,6 @@ private class Item_Album extends ZRelativeItem{
             _txt_num.setText(str);
         }
     }
-
 }
 
 private class Item_Folder extends ZRelativeItem{
@@ -424,7 +435,7 @@ private class Item_Folder extends ZRelativeItem{
     private TextView _txt_name;
     private TextView _txt_num;
 
-    public Item_Folder(Context $c, @Nullable ZItemListener $l) {
+    public Item_Folder(Context $c, @Nullable ZObserver $l) {
         super($c, R.layout.my_folder_item, $l);
 
         _txt_path = (TextView)findViewById(R.id.txt_path);
@@ -432,7 +443,7 @@ private class Item_Folder extends ZRelativeItem{
         _txt_num = (TextView)findViewById(R.id.txt_num);
         setOnClickListener(new OnClickListener() {
             public void onClick(View $v) {
-                itemListener.sendNotification(ZNotifcationNames.Click , data);
+                sendNotification(ZNotifcationNames.Click , data);
             }
         });
     }

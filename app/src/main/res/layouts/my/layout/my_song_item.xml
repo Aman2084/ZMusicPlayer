@@ -40,7 +40,9 @@
         android:layout_width="160dp"
         android:layout_height="60dp"
         android:minHeight="60dp"
-        android:orientation="horizontal">
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/btn_fav"
@@ -58,4 +60,13 @@
             android:background="@color/darkGray"
             android:scaleType="centerInside"/>
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:button="@drawable/style_checkbox"
+        android:visibility="gone"/>
 </merge>

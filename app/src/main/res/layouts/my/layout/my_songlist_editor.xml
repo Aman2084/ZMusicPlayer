@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"/>
+
+    <com.zw.ui.containers.SubPageTitle
+        android:id="@+id/title"
+        style="@style/subPageTitle"
+        app:titleText="@string/my_editSongsLst"/>
+
+    <RelativeLayout
+        android:id="@+id/core_editTop"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_below="@id/title"
+        android:background="@drawable/global_barbg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:minWidth="150dp"
+            android:background="@drawable/global_inputbg"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:text="测试歌单名"/>
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/my_songlist_add"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/core_editBottom"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/global_barbg"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/global_selectedAll"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="@string/global_complete"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:textSize="14sp"
+            android:background="@drawable/global_btnbg1_green"/>
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="@string/global_delete"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/btn_ok"
+            android:textSize="14sp"
+            android:background="@drawable/global_btnbg1_red"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/core_editTop"
+        android:layout_above="@id/core_editBottom"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/core_commonBottom"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/global_barbg">
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="@string/global_edit"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:textSize="14sp"
+            android:background="@drawable/global_btnbg1_green"/>
+
+        <Button
+            android:id="@+id/btn_deleteSongList"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:text="@string/my_deleteSongList"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/btn_edit"
+            android:textSize="14sp"
+            android:background="@drawable/global_btnbg1_red"/>
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/list_common"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_above="@id/core_commonBottom"/>
+
+
+
+
+</merge>

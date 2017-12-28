@@ -17,28 +17,29 @@ import java.util.regex.Pattern;
  */
 
 public class Song extends ZObservable{
-    public String id = null;
 
-    public String name = null;
+    private String _id = null;
+
+    private String _name = null;
     /**文件名（不含扩展名）*/
-    public String fileName = null;
+    private String _fileName = null;
 
-    public String singer = null;
+    private String _singer = null;
 
-    public String singerId = null;
+    private String _singerId = null;
 
-    public String album = null;
+    private String _album = null;
 
-    public String albumId = null;
+    private String _albumId = null;
 
-    public String path = null;
+    private String _path = null;
 
-    public String folderPath = null;
+    private String _folderPath = null;
 
     /**时长（毫秒）*/
-    public int duration = 0;
+    private int _duration = 0;
     /**文件大小（字节）*/
-    public long size = 0;
+    private long _size = 0;
 
     public Song(){
         super(null , null);
@@ -51,33 +52,124 @@ public class Song extends ZObservable{
             return;
         }
 
-        path = $str;
+        _path = $str;
 
         String reg = "(.*/)|(\\..*)";
-        fileName = $str.replaceAll(reg, "");
+        _fileName = $str.replaceAll(reg, "");
 
         Pattern p= Pattern.compile(".*/");
         Matcher m = p.matcher($str);
         if(m.find()){
-            folderPath = m.group();
+            _folderPath = m.group();
         }
     }
 
     public String getDisplayName(){
-        String s = fileName;
+        String s = _fileName;
         if(!AppInstance.model.settings.useFileName){
-            s = name==null ? s : name;
+            s = _name==null ? s : _name;
         }
         return s;
     }
 
     public String getDisplaySinger(){
-        String s = singer==null ? AppUtils.id2String(R.string.global_unknown) : singer;
+        String s = _singer==null ? AppUtils.id2String(R.string.global_unknown) : _singer;
         return s;
     }
 
     public String getDisplayAlbum(){
-        String s = album==null ? AppUtils.id2String(R.string.global_unknown) : album;
+        String s = _album==null ? AppUtils.id2String(R.string.global_unknown) : _album;
         return s;
     }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    @Override
+    public String getName() {
+        return _name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this._name = name;
+    }
+
+    public String getFileName() {
+        return _fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this._fileName = fileName;
+    }
+
+    public String getSinger() {
+        return _singer;
+    }
+
+    public void setSinger(String singer) {
+        this._singer = singer;
+    }
+
+    public String getSingerId() {
+        return _singerId;
+    }
+
+    public void setSingerId(String singerId) {
+        this._singerId = singerId;
+    }
+
+    public String getAlbum() {
+        return _album;
+    }
+
+    public void setAlbum(String album) {
+        this._album = album;
+    }
+
+    public String getAlbumId() {
+        return _albumId;
+    }
+
+    public void setAlbumId(String albumId) {
+        this._albumId = albumId;
+    }
+
+    public String getPath() {
+        return _path;
+    }
+
+    public void setPath(String path) {
+        this._path = path;
+    }
+
+    public String getFolderPath() {
+        return _folderPath;
+    }
+
+    public void setFolderPath(String folderPath) {
+        this._folderPath = folderPath;
+    }
+
+    public int getDuration() {
+        return _duration;
+    }
+
+    public void setDuration(int duration) {
+        this._duration = duration;
+    }
+
+    public long getSize() {
+        return _size;
+    }
+
+    public void setSize(long size) {
+        this._size = size;
+    }
+
 }

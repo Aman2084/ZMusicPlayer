@@ -1,4 +1,4 @@
-package com.zw.my.parts;
+package com.zw.my.ui.item;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -78,7 +78,7 @@ public class MyMusicFolderItem extends ZRelativeLayout {
      */
     public void set_selected(boolean $b){
         _check.setOnCheckedChangeListener(null);
-        _check.setSelected($b);
+//        _check.setSelected($b);
         _check.setChecked($b);
         _check.setOnCheckedChangeListener(onCheck);
     }

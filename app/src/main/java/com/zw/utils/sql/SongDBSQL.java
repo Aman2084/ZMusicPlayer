@@ -26,12 +26,10 @@ public class SongDBSQL extends SQLiteOpenHelper {
     public static final String Key_id = "sid";
     public static final String Key_name = "name";
     public static final String Key_singer = "singer";
-    public static final String Key_fileName = "filename";
     public static final String Key_singerId = "singerid";
     public static final String Key_album = "album";
     public static final String Key_albumId = "albumId";
     public static final String Key_path = "path";
-    public static final String Key_folderPath = "folderPath";
     public static final String Key_duration = "duration";
     public static final String Key_size = "size";
 
@@ -86,6 +84,7 @@ public class SongDBSQL extends SQLiteOpenHelper {
         }
     }
 
+//open and close
     public SQLiteDatabase openReadLink(){
         if(_db==null || !_db.isOpen()){
             _db = _instance.getReadableDatabase();
@@ -109,7 +108,7 @@ public class SongDBSQL extends SQLiteOpenHelper {
 
 //增删改查：
     public long insert(Song $s){
-        ArrayList<Song> a = new ArrayList<Song>();
+        ArrayList<Song> a = new ArrayList<>();
         a.add($s);
         long l = insert(a);
         return l;
@@ -120,21 +119,26 @@ public class SongDBSQL extends SQLiteOpenHelper {
         long l = -1;
         for (Song s:$a) {
             ContentValues c = new ContentValues();
-            c.put(Key_id, s.id);
-            c.put(Key_name , s.name);
-            c.put(Key_singer , s.singer);
-            c.put(Key_singerId , s.singerId);
-            c.put(Key_album , s.album);
-            c.put(Key_albumId , s.albumId);
-            c.put(Key_path , s.path);
-            c.put(Key_duration , s.duration);
-            c.put(Key_size , s.size);
+            c.put(Key_id, s.get_id());
+            c.put(Key_name , s.getName());
+            c.put(Key_singer , s.getSinger());
+            c.put(Key_singerId , s.getSingerId());
+            c.put(Key_album , s.getAlbum());
+            c.put(Key_albumId , s.getAlbum());
+            c.put(Key_path , s.getPath());
+            c.put(Key_duration , s.getDuration());
+            c.put(Key_size , s.getSize());
             l = _db.insert(Name , "" ,c);
             if(l==-1){
                 return l;
             }
         }
         return l;
+    }
+
+    public int deleteById(String $id){
+        String str = Key_id +"=" + $id;
+        return delete(str);
     }
 
     public int delete(String $condition){
@@ -149,21 +153,21 @@ public class SongDBSQL extends SQLiteOpenHelper {
 
     public int update(Song $s , String $condition){
         ContentValues c = new ContentValues();
-        c.put(Key_id, $s.id);
-        c.put(Key_name , $s.name);
-        c.put(Key_singer , $s.singer);
-        c.put(Key_singerId , $s.singerId);
-        c.put(Key_album , $s.album);
-        c.put(Key_albumId , $s.albumId);
-        c.put(Key_path , $s.path);
-        c.put(Key_duration , $s.duration);
-        c.put(Key_size , $s.size);
+        c.put(Key_id, $s.get_id());
+        c.put(Key_name , $s.getName());
+        c.put(Key_singer , $s.getSinger());
+        c.put(Key_singerId , $s.getSingerId());
+        c.put(Key_album , $s.getAlbum());
+        c.put(Key_albumId , $s.getAlbumId());
+        c.put(Key_path , $s.getPath());
+        c.put(Key_duration , $s.getDuration());
+        c.put(Key_size , $s.getSize());
         int i = _db.update(Name , c , $condition , null);
         return i;
     }
 
     public int update(Song $s){
-        String c = Key_id + "=" + $s.id;
+        String c = Key_id + "=" + $s.get_id();
         return update($s , c);
     }
 
@@ -182,15 +186,15 @@ public class SongDBSQL extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             do{
                 Song s = new Song();
-                s.id = c.getString(0);
-                s.name = c.getString(1);
-                s.singer = c.getString(2);
-                s.singerId = c.getString(3);
-                s.album = c.getString(4);
-                s.albumId = c.getString(5);
+                s.set_id(c.getString(0));
+                s.setName(c.getString(1));
+                s.setSinger(c.getString(2));
+                s.setSingerId(c.getString(3));
+                s.setAlbum(c.getString(4));
+                s.setAlbumId(c.getString(5));
                 s.set_path(c.getString(6));
-                s.duration = c.getInt(7);
-                s.size = c.getLong(8);
+                s.setDuration(c.getInt(7));
+                s.setSize(c.getLong(8));
                 arr.add(s);
             }while (c.moveToNext());
         }

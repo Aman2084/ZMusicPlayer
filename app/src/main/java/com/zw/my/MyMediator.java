@@ -5,15 +5,29 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.aman.utils.message.ZIntent;
 import com.aman.utils.observer.Mediator;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObservable;
+import com.aman.utils.observer.ZObserver;
+import com.zw.R;
 import com.zw.global.AppInstance;
+import com.zw.global.AppNotificationNames;
 import com.zw.global.IntentActions;
-import com.zw.global.NotificationNames;
+import com.zw.global.model.MySongModel;
 import com.zw.global.model.data.Song;
+import com.zw.global.model.data.SongGroup;
+import com.zw.global.model.data.SongList;
+import com.zw.main.MainContainerFragment;
+import com.zw.my.progresses.MyCreatSongListProgress;
+import com.zw.my.progresses.MyEditSongListProgress;
 import com.zw.my.progresses.MyScanProgress;
+import com.zw.my.progresses.MySongManageProgres;
+import com.zw.my.ui.MyAllMusic;
+import com.zw.my.ui.MyFavorite;
+import com.zw.my.ui.MyMusicFolders;
+import com.zw.my.ui.MySongManage;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -30,11 +44,21 @@ public class MyMediator extends Mediator {
 
     private MyAllMusic _ui_allMusic = null;
     private MyMusicFolders _ui_musicFolders = null;
+    private MyFavorite _ui_favorite;
     private MyScanProgress _scan = null;
 
+    private MyCreatSongListProgress _creatSongList = null;
+    private MyEditSongListProgress _editSongList = null;
+    private MySongManageProgres _songManage = null;
 
     public MyMediator(Context $c){
         super($c);
+        init();
+    }
+
+    private void init() {
+        MainContainerFragment f = (MainContainerFragment)AppInstance.mainActivity.getFragmentManager().findFragmentById(R.id.mainContainer);
+        f.init();
     }
 
 //Notifcation
@@ -59,9 +83,7 @@ public class MyMediator extends Mediator {
         switch($n.name){
             case ZNotifcationNames.Complete:
                 ArrayList<Song> s = (ArrayList<Song>) $n.data;
-                AppInstance.songSQL.resetAllSong(s);
-                AppInstance.model.set_allSongs(s);
-                sendIntent(IntentActions.ImportSongComplete , s);
+                AppInstance.model.song.song.set_allSongs(s);
                 _ui_allMusic.refause();
                 break;
         }
@@ -69,14 +91,21 @@ public class MyMediator extends Mediator {
 
     private void onAllMusic(ZNotification $n){
         switch($n.name){
-            case NotificationNames.Scan:
+            case AppNotificationNames.Scan:
                 getScan().scan();
                 break;
-            case NotificationNames.PlaySongList:
+            case AppNotificationNames.Manage:
+                MySongModel m = AppInstance.model.song;
+                getSongManage().show(m.song.get_allSongs() , MySongManage.DisplayMode.NoBrowse);
+                break;
+            case AppNotificationNames.PlaySongList:
                 sendIntent(IntentActions.PlaySongList , $n.data);
                 break;
-            case NotificationNames.ShowSongList:
-                //TODO... 显示歌曲清单
+            case AppNotificationNames.ShowSongGroup:
+                getSongManage().show((SongGroup)$n.data , MySongManage.DisplayMode.Browse);
+                break;
+            case IntentActions.ShowMyFavorites:
+                showMyFavorites();
                 break;
         }
     }
@@ -85,7 +114,7 @@ public class MyMediator extends Mediator {
         ZNotification n = (ZNotification)$data;
         Object data = n.data;
         if($o instanceof MyScanProgress){
-            if(n.name== NotificationNames.Complete){
+            if(n.name== ZNotifcationNames.Complete){
                 MyMusicFolders f = get_ui_MusicFolders();
                 f.setData((ArrayList<Song>)data);
                 sendIntent(IntentActions.ShowThirdSubPage ,f);
@@ -93,12 +122,48 @@ public class MyMediator extends Mediator {
         }
     }
 
+    private ZObserver onCreatSongList = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+        switch($n.name){
+
+        }
+        }
+    };
+
+    private ZObserver onSongManage = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            switch($n.name){
+                case ZNotifcationNames.Close:
+                    if(_ui_allMusic!=null){
+                        _ui_allMusic.refause();
+                    }
+                    break;
+            }
+        }
+    };
+
+    private ZObserver onFavorite = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            switch ($n.name){
+                case ZNotifcationNames.Close:
+                    _ui_favorite.deleteObserver(onFavorite);
+                    _ui_favorite = null;
+                    break;
+            }
+        }
+    };
+
 //LocalBroadcasts
     @Override
     protected String[] getLocalIntentActions() {
         String[] a = {
-                IntentActions.ShowMyAllMusic,
-                IntentActions.ShowMyFavorites
+                IntentActions.ShowMyAllMusic
+                ,IntentActions.ShowMyFavorites
+                ,IntentActions.NewSongList
+                ,IntentActions.EditSongList
         };
         return a;
     }
@@ -109,12 +174,33 @@ public class MyMediator extends Mediator {
             case IntentActions.ShowMyAllMusic:
                 v = get_ui_allMusic();
                 break;
+            case IntentActions.NewSongList:
+                getCreatSongList().addSongList();
+                break;
+            case IntentActions.ShowMyFavorites:
+                showMyFavorites();
+                break;
+            case IntentActions.EditSongList:
+                SongList list = (SongList)((ZIntent)$intent).data;
+                getEditSongList().show(list);
+                break;
         }
 
         if(v!=null){
             sendIntent(IntentActions.ShowSecondSubPage , v);
         }
     }
+
+    private void showMyFavorites() {
+        if(_ui_favorite!=null){
+            return;
+        }
+        _ui_favorite = new MyFavorite(AppInstance.mainActivity);
+        _ui_favorite.addObserver(onFavorite);
+        sendIntent(IntentActions.ShowSecondSubPage , _ui_favorite);
+    }
+
+
 
 
 //getter andSetter
@@ -146,4 +232,26 @@ public class MyMediator extends Mediator {
         return _scan;
     }
 
+    private MyCreatSongListProgress getCreatSongList(){
+        if(_creatSongList ==null){
+            _creatSongList = new MyCreatSongListProgress();
+            _creatSongList.addObserver(onCreatSongList);
+        }
+        return _creatSongList;
+    }
+
+    private MyEditSongListProgress getEditSongList(){
+        if(_editSongList==null){
+            _editSongList = new MyEditSongListProgress();
+        }
+        return _editSongList;
+    }
+
+    private MySongManageProgres getSongManage(){
+        if(_songManage==null){
+            _songManage = new MySongManageProgres();
+            _songManage.addObserver(onSongManage);
+        }
+        return _songManage;
+    }
 }

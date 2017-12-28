@@ -1,33 +1,34 @@
-package com.zw.my.parts;
+package com.zw.my.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.aman.utils.observer.ZObserver;
 import com.zw.global.AppInstance;
+import com.zw.global.model.data.Song;
+import com.zw.my.ui.item.MySongItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observer;
 
 /**
  * ZMusicPlayer 1.0
- * Created on 2017/8/26 20:35
+ * Created on 2017/10/31 3:56
  *
  * @author Aman
  * @Email: 1390792438@qq.com
  */
 
-public class MyFoldersAdapter extends BaseAdapter {
+public class MySongsAdapter extends BaseAdapter{
 
-    private Observer _observer;
 
-    private ArrayList<HashMap> _data;
+    protected ArrayList<Song> _data = new ArrayList<>();
 
-    public MyFoldersAdapter(ArrayList<HashMap> $a , Observer $observer) {
+    private ZObserver _listener;
+
+    public MySongsAdapter(ZObserver $listener) {
         super();
-        _data = $a;
-        _observer = $observer;
+        _listener = $listener;
     }
 
     @Override
@@ -47,12 +48,16 @@ public class MyFoldersAdapter extends BaseAdapter {
 
     @Override
     public View getView(int $position, View $convertView, ViewGroup $parent) {
-        MyMusicFolderItem m = (MyMusicFolderItem)$convertView;
+        MySongItem m = (MySongItem)$convertView;
         if(m==null){
-            m = new MyMusicFolderItem(AppInstance.mainActivity, null);
-            m.addObserver(_observer);
+            m = new MySongItem(AppInstance.mainActivity, _listener);
         }
         m.setData(_data.get($position));
         return m;
+    }
+
+    public void setData(ArrayList<Song> $a){
+        _data = $a;
+        notifyDataSetChanged();
     }
 }

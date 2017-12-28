@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"/>
+
+    <com.zw.ui.containers.SubPageTitle
+        android:id="@+id/title"
+        style="@style/subPageTitle"/>
+
+    <FrameLayout
+        android:id="@+id/core_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:id="@+id/bar_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_manage"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_manage"
+                android:background="@drawable/global_btnbg1_red"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"/>
+
+            <Button
+                android:id="@+id/btn_play"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_play"
+                android:background="@drawable/global_btnbg1_green"
+                android:layout_toLeftOf="@id/btn_manage"
+                android:layout_marginRight="15dp"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/bar_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn_complete"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_complete"
+                android:background="@drawable/global_btnbg1_green"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"/>
+
+            <Button
+                android:id="@+id/btn_batch"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_batchManage"
+                android:background="@drawable/global_btnbg1_red"
+                android:layout_toLeftOf="@id/btn_complete"
+                android:layout_marginRight="15dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bar_batch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:layout_marginLeft="5dp"
+                android:text="@string/global_selectedAll"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:id="@+id/btn_back"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_complete"
+                android:background="@drawable/global_btnbg1_green"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"/>
+
+            <Button
+                android:id="@+id/btn_delete"
+                style="@style/my_bottomBtn"
+                android:text="@string/global_delete"
+                android:background="@drawable/global_btnbg1_red"
+                android:layout_toLeftOf="@id/btn_back"
+                android:layout_marginRight="15dp"/>
+
+            <Button
+                android:id="@+id/btn_add2list"
+                style="@style/my_bottomBtn"
+                android:text="@string/my_add2"
+                android:background="@drawable/global_btnbg1_yellow"
+                android:layout_toLeftOf="@id/btn_delete"
+                android:layout_marginRight="15dp"/>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_above="@id/core_bottom"/>
+</merge>

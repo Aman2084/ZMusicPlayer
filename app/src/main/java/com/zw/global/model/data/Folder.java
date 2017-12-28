@@ -1,7 +1,7 @@
 package com.zw.global.model.data;
 
 /**
- * AmanQuick 1.0
+ * ZMusicPlayer 1.0
  * Created on 2017/8/31 11:45
  *
  * @author Aman

@@ -17,17 +17,19 @@ import android.widget.LinearLayout;
 
 import com.aman.utils.message.ZIntent;
 import com.zw.R;
+import com.zw.global.AppInstance;
 import com.zw.global.IntentActions;
-import com.zw.my.MyMainContent;
+import com.zw.my.ui.MyMainContent;
 
 import java.util.ArrayList;
 
 public class MainContainerFragment extends Fragment {
 
 
-    private ArrayList<View> viewList = new ArrayList<View>();
+    private ArrayList<View> viewList = new ArrayList<>();
 
     private ViewPager _pageView;
+    private MyPageAdapter _adapter;
 
     private PagerAdapter _apter = new PagerAdapter() {
         @Override
@@ -60,7 +62,7 @@ public class MainContainerFragment extends Fragment {
 
     private void initViewPager(View $v , LayoutInflater $inflater) {
         _pageView = (ViewPager) $v.findViewById(R.id.viewpager);
-        ArrayList<View> a = new ArrayList<View>();
+        ArrayList<View> a = new ArrayList<>();
         View v0 = new MyMainContent($v.getContext() , null);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , ViewGroup.LayoutParams.MATCH_PARENT);
@@ -71,9 +73,11 @@ public class MainContainerFragment extends Fragment {
         a.add(v0);
         a.add(v1);
         a.add(v2);
-        MyPageAdapter pa = new MyPageAdapter(a);
-        _pageView.setAdapter(pa);
+        _adapter = new MyPageAdapter(a);
+        _pageView.setAdapter(_adapter);
         _pageView.setCurrentItem(0);
+        AppInstance.MainUI_my = (MyMainContent)v0;
+//        _pageView.setmod
     }
 
 
@@ -110,9 +114,11 @@ public class MainContainerFragment extends Fragment {
         }
     };
 
-
-
-
+//interface
+    public void init(){
+        MyMainContent c = _adapter.get_my();
+        c.refuse();
+    }
 }
 
 class MyPageAdapter extends PagerAdapter {
@@ -138,6 +144,11 @@ class MyPageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position){
         View v = _views.get(position);
         container.addView(v , 0);
+        return v;
+    }
+
+    public MyMainContent get_my(){
+        MyMainContent v = (MyMainContent)_views.get(0);
         return v;
     }
 }

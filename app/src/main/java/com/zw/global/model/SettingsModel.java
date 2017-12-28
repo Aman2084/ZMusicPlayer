@@ -13,7 +13,6 @@ public class SettingsModel {
 
     public boolean useFileName = false;
 
-
     public SettingsModel(){
         //TODO...  读取本地数据并进行设置
     }

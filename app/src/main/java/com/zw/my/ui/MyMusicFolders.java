@@ -1,4 +1,4 @@
-package com.zw.my;
+package com.zw.my.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -18,8 +18,8 @@ import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObservable;
 import com.zw.R;
 import com.zw.global.model.data.Song;
-import com.zw.my.parts.MyFoldersAdapter;
-import com.zw.my.parts.MyMusicFolderItem;
+import com.zw.my.adapter.MyFoldersAdapter;
+import com.zw.my.ui.item.MyMusicFolderItem;
 import com.zw.ui.containers.SubPageTitle;
 
 import java.util.ArrayList;
@@ -80,10 +80,10 @@ public class MyMusicFolders extends ZRelativeLayout implements ISubpage , Observ
             sendNotification(ZNotifcationNames.Close);
             return;
         }
-        ArrayList<Song> arr = new ArrayList<Song>();
+        ArrayList<Song> arr = new ArrayList<>();
         for (HashMap h:_listData) {
             if((boolean)h.get(ZKeys.Selected)){
-                ArrayList<Song> a = _data.get((String) h.get(ZKeys.Path));
+                ArrayList<Song> a = _data.get(h.get(ZKeys.Path));
                 arr.addAll(a);
             }
         }
@@ -154,15 +154,15 @@ public class MyMusicFolders extends ZRelativeLayout implements ISubpage , Observ
      */
     public void setData(ArrayList<Song> $data) {
         //整理数据
-        HashMap<String , ArrayList<Song>> m = new HashMap<String , ArrayList<Song>>();
-        ArrayList<String> a = new ArrayList<String>();
+        HashMap<String , ArrayList<Song>> m = new HashMap<>();
+        ArrayList<String> a = new ArrayList<>();
 
         String key;
         for (Song s:$data) {
-            key = s.folderPath;
+            key = s.getFolderPath();
             ArrayList<Song> l = m.get(key);
             if(l==null){
-                l = new ArrayList<Song>();
+                l = new ArrayList<>();
                 m.put(key , l);
                 a.add(key);
             }
@@ -170,7 +170,7 @@ public class MyMusicFolders extends ZRelativeLayout implements ISubpage , Observ
         }
         Collections.sort(a);
 
-        _listData = new ArrayList<HashMap>(); //List数据
+        _listData = new ArrayList<>(); //List数据
         for (int i = 0; i <a.size() ; i++) {
             key = a.get(i);
             ArrayList<Song> l = m.get(key);
