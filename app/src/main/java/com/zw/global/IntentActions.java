@@ -1,7 +1,13 @@
 package com.zw.global;
 
 /**
- * Created by Administrator on 2017/7/31.
+ * 存储常量，用于发出请求，请求目标模块进行某项处理
+ *
+ * ZMusicPlayer 1.0
+ * Created on 2017/7/31 07:04
+ *
+ * @author Aman
+ * @Email 1390792438@qq.com
  */
 
 public class IntentActions {
@@ -14,22 +20,26 @@ public class IntentActions {
 
     public static final String ShowMyAllMusic = "showMyAllMusic";
     public static final String ShowMyFavorites = "showMyFavorites";
+    public static final String ShowPlayPage = "showPlayPage";
 
     public static final String ShowSecondSubPage = "showSecondSubPage";
     public static final String ShowThirdSubPage = "showThirdSubPage";
 
+//播放控制
     public static final String PlayMyAllMusic = "playMyAllMusic";
     public static final String PlayMyFavorites = "playMyFavorites";
+    public static final String PlaySongs = "playSongs";
     public static final String PlaySongList = "playSongList";
+    public static final String Play = "play";
+    public static final String Jump2RelationId = "jump2RelationId";
+    public static final String Pause = "pause";
+    public static final String PlayNext = "playNext";
+    public static final String Stop = "stop";
+    public static final String Seek = "seek";
 
+    public static final String ChangPlayModel = "changPlayModel";
+    public static final String ChangPlayLoop = "changPlayLoop";
 
-    public static final String Song_Import = "data_ImportSongs";
-    public static final String Song_Delete = "data_DeleteSongs";
-    public static final String SongList_Creat = "data_CreatSongList";
-    public static final String SongList_Delete = "data_DeleteSongList";
-    public static final String SongList_UpData = "data_UpDataSongList";
-    public static final String SongList_UpDataFavorite = "data_UpDataFavorite";
-    public static final String SongList_UpDataPlayList = "data_UpDataPlayList";
 
     public static final String NewSongList = "newSongList";
     public static final String EditSongList = "editSongList";

@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Created on 2017/11/13 22:46
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MySongListEditor extends ZRelativeLayout implements ISubpage {

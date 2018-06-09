@@ -2,8 +2,6 @@ package com.zw;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -12,19 +10,29 @@ import java.util.ArrayList;
 public class ExampleUnitTest {
 
 
+
     @Test
     public void addition_isCorrect() throws Exception {
 
-        ArrayList<Integer> a = new ArrayList();
-        a.add(123);
-        a.add(645);
+        int a1 = 0b1;
+        int a2 = 0b10;
+        int a3 = 0b100;
 
-        String[] s = new String[a.size()];
-        for (int i = 0; i <a.size() ; i++) {
-            s[i] = a.get(i).toString();
-        }
+        int b = a1|a3;
+        String s = String.valueOf(b);
+        System.out.println(s);
+        int c = a1 & b;
+        System.out.println(c);
+        c = a2 & b;
+        System.out.println(c);
+        c = a3 & b;
+        System.out.println(c);
 
-        String aa = s[0];
+//        _timer.scheduleAtFixedRate(_task2, 0, 4000);
+//        _timer.scheduleAtFixedRate(_task3, 0, 3000);
 
+//        double a = Math.toRadians(45);
+//        a = Math.tan(a);
+//        System.out.printf(String.valueOf(a));
     }
 }

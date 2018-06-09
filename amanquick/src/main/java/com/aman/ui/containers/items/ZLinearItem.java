@@ -10,7 +10,7 @@ import com.aman.ui.containers.ZLinearLayout;
  * Created on 2017/8/31 8:33
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZLinearItem extends ZLinearLayout {

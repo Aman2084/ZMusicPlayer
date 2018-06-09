@@ -17,7 +17,7 @@ import java.util.Observer;
  * Created on 2017/8/20 11:59
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  * 子页面管理器：在一个容器中管理子页面的显示和隐藏
  */

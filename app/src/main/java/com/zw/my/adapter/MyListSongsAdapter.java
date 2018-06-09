@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created on 2017/11/24 2:32
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyListSongsAdapter extends BaseAdapter {

@@ -5,7 +5,7 @@ package com.aman.consts;
  * Created on 2017/8/27 16:06
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  * 常用字符串型Key值
  */

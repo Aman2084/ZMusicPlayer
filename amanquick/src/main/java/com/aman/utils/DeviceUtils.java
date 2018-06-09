@@ -10,7 +10,7 @@ import java.io.FileFilter;
  * Created on 2017/8/24 16:10
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  * 与设备相关的工具函数
  */

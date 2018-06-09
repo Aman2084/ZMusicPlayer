@@ -1,7 +1,7 @@
 package com.zw.global.model.my;
 
 import com.zw.global.AppInstance;
-import com.zw.global.IntentActions;
+import com.zw.global.IntentNotice;
 import com.zw.global.model.data.Album;
 import com.zw.global.model.data.Folder;
 import com.zw.global.model.data.Singer;
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * Created on 2017/12/5 20:54
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class SongModel extends ZProgress {
@@ -39,7 +39,7 @@ public class SongModel extends ZProgress {
     public void set_allSongs(ArrayList<Song> $allSongs) {
         _allSongs = $allSongs;
         AppInstance.songSQL.resetAllSong($allSongs);
-        sendIntent(IntentActions.Song_Import, _allSongs);
+        sendIntent(IntentNotice.Song_Import, _allSongs);
     }
 
 //删
@@ -80,7 +80,7 @@ public class SongModel extends ZProgress {
         }
         sql_song.close();
         sql_relation.close();
-        sendIntent(IntentActions.Song_Delete, a);
+        sendIntent(IntentNotice.Song_Delete, a);
         return a;
     }
 
@@ -153,7 +153,7 @@ public class SongModel extends ZProgress {
         ArrayList<Song> a = new ArrayList<>();
         for (int i = 0; i <_allSongs.size() ; i++) {
             Song s = _allSongs.get(i);
-            if(s.getSingerId()==$singerId){
+            if(s.getSingerId().equals($singerId)){
                 a.add(s);
             }
         }
@@ -176,7 +176,8 @@ public class SongModel extends ZProgress {
         ArrayList<Song> a = new ArrayList<>();
         for (int i = 0; i <_allSongs.size() ; i++) {
             Song s = _allSongs.get(i);
-            if(s.getFolderPath()==$path){
+            String p = s.getFolderPath();
+            if(p.equals($path)){
                 a.add(s);
             }
         }

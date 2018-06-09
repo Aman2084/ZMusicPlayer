@@ -10,7 +10,7 @@ import com.aman.ui.containers.ZTableLayout;
  * Created on 2017/8/31 8:35
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZTableItem extends ZTableLayout {

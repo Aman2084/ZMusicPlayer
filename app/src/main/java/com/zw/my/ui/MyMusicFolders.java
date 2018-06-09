@@ -33,7 +33,7 @@ import java.util.Observer;
  * Created on 2017/8/25 13:28
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyMusicFolders extends ZRelativeLayout implements ISubpage , Observer {

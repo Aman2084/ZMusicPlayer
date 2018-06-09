@@ -18,7 +18,7 @@ import java.util.List;
  * Created on 2017/8/21 17:17
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * 扫描本地音乐的过程
  */
 

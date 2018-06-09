@@ -7,7 +7,7 @@ import android.content.Intent;
  * Created on 2017/7/31 19:28
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZIntent extends Intent {

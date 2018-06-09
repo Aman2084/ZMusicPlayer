@@ -53,5 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-
+    <com.aman.ui.controls.Alert
+        android:id="@+id/alert"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

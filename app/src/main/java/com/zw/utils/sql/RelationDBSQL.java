@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Created on 2017/10/24 5:07
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class RelationDBSQL extends SQLiteOpenHelper {

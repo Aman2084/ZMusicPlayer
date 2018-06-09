@@ -7,7 +7,7 @@ import com.aman.utils.observer.IZObservable;
  * Created on 2017/8/20 10:41
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  * 子页面功能接口，含义如下功能：
  *  show/hide动画

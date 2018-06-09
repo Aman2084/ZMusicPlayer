@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Space android:layout_width="40dp" android:layout_height="45dp"/>
+
+    <TextView
+        android:id="@+id/txt_index"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="false"/>
+
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="3dp"
+        android:clickable="false"/>
+
+    <TextView
+        android:id="@+id/txt_singer"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="23dp"
+        android:clickable="false"/>
+
+    <ImageView
+        android:id="@+id/img_play"
+        android:layout_width="20dp" android:layout_height="20dp"
+        android:layout_marginLeft="10dp" android:layout_marginTop="12dp"
+        android:background="@drawable/music_list_play"
+        android:visibility="gone" android:clickable="false"/>
+
+    <ImageView
+        android:id="@+id/img_pause"
+        android:layout_width="20dp" android:layout_height="20dp"
+        android:layout_marginLeft="10dp"  android:layout_marginTop="12dp"
+        android:background="@drawable/music_list_pause"
+        android:visibility="gone" android:clickable="false"/>
+</merge>

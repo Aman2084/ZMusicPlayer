@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.aman.utils.UIUtils;
 import com.zw.R;
 import com.zw.global.AppInstance;
-import com.zw.global.model.AppModel;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongList;
+import com.zw.music.ui.pager.MusicSongPager;
 import com.zw.ui.others.CenterDialog;
-import com.zw.utils.sql.RelationDBSQL;
-import com.zw.utils.sql.SongDBSQL;
 import com.zw.utils.sql.SongListDBSQL;
 
 import java.util.ArrayList;
@@ -27,6 +27,9 @@ public class TestActivity extends Activity implements View.OnClickListener{
 
     private ArrayList<Song> arr_song;
 
+
+    private MusicSongPager _page;
+
     public TestActivity() {
         super();
         AppInstance.mainActivity = this;
@@ -36,40 +39,32 @@ public class TestActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        AppInstance.songSQL = SongDBSQL.getInstance(this, SongDBSQL.Version);
-        AppInstance.songListSQL = SongListDBSQL.getInstance(this , SongListDBSQL.Version);
-        AppInstance.relationDBSQL = RelationDBSQL.getInstance(this , RelationDBSQL.Version);
-        AppInstance.model = AppModel.getInstance();
+//        AppInstance.songSQL = SongDBSQL.getInstance(this, SongDBSQL.Version);
+//        AppInstance.songListSQL = SongListDBSQL.getInstance(this , SongListDBSQL.Version);
+//        AppInstance.relationDBSQL = RelationDBSQL.getInstance(this , RelationDBSQL.Version);
+//        AppInstance.model = AppModel.getInstance();
 
-        Button btn1 = (Button)findViewById(R.id.btn_1);
-        Button btn2 = (Button)findViewById(R.id.btn_2);
-        Button btn3 = (Button)findViewById(R.id.btn_3);
-        Button btn4 = (Button)findViewById(R.id.btn_4);
-        btn1.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
-
-
+        _page = (MusicSongPager)  this.findViewById(R.id.page);
+        ViewGroup g = (ViewGroup) this.findViewById(R.id.bar);
+        int[] a = {R.id.btn_add , R.id.btn_sub};
+        UIUtils.setOnClickByIds(g , a , this);
 
     }
 
     @Override
     public void onClick(View $v) {
+
+        RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)_page.getLayoutParams();
         switch ($v.getId()){
-            case R.id.btn_1:
-                arr_song = test_song();
+            case R.id.btn_add:
+                p.width += 5;
                 break;
-            case R.id.btn_2:
-                test_songlist();
-                break;
-            case R.id.btn_3:
-                test_read();
-                break;
-            case R.id.btn_4:
-                test_delete();
+            case R.id.btn_sub:
+                p.width -= 5;
                 break;
         }
+        _page.setLayoutParams(p);
+        _page.requestLayout();
     }
 
     private ArrayList<Song> test_song() {

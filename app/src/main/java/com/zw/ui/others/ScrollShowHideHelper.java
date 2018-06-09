@@ -8,7 +8,7 @@ import android.view.View;
  * Created on 2017/10/16 18:43
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ScrollShowHideHelper {

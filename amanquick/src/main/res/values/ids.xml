@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btn_ok" type="id">1001</item>
+    <item name="btn_yes" type="id">1002</item>
+    <item name="btn_no" type="id">1003</item>
+    <item name="btn_sure" type="id">1004</item>
+    <item name="btn_cancel" type="id">1005</item>
+</resources>

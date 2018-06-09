@@ -21,7 +21,7 @@ import static com.zw.R.id.txt;
  * Created on 2017/8/20 17:50
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  * 子页面上侧Title
  */
@@ -63,5 +63,11 @@ public class SubPageTitle extends RelativeLayout {
     public void set_text(String $str){
         TextView t = (TextView)findViewById(txt);
         t.setText($str);
+    }
+
+    public String get_text(){
+        TextView t = (TextView)findViewById(txt);
+        String s = t.getText().toString();
+        return s;
     }
 }

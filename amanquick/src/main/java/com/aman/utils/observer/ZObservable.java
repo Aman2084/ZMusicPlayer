@@ -9,13 +9,18 @@ import java.util.Observable;
  * Created on 2017/8/19 16:19
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZObservable extends Observable implements IZObservable {
 
     private String _name;
     private Object _owner;
+
+    public ZObservable(){
+        _owner = null;
+        _name = null;
+    }
 
     public ZObservable(@Nullable Object $owner , @Nullable String $name){
         _owner = $owner;

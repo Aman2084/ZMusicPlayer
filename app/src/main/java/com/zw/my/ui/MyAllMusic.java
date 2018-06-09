@@ -25,7 +25,6 @@ import com.zw.global.AppInstance;
 import com.zw.global.AppNotificationNames;
 import com.zw.global.model.data.Album;
 import com.zw.global.model.data.Folder;
-import com.zw.global.model.data.PlayList;
 import com.zw.global.model.data.Singer;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongGroup;
@@ -42,7 +41,7 @@ import java.util.Observer;
  * Created on 2017/8/20 10:35
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * 全部音乐
  */
 public class MyAllMusic extends ZRelativeLayout implements ISubpage{
@@ -142,8 +141,8 @@ public class MyAllMusic extends ZRelativeLayout implements ISubpage{
             if(o instanceof Song){
                 ArrayList<Song> a = m.get_allSongs();
                 int i = a.indexOf(o);
-                PlayList p = new PlayList(a , i);
-                sendNotification(AppNotificationNames.PlaySongList , p);
+                SongGroup p = new SongGroup(a , i);
+                sendNotification(AppNotificationNames.PlaySongs, p);
             }else if(o instanceof Singer){
                 l.name = ((Singer) o).name;
                 l.songs = m.getSongsBySinger(((Singer) o).id);

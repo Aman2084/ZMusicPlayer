@@ -5,7 +5,7 @@ package com.zw.global.model.data;
  * Created on 2017/8/31 11:39
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * 歌手
  */
 

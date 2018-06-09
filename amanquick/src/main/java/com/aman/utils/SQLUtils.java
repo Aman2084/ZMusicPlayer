@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created on 2017/8/29 19:14
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * SQLLite 工具类
  */
 

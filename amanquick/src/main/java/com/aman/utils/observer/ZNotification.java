@@ -5,7 +5,7 @@ package com.aman.utils.observer;
  * Created on 2017/8/19 16:10
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZNotification {

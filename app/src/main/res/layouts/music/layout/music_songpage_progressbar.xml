@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/txt_current"
+        android:text="00:00" android:textSize="10sp"
+        android:layout_width="80dp" android:layout_height="20dp"
+        style="@style/global_singleLineText" android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/txt_total"
+        android:text="00:00" android:textSize="10sp"
+        android:layout_width="80dp" android:layout_height="20dp"
+        style="@style/global_singleLineText" android:textAlignment="center"/>
+
+</merge>

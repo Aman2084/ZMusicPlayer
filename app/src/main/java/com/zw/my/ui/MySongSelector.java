@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Created on 2017/10/31 3:15
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MySongSelector extends ZRelativeLayout implements ISubpage{

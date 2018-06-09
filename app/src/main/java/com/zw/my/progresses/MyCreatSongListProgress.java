@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created on 2017/10/19 2:06
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyCreatSongListProgress extends ZProgress{

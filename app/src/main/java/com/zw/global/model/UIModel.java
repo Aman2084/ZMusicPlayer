@@ -9,7 +9,7 @@ import com.zw.global.AppInstance;
  * Created on 2017/10/20 18:20
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class UIModel {

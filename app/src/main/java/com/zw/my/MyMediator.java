@@ -19,6 +19,8 @@ import com.zw.global.model.MySongModel;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongList;
+import com.zw.global.model.music.PlayModel;
+import com.zw.global.model.my.SongListModel;
 import com.zw.main.MainContainerFragment;
 import com.zw.my.progresses.MyCreatSongListProgress;
 import com.zw.my.progresses.MyEditSongListProgress;
@@ -37,7 +39,7 @@ import java.util.Observable;
  * Created on 2017/8/18 21:03
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyMediator extends Mediator {
@@ -79,6 +81,8 @@ public class MyMediator extends Mediator {
         }
     }
 
+//Listener
+
     private void onMusicFolders(ZNotification $n) {
         switch($n.name){
             case ZNotifcationNames.Complete:
@@ -90,16 +94,16 @@ public class MyMediator extends Mediator {
     }
 
     private void onAllMusic(ZNotification $n){
+        MySongModel m = AppInstance.model.song;
         switch($n.name){
             case AppNotificationNames.Scan:
                 getScan().scan();
                 break;
             case AppNotificationNames.Manage:
-                MySongModel m = AppInstance.model.song;
                 getSongManage().show(m.song.get_allSongs() , MySongManage.DisplayMode.NoBrowse);
                 break;
-            case AppNotificationNames.PlaySongList:
-                sendIntent(IntentActions.PlaySongList , $n.data);
+            case AppNotificationNames.PlaySongs:
+                playSongs((SongGroup) $n.data);
                 break;
             case AppNotificationNames.ShowSongGroup:
                 getSongManage().show((SongGroup)$n.data , MySongManage.DisplayMode.Browse);
@@ -125,9 +129,9 @@ public class MyMediator extends Mediator {
     private ZObserver onCreatSongList = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-        switch($n.name){
+            switch($n.name){
 
-        }
+            }
         }
     };
 
@@ -158,18 +162,21 @@ public class MyMediator extends Mediator {
 
 //LocalBroadcasts
     @Override
-    protected String[] getLocalIntentActions() {
+    protected String[] getActions_application() {
         String[] a = {
                 IntentActions.ShowMyAllMusic
                 ,IntentActions.ShowMyFavorites
                 ,IntentActions.NewSongList
                 ,IntentActions.EditSongList
+                ,IntentActions.PlaySongList
         };
         return a;
     }
 
-    protected void receiverLocalBroadcast(Context $context, Intent $intent){
+    protected void receiveIntent(Context $context, Intent $intent){
         View v = null;
+
+
         switch($intent.getAction()){
             case IntentActions.ShowMyAllMusic:
                 v = get_ui_allMusic();
@@ -184,6 +191,11 @@ public class MyMediator extends Mediator {
                 SongList list = (SongList)((ZIntent)$intent).data;
                 getEditSongList().show(list);
                 break;
+            case IntentActions.PlaySongList:
+                SongGroup l = (SongGroup)((ZIntent)$intent).data;
+                SongListModel m = AppInstance.model.song.songList;
+                m.updateSongList_song(m.list_play.id , l.songs);
+                break;
         }
 
         if(v!=null){
@@ -191,6 +203,8 @@ public class MyMediator extends Mediator {
         }
     }
 
+
+//Tools
     private void showMyFavorites() {
         if(_ui_favorite!=null){
             return;
@@ -200,13 +214,21 @@ public class MyMediator extends Mediator {
         sendIntent(IntentActions.ShowSecondSubPage , _ui_favorite);
     }
 
+    private void playSongs(SongGroup $g) {
+        SongListModel l = AppInstance.model.song.songList;
+        PlayModel p = AppInstance.model.play;
+
+        l.updateSongList_song(l.list_play.id , $g.songs);
+        p.index = $g.index;
+        sendIntent(IntentActions.PlaySongs , $g);
+    }
 
 
 
 //getter andSetter
     private MyAllMusic get_ui_allMusic() {
         if(_ui_allMusic==null){
-            _ui_allMusic = new MyAllMusic(_context , null);
+            _ui_allMusic = new MyAllMusic(_context, null);
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT , RelativeLayout.LayoutParams.MATCH_PARENT);
             _ui_allMusic.setLayoutParams(p);
             _ui_allMusic.addObserver(this);
@@ -216,7 +238,7 @@ public class MyMediator extends Mediator {
 
     private MyMusicFolders get_ui_MusicFolders(){
         if(_ui_musicFolders ==null){
-            _ui_musicFolders = new MyMusicFolders(_context , null);
+            _ui_musicFolders = new MyMusicFolders(_context, null);
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT , RelativeLayout.LayoutParams.MATCH_PARENT);
             _ui_musicFolders.setLayoutParams(p);
             _ui_musicFolders.addObserver(this);

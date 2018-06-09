@@ -16,7 +16,7 @@ import java.util.Observer;
  * Created on 2017/8/26 20:35
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyFoldersAdapter extends BaseAdapter {

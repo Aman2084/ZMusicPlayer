@@ -19,7 +19,7 @@ import com.zw.ui.others.CenterDialog;
  * Created on 2017/10/19 14:33
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MySongListNameDoalog extends CenterDialog {

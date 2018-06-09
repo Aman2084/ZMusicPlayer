@@ -15,7 +15,7 @@ import java.util.Observer;
  * Created on 2017/8/20 9:01
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class ZFrameLayout extends FrameLayout implements IZObservable {

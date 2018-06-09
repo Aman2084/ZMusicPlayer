@@ -10,7 +10,7 @@ import com.aman.utils.observer.Mediator;
  * Created on 2017/8/18 22:36
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  *
  */
 
@@ -21,12 +21,12 @@ public class SettingMediator extends Mediator {
     }
 
     @Override
-    protected String[] getLocalIntentActions() {
+    protected String[] getActions_application() {
         return new String[0];
     }
 
     @Override
-    protected void receiverLocalBroadcast(Context $context, Intent $intent) {
+    protected void receiveIntent(Context $context, Intent $intent) {
 
     }
 }

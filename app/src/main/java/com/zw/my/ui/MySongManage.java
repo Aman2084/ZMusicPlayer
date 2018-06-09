@@ -10,12 +10,16 @@ import com.aman.ui.containers.ZRelativeLayout;
 import com.aman.ui.containers.subPage.AnimationTypes;
 import com.aman.ui.containers.subPage.ISubpage;
 import com.aman.utils.UIUtils;
+import com.aman.utils.message.ZLocalBroadcast;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.AppNotificationNames;
+import com.zw.global.IntentActions;
+import com.zw.global.model.MySongModel;
+import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongListItem;
 import com.zw.my.adapter.MyListSongsAdapter;
 import com.zw.my.ui.item.MySongItem;
@@ -28,7 +32,7 @@ import java.util.ArrayList;
  * Created on 2017/11/29 2:36
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * 歌曲管理器
  */
 
@@ -173,12 +177,24 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
                     a.add(o);
                     sendNotification(ZNotifcationNames.Delete , a);
                     break;
+                case ZNotifcationNames.Click:
+                    play(o);
+                    break;
             }
         }
     };
 
 
 //Logic
+
+    private void play(SongListItem $o){
+        SongGroup g = new SongGroup();
+        g.index = _data.indexOf($o);
+        g.songs = MySongModel.SongListItems2Songs(_data);
+        g.name = _title.get_text();
+        ZLocalBroadcast.sendAppIntent(IntentActions.PlaySongs , g);
+    }
+
 
     private void changeDisplayMode(DisplayMode $mode){
         _apater.setDisplayMode($mode);

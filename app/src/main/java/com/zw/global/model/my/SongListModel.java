@@ -1,7 +1,7 @@
 package com.zw.global.model.my;
 
 import com.zw.global.AppInstance;
-import com.zw.global.IntentActions;
+import com.zw.global.IntentNotice;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created on 2017/12/5 20:54
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class SongListModel extends ZProgress{
@@ -106,7 +106,7 @@ public class SongListModel extends ZProgress{
         if(l.type!=SongList.Type_play && l.type!=SongList.Type_fav){
             _allSongLists.add(l);
         }
-        sendIntent(IntentActions.SongList_Creat , l);
+        sendIntent(IntentNotice.SongList_Creat , l);
         return l;
     }
 
@@ -132,7 +132,7 @@ public class SongListModel extends ZProgress{
         sql_relation.openWriteLink();
         sql_relation.delete(list);
         sql_relation.close();
-        sendIntent(IntentActions.SongList_Delete , list);
+        sendIntent(IntentNotice.SongList_Delete , list);
     }
 
 
@@ -156,6 +156,43 @@ public class SongListModel extends ZProgress{
             sendUpdateIntent($l);
         }
         return arr;
+    }
+
+
+    /**
+     * 更新歌单中的歌曲
+     * @param $id   歌单id
+     * @param $a    歌曲列表
+     */
+    public void updateSongList_song(int $id , ArrayList<Song> $a){
+        SongList l = null;
+        if($id==list_play.id){
+            l = list_play;
+        }else if($id==list_fav.id){
+            l = list_fav;
+        }else{
+            l = getSongListById($id);
+        }
+        if(l==null){
+            return;
+        }
+
+        RelationDBSQL sql = AppInstance.relationDBSQL;
+        sql.openWriteLink();
+        ArrayList<SongListItem> a = sql.update(l , $a);
+        sql.close();
+
+        for (int i = 0; i <a.size() ; i++) {
+            SongListItem item = a.get(i);
+            for (Song s:$a) {
+                if(item.songId.equals(s.get_id())){
+                    item.song = s;
+                    break;
+                }
+            }
+        }
+
+        l.items = a;
     }
 
 
@@ -236,10 +273,10 @@ public class SongListModel extends ZProgress{
             sendUpdateIntent(a);
         }
         if(list_fav.deleteSongs($a)){
-            sendIntent(IntentActions.SongList_UpDataFavorite , null);
+            sendIntent(IntentNotice.SongList_UpDataFavorite , null);
         }
         if(list_play.deleteSongs($a)){
-            sendIntent(IntentActions.SongList_UpDataPlayList , null);
+            sendIntent(IntentNotice.SongList_UpDataPlayList , null);
         }
         return a;
     }
@@ -264,9 +301,8 @@ public class SongListModel extends ZProgress{
                 item.isFavorite = true;
             }
         }
-        sendIntent(IntentActions.SongList_UpDataFavorite , null);
+        sendIntent(IntentNotice.SongList_UpDataFavorite , null);
     }
-
 
     private void sendUpdateIntent(SongList $l){
         ArrayList<SongList> a = new ArrayList<>();
@@ -275,7 +311,7 @@ public class SongListModel extends ZProgress{
     }
 
     private void sendUpdateIntent(ArrayList<SongList> $a){
-        sendIntent(IntentActions.SongList_UpData , $a);
+        sendIntent(IntentNotice.SongList_UpData , $a);
     }
 
 

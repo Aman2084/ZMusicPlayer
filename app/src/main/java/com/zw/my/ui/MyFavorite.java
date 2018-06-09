@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created on 2017/12/9 10:34
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyFavorite extends ZRelativeLayout implements ISubpage {

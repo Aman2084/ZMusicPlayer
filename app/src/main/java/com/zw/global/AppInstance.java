@@ -14,7 +14,7 @@ import com.zw.utils.sql.SongListDBSQL;
  * Created on 2017/8/18 21:31
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class AppInstance {

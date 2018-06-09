@@ -3,6 +3,7 @@ package com.aman.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,7 +28,6 @@ public class UIUtils {
         return a;
     }
 
-
     public static View[] setOnClickByIds(ViewGroup $g , int[] $a , View.OnClickListener $l){
         if($a==null || $a.length==0){
             return new View[]{};
@@ -40,8 +40,6 @@ public class UIUtils {
         }
         return a;
     }
-
-
 
     public static AlertDialog alert(Context $c , String $title , String $msg, String $ok,
                                     DialogInterface.OnClickListener $onOK){
@@ -69,4 +67,19 @@ public class UIUtils {
         return dialog;
     };
 
+    public static void setPosAndSize(View $v , Rect $r){
+        $v.setX($r.left);
+        $v.setY($r.top);
+
+        ViewGroup.LayoutParams p = $v.getLayoutParams();
+        p.width = $r.width();
+        p.height = $r.height();
+        $v.setLayoutParams(p);
+    }
+
+
+    public static int getRandomColor(){
+        int n = (int) (Math.random()*16777216);
+        return n;
+    }
 }

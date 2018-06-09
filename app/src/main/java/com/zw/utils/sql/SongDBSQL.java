@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created on 2017/8/28 19:15
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class SongDBSQL extends SQLiteOpenHelper {

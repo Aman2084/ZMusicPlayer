@@ -17,7 +17,7 @@ import com.zw.global.model.data.SongList;
  * Created on 2017/10/17 16:02
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MySongListItem extends ZRelativeItem {

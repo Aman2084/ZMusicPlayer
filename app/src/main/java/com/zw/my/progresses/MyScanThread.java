@@ -13,7 +13,7 @@ import java.util.List;
  * Created on 2017/8/24 21:47
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * 音频信息扫描线程
  * 每毫秒扫描十条信息
  */
@@ -34,13 +34,18 @@ public class MyScanThread extends Thread {
     @Override
     public void run() {
         super.run();
-        int n = _arr.size();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < _arr.size(); i++) {
 
             Song s = _arr.get(i);
 
             MediaMetadataRetriever m = new MediaMetadataRetriever();
-            m.setDataSource(s.getPath());
+            try{
+                m.setDataSource(s.getPath());
+            }catch (IllegalArgumentException $e){
+                _arr.remove(i);
+                i--;
+                continue;
+            }
 
             String str = null;
             //歌曲名（null）

@@ -39,4 +39,6 @@
     <string name="global_batchManage">批量管理</string>
     <string name="my_add2">添加至</string>
     <string name="my_add2List">添加至歌单</string>
+    <string name="global_close">关闭</string>
+    <string name="music_clearlist">清空列表</string>
 </resources>

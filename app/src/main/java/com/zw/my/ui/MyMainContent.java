@@ -2,7 +2,6 @@ package com.zw.my.ui;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,14 +15,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.aman.ui.containers.ZLinearLayout;
-import com.aman.utils.message.ZIntent;
+import com.aman.utils.message.ZLocalBroadcast;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
 import com.zw.R;
 import com.zw.global.AppInstance;
-import com.zw.global.IntentActions;
 import com.zw.global.AppNotificationNames;
+import com.zw.global.IntentActions;
 import com.zw.global.model.data.SongList;
 import com.zw.my.ui.item.MyMainItem;
 import com.zw.my.ui.item.MySongListItem;
@@ -35,7 +34,7 @@ import java.util.ArrayList;
  * Created on 2017/8/8 10:35
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  * "我的音乐"一级界面
  */
 
@@ -107,9 +106,7 @@ public class MyMainContent extends ZLinearLayout {
                 str = IntentActions.NewSongList;
             }
             if(str!=null){
-                LocalBroadcastManager m = LocalBroadcastManager.getInstance(getContext());
-                ZIntent intent = new ZIntent(str);
-                m.sendBroadcast(intent);
+                ZLocalBroadcast.sendAppIntent(str);
             }
         }
     };

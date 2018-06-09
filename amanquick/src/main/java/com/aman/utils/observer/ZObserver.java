@@ -8,7 +8,7 @@ import java.util.Observer;
  * Created on 2017/10/31 6:20
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public abstract class ZObserver implements Observer {

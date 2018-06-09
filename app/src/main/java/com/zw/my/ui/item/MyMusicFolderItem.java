@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Created on 2017/8/26 20:14
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MyMusicFolderItem extends ZRelativeLayout {

@@ -4,19 +4,19 @@ package com.zw.main;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.aman.utils.UIUtils;
-import com.aman.utils.message.ZIntent;
+import com.aman.utils.message.ZLocalBroadcast;
 import com.zw.R;
 import com.zw.global.IntentActions;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 上方导航Bar
  */
 public class MainNavigationFragment extends Fragment {
 
@@ -64,9 +64,7 @@ public class MainNavigationFragment extends Fragment {
             }
 
             if(s!=null){
-                LocalBroadcastManager m = LocalBroadcastManager.getInstance(v.getContext());
-                ZIntent intent = new ZIntent(s);
-                m.sendBroadcast(intent);
+                ZLocalBroadcast.sendAppIntent(s);
             }
         }
     };

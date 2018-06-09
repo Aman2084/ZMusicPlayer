@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"/>
+
+    <com.zw.ui.containers.SubPageTitle
+        android:id="@+id/title"
+        style="@style/subPageTitle">
+
+        <ImageButton
+            android:id="@+id/btn_list"
+            android:layout_width="55dp" android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/music_btn_list" android:adjustViewBounds="true"/>
+
+    </com.zw.ui.containers.SubPageTitle>
+
+
+    <TextView android:id="@+id/txt_title"
+        android:layout_width="match_parent" android:layout_height="30dp"
+        android:textAlignment="center" android:textSize="22sp"
+        android:layout_below="@id/title" android:layout_marginTop="20dp"/>
+
+    <TextView android:id="@+id/txt_singer"
+        android:layout_width="match_parent" android:layout_height="20dp"
+        android:text="@string/global_unknown"
+        android:textAlignment="center" android:textSize="15sp"
+        android:layout_below="@id/txt_title" android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/btnBar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent" android:layout_height="20dp"
+        android:layout_alignParentBottom="true" android:layout_marginBottom="30dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1.5" />
+        <ImageButton
+            android:id="@+id/btn_mode"
+            android:layout_width="20dp" android:layout_height="20dp"
+            android:background="@drawable/music_btn_order"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/btn_loop"
+            android:layout_width="20dp" android:layout_height="20dp"
+            android:background="@drawable/music_btn_loop"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/btn_fav"
+            android:layout_width="20dp" android:layout_height="20dp"
+            android:background="@drawable/my_global_fav"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1.5" />
+    </LinearLayout>
+
+    <com.zw.music.ui.pager.MusicSongPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_below="@id/txt_singer" android:layout_above="@id/btnBar"
+        android:layout_marginBottom="10dp"/>
+
+    <FrameLayout
+        android:id="@+id/listCore"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+         />
+
+</merge>

@@ -5,9 +5,7 @@ import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -16,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.aman.utils.message.ZIntent;
+import com.aman.utils.message.ZLocalBroadcast;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.IntentActions;
@@ -31,19 +30,6 @@ public class MainContainerFragment extends Fragment {
     private ViewPager _pageView;
     private MyPageAdapter _adapter;
 
-    private PagerAdapter _apter = new PagerAdapter() {
-        @Override
-        public int getCount() {
-            return viewList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object o) {
-            return view==o;
-        }
-    };
-
-
     public MainContainerFragment() {
 
     }
@@ -53,10 +39,9 @@ public class MainContainerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main_container, container, false);
 
-
         initViewPager(v , inflater);
-        LocalBroadcastManager m = LocalBroadcastManager.getInstance(v.getContext());
-        initLocalBroadcast(m);
+//        LocalBroadcastManager m = LocalBroadcastManager.getInstance(v.getContext());
+        initLocalBroadcast();
         return v;
     }
 
@@ -82,12 +67,13 @@ public class MainContainerFragment extends Fragment {
 
 
 //Broadcast
-    private void initLocalBroadcast(LocalBroadcastManager $m) {
-        IntentFilter f = new IntentFilter();
-        f.addAction(IntentActions.ShowMyMain);
-        f.addAction(IntentActions.ShowSettingMain);
-        f.addAction(IntentActions.ShowTimeMain);
-        $m.registerReceiver(onBroadcast , f);
+    private void initLocalBroadcast() {
+        String[] a = new String[]{
+            IntentActions.ShowMyMain
+            ,IntentActions.ShowSettingMain
+            ,IntentActions.ShowTimeMain
+        };
+        ZLocalBroadcast.registerAppReceiver(a , onBroadcast);
     }
 
 

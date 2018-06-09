@@ -7,7 +7,7 @@ import java.util.Observer;
  * Created on 2017/8/20 8:35
  * <p>
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public interface IZObservable {

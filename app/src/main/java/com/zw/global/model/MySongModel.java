@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created on 2017/10/26 14:10
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
 public class MySongModel {

@@ -1,10 +1,17 @@
 package com.zw.global.model.data;
 
-import com.aman.utils.observer.ZObservable;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+
 import com.zw.R;
 import com.zw.global.AppInstance;
+import com.zw.global.model.SettingsModel;
 import com.zw.utils.AppUtils;
 
+import java.lang.ref.SoftReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,10 +20,10 @@ import java.util.regex.Pattern;
  * Created on 2017/8/22 14:57
  *
  * @author Aman
- * @Email: 1390792438@qq.com
+ * @Email 1390792438@qq.com
  */
 
-public class Song extends ZObservable{
+public class Song {
 
     private String _id = null;
 
@@ -36,14 +43,20 @@ public class Song extends ZObservable{
 
     private String _folderPath = null;
 
+
     /**时长（毫秒）*/
     private int _duration = 0;
     /**文件大小（字节）*/
     private long _size = 0;
 
+    private boolean _hasBitmap = true;
+    private SoftReference<Bitmap> _bmp = null;
+
+
     public Song(){
-        super(null , null);
+//        super(null , null);
     }
+
 
 //getter and setter
 
@@ -66,7 +79,8 @@ public class Song extends ZObservable{
 
     public String getDisplayName(){
         String s = _fileName;
-        if(!AppInstance.model.settings.useFileName){
+        SettingsModel m = AppInstance.model.settings;
+        if(!m.useFileName){
             s = _name==null ? s : _name;
         }
         return s;
@@ -90,12 +104,12 @@ public class Song extends ZObservable{
         this._id = _id;
     }
 
-    @Override
+//    @Override
     public String getName() {
         return _name;
     }
 
-    @Override
+//    @Override
     public void setName(String name) {
         this._name = name;
     }
@@ -172,4 +186,34 @@ public class Song extends ZObservable{
         this._size = size;
     }
 
+    public Bitmap getBmp(Context $c){
+        if(!_hasBitmap || _path==null){
+            return null;
+        }
+        Bitmap b = null;
+
+        if(_bmp !=null){
+            b = _bmp.get();
+            if(b !=null){
+                return b;
+            }
+        }
+
+
+        Uri selectedAudio = Uri.parse(_path);
+        MediaMetadataRetriever myRetriever = new MediaMetadataRetriever();
+        myRetriever.setDataSource($c , selectedAudio);
+
+        byte[] artwork;
+        artwork = myRetriever.getEmbeddedPicture();
+        if (artwork != null) {
+            b = BitmapFactory.decodeByteArray(artwork, 0, artwork.length);
+        }
+        if(b==null){
+            _hasBitmap = false;
+        }else{
+            _bmp = new SoftReference(b);
+        }
+        return b;
+    }
 }
