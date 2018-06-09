@@ -24,12 +24,10 @@ import com.zw.ui.others.CenterDialog;
 
 public class MySongListNameDoalog extends CenterDialog {
 
-
     private TextView _txt_error;
     private EditText _input;
     private Button _btn_ok;
     private Button _btn_cancel;
-
 
     public MySongListNameDoalog(ZObserver $listener) {
         super(AppInstance.mainActivity, R.layout.my_songlistname_dialog, $listener);
