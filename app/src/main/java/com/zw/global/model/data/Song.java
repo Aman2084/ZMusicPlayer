@@ -61,7 +61,7 @@ public class Song {
 //getter and setter
 
     public void set_path(String $str){
-        if($str==null || $str==""){
+        if($str==null || $str.equals("")){
             return;
         }
 

@@ -47,7 +47,7 @@ public class MyCreatSongListProgress extends ZProgress{
         @Override
         public void onNotification(ZNotification $n) {
             MySongModel m = AppInstance.model.song;
-            if($n.name== ZNotifcationNames.OK){
+            if($n.name.equals(ZNotifcationNames.OK)){
                 SongList l = m.songList.creatSongList((String) $n.data);
                 _id = l.id;
                 if(_selecter==null){
@@ -65,7 +65,7 @@ public class MyCreatSongListProgress extends ZProgress{
     private ZObserver onSelecter = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-            if($n.name!=ZNotifcationNames.Selected){
+            if(!$n.name.equals(ZNotifcationNames.Selected)){
                 return;
             }
             ArrayList<SongListItem> arr = (ArrayList<SongListItem>)$n.data;

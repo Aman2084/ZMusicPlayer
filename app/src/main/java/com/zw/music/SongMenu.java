@@ -139,7 +139,7 @@ public class SongMenu {
         }
 
         //不循环播放时，首次时进行随机排列
-        if(_mode==Disorder && !_isLoop){
+        if(_mode.equals(Disorder) && !_isLoop){
             _arr.addAll(_list.items);
             _index = -1;
             int l = _arr.size();
@@ -158,7 +158,7 @@ public class SongMenu {
         }
 
         //顺序播放时，对相关变量进行调整
-        if(_mode==Order){
+        if(_mode.equals(Order)){
             _arr.addAll(_list.items);
             _index = _arr.indexOf(s);
         }
@@ -199,7 +199,7 @@ public class SongMenu {
     }
 
     public void setMode(String $m){
-        if($m==_mode){
+        if($m.equals(_mode)){
             return;
         }
         _mode = $m;
