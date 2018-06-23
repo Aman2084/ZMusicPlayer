@@ -22,12 +22,16 @@ import com.zw.global.AppNotificationNames;
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
 import com.zw.global.model.music.PlayModel;
-import com.zw.global.model.music.PlayProgress;
 import com.zw.global.model.my.SongListModel;
 import com.zw.music.SongMenu;
 import com.zw.music.ui.list.MusicSongList;
 import com.zw.music.ui.pager.MusicSongPager;
 import com.zw.ui.containers.SubPageTitle;
+import com.zw.utils.AppUtils;
+
+import java.util.ArrayList;
+
+import static com.zw.global.AppInstance.model;
 
 /**
  * ZMusicPlayer 1.0
@@ -38,7 +42,6 @@ import com.zw.ui.containers.SubPageTitle;
  */
 
 public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
-
 
     private String _songId;
 
@@ -56,6 +59,7 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
 
     private FrameLayout _core_list;
     private MusicSongList _list;
+    private ArrayList<SongListItem> _data = new ArrayList<>();
 
     public MusicPlayPage(Context $c, AttributeSet $a) {
         super($c, $a);
@@ -81,15 +85,14 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
         UIUtils.setOnClickByIds(this , a , onClick);
         _pager.addObserver(onPager);
         _list.addObserver(onList);
+        _core_list.setVisibility(GONE);
 
-        refuse_song();
         refuse_playMode();
         refuse_playLoop();
-
-        _core_list.setVisibility(GONE);
     }
 
 //init
+
 
 //Tools
 
@@ -97,7 +100,7 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
         SongListItem item = _pager.getCurrentData();
         if(item!=null){
             item.isFavorite = !item.isFavorite;
-            SongListModel m = AppInstance.model.song.songList;
+            SongListModel m = model.song.songList;
             m.setFavorite(item);
 
             int id = item.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
@@ -121,9 +124,7 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
                     s = AppNotificationNames.ChangPlayLoop;
                     break;
                 case R.id.btn_list:
-                    _core_list.setVisibility(VISIBLE);
-                    _manager.show(_list);
-                    _list.refuse();
+                    showList();
                     break;
             }
             if(s!=null){
@@ -131,8 +132,6 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
             }
         }
     };
-
-
 
     private ZObserver onPager = new ZObserver() {
         @Override
@@ -153,12 +152,31 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
                 case ZNotifcationNames.Close:
                     _core_list.setVisibility(GONE);
                     break;
+                case ZNotifcationNames.Clear:
+                    clear();
+                    break;
             }
         }
     };
 
 //UI
-    private void  refuse(SongListItem $item){
+    private void showList() {
+        _core_list.setVisibility(VISIBLE);
+        _manager.show(_list);
+        int index = AppInstance.model.play.index;
+        _list.setData(_data , index);
+    }
+
+    private void clear(){
+        String s = AppUtils.id2String(R.string.global_unknown);
+        _txt_title.setText(s);
+        _txt_singer.setText(s);
+        _pager.setVisibility(INVISIBLE);
+        _list.clear();
+    }
+
+//interface
+    public void  refuse(SongListItem $item){
         if($item.songId.equals(_songId)){
             return;
         }
@@ -169,21 +187,38 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
         _txt_singer.setText($item.song.getDisplaySinger());
     }
 
-
-//interface
-
-    public void refuse_song(){
-        SongList l = AppInstance.model.song.songList.list_play;
-        if(l.getSongNum()>0){
-            PlayModel p = AppInstance.model.play;
+    public ArrayList<SongListItem> refuse_song(){
+        SongList l = model.song.songList.list_play;
+        ArrayList<SongListItem> a = null;
+        int n = l.getSongNum();
+        if(n>0){
+            a = new ArrayList<>();
+            PlayModel p = model.play;
             SongListItem item = l.getItemByIndex(p.index);
             refuse(item);
-            _pager.setData(l.items , p.index);
+
+            for (int i = 0; i <n ; i++) {
+                SongListItem s = l.getItemByIndex(i);
+                s = s.clone();
+                s.index = i;
+                a.add(s);
+            }
+            _data = a;
+            _pager.setData(a , p.index);
+            _pager.setVisibility(VISIBLE);
+        }
+        return a;
+    }
+
+    public void setData_index(int $inedx) {
+        _pager.setData_index($inedx);
+        if(_core_list.getVisibility()!=GONE){
+            _list.updata($inedx);
         }
     }
 
     public void refuse_playMode(){
-        PlayModel m = AppInstance.model.play;
+        PlayModel m = model.play;
         int id = 0;
 
         switch (m.playModel){
@@ -201,35 +236,10 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
     }
 
     public void refuse_playLoop(){
-        PlayModel m = AppInstance.model.play;
+        PlayModel m = model.play;
         int id = m.isLoop ? R.drawable.music_btn_loop : R.drawable.music_btn_unloop;
         _btn_loop.setBackgroundResource(id);
     }
-
-    public void setData_progress(PlayProgress $p) {
-        SongListItem s = AppInstance.model.getCurrectSongListItem();
-        if(s.songId==_songId){
-            _pager.setData_progress($p);
-        }
-    }
-
-    public void setData_play(SongListItem $item) {
-        refuse($item);
-        _pager.setData_play($item);
-        boolean b = _core_list.getVisibility()==VISIBLE;
-        if(b){
-            _list.setPlayingRelationId($item.relationId);
-        }
-    }
-    public void pause() {
-        _pager.pause();
-
-        boolean b = _core_list.getVisibility()==VISIBLE;
-        if(b){
-            _list.pause();
-        }
-    }
-
 
 //getter and setter
     @Override

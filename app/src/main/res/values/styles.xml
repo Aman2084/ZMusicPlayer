@@ -45,4 +45,10 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="music_notifyBtn">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 </resources>

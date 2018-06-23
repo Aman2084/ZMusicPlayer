@@ -1,34 +1,21 @@
 package com.zw.test;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
-import com.aman.utils.UIUtils;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongList;
-import com.zw.music.ui.pager.MusicSongPager;
-import com.zw.ui.others.CenterDialog;
 import com.zw.utils.sql.SongListDBSQL;
 
 import java.util.ArrayList;
 
 public class TestActivity extends Activity implements View.OnClickListener{
 
-
-    GestureDetector _gesture;
-    CenterDialog _dialog;
-
-    private ArrayList<Song> arr_song;
-
-
-    private MusicSongPager _page;
 
     public TestActivity() {
         super();
@@ -39,32 +26,20 @@ public class TestActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
 //        AppInstance.songSQL = SongDBSQL.getInstance(this, SongDBSQL.Version);
 //        AppInstance.songListSQL = SongListDBSQL.getInstance(this , SongListDBSQL.Version);
 //        AppInstance.relationDBSQL = RelationDBSQL.getInstance(this , RelationDBSQL.Version);
 //        AppInstance.model = AppModel.getInstance();
 
-        _page = (MusicSongPager)  this.findViewById(R.id.page);
-        ViewGroup g = (ViewGroup) this.findViewById(R.id.bar);
-        int[] a = {R.id.btn_add , R.id.btn_sub};
-        UIUtils.setOnClickByIds(g , a , this);
+        Intent intent = new Intent(this, TestService.class);
+        startService(intent);
 
     }
 
     @Override
     public void onClick(View $v) {
 
-        RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)_page.getLayoutParams();
-        switch ($v.getId()){
-            case R.id.btn_add:
-                p.width += 5;
-                break;
-            case R.id.btn_sub:
-                p.width -= 5;
-                break;
-        }
-        _page.setLayoutParams(p);
-        _page.requestLayout();
     }
 
     private ArrayList<Song> test_song() {

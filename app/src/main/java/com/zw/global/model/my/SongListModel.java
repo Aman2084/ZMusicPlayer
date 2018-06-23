@@ -191,6 +191,7 @@ public class SongListModel extends ZProgress{
                 }
             }
         }
+        signFavorite(a);
 
         l.items = a;
     }

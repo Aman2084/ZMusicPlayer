@@ -18,6 +18,8 @@ import com.zw.global.model.data.SongList;
  *
  * @author Aman
  * @Email 1390792438@qq.com
+ *
+ * 我的音乐主页歌单Item
  */
 
 public class MySongListItem extends ZRelativeItem {
@@ -56,7 +58,7 @@ public class MySongListItem extends ZRelativeItem {
             @Override
             public boolean onLongClick(View v) {
                 sendNotification(ZNotifcationNames.LongClick , data);
-                return false;
+                return true;
             }
         });
     }

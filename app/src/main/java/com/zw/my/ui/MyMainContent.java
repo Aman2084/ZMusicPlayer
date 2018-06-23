@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -40,8 +39,6 @@ import java.util.ArrayList;
 
 public class MyMainContent extends ZLinearLayout {
 
-    private final ImageButton _btn_all;
-    private final ImageButton _btn_fav;
     private final RelativeLayout _btn_addList;
     private MyMainItem _item_all;
     private MyMainItem _item_fav;
@@ -59,14 +56,10 @@ public class MyMainContent extends ZLinearLayout {
         _item_all = (MyMainItem) findViewById(R.id.item_all);
         _item_fav = (MyMainItem) findViewById(R.id.item_fav);
         _btn_addList = (RelativeLayout) findViewById(R.id.btn_add);
-        _btn_all = (ImageButton)_item_all.findViewById(R.id.btn);
-        _btn_fav = (ImageButton)_item_fav.findViewById(R.id.btn);
         _list = (ListView)findViewById(R.id.list);
 
         _item_all.setOnClickListener(onMainItem);
         _item_fav.setOnClickListener(onMainItem);
-        _btn_all.setOnClickListener(onMainItem);
-        _btn_fav.setOnClickListener(onMainItem);
         _btn_addList.setOnClickListener(onMainItem);
 
         AbsListView.LayoutParams p = new AbsListView.LayoutParams(
@@ -98,10 +91,6 @@ public class MyMainContent extends ZLinearLayout {
                 str = IntentActions.ShowMyAllMusic;
             }else if(v==_item_fav){
                 str = IntentActions.ShowMyFavorites;
-            }else if(v==_btn_all){
-                str = IntentActions.PlayMyAllMusic;
-            }else if(v==_btn_fav){
-                str = IntentActions.PlayMyFavorites;
             }else if(v==_btn_addList){
                 str = IntentActions.NewSongList;
             }
@@ -120,6 +109,9 @@ public class MyMainContent extends ZLinearLayout {
         switch ($n.name){
             case ZNotifcationNames.Click:
                 sendNotification(AppNotificationNames.EditSongList, l);
+                break;
+            case ZNotifcationNames.LongClick:
+                sendNotification(AppNotificationNames.PlaySongList, l);
                 break;
         }
     }

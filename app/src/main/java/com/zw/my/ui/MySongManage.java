@@ -192,7 +192,7 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
         g.index = _data.indexOf($o);
         g.songs = MySongModel.SongListItems2Songs(_data);
         g.name = _title.get_text();
-        ZLocalBroadcast.sendAppIntent(IntentActions.PlaySongs , g);
+        ZLocalBroadcast.sendAppIntent(IntentActions.PrePlaySongs , g);
     }
 
 

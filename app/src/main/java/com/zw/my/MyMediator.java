@@ -20,6 +20,7 @@ import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.music.PlayModel;
+import com.zw.global.model.music.PlayPosition;
 import com.zw.global.model.my.SongListModel;
 import com.zw.main.MainContainerFragment;
 import com.zw.my.progresses.MyCreatSongListProgress;
@@ -102,11 +103,11 @@ public class MyMediator extends Mediator {
             case AppNotificationNames.Manage:
                 getSongManage().show(m.song.get_allSongs() , MySongManage.DisplayMode.NoBrowse);
                 break;
-            case AppNotificationNames.PlaySongs:
-                playSongs((SongGroup) $n.data);
-                break;
             case AppNotificationNames.ShowSongGroup:
                 getSongManage().show((SongGroup)$n.data , MySongManage.DisplayMode.Browse);
+                break;
+            case AppNotificationNames.PlaySongs:
+                sendIntent(IntentActions.PrePlaySongs , $n.data);
                 break;
             case IntentActions.ShowMyFavorites:
                 showMyFavorites();
@@ -129,9 +130,9 @@ public class MyMediator extends Mediator {
     private ZObserver onCreatSongList = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-            switch($n.name){
+        switch($n.name){
 
-            }
+        }
         }
     };
 
@@ -168,15 +169,19 @@ public class MyMediator extends Mediator {
                 ,IntentActions.ShowMyFavorites
                 ,IntentActions.NewSongList
                 ,IntentActions.EditSongList
-                ,IntentActions.PlaySongList
+                ,IntentActions.PrePlaySongList
+                ,IntentActions.PrePlaySongs
+                ,IntentActions.ClearPlayList
         };
         return a;
     }
 
     protected void receiveIntent(Context $context, Intent $intent){
         View v = null;
-
-
+        Object body = null;
+        if($intent instanceof ZIntent){
+            body = ((ZIntent)$intent).data;
+        }
         switch($intent.getAction()){
             case IntentActions.ShowMyAllMusic:
                 v = get_ui_allMusic();
@@ -191,10 +196,17 @@ public class MyMediator extends Mediator {
                 SongList list = (SongList)((ZIntent)$intent).data;
                 getEditSongList().show(list);
                 break;
-            case IntentActions.PlaySongList:
-                SongGroup l = (SongGroup)((ZIntent)$intent).data;
+            case IntentActions.PrePlaySongList:
+                PlayPosition p = (PlayPosition) body;
+                playSongList(p);
+                break;
+            case IntentActions.PrePlaySongs:
+                SongGroup g = (SongGroup)body;
+                playSongGroup(g);
+                break;
+            case IntentActions.ClearPlayList:
                 SongListModel m = AppInstance.model.song.songList;
-                m.updateSongList_song(m.list_play.id , l.songs);
+                m.updateSongList_song(m.list_play.id , new ArrayList<Song>());
                 break;
         }
 
@@ -204,7 +216,8 @@ public class MyMediator extends Mediator {
     }
 
 
-//Tools
+    /************************Tools*************************/
+
     private void showMyFavorites() {
         if(_ui_favorite!=null){
             return;
@@ -214,18 +227,28 @@ public class MyMediator extends Mediator {
         sendIntent(IntentActions.ShowSecondSubPage , _ui_favorite);
     }
 
-    private void playSongs(SongGroup $g) {
+    private void playSongList(PlayPosition $p) {
+        SongListModel m = AppInstance.model.song.songList;
+        PlayModel p = AppInstance.model.play;
+        SongList l = m.getSongListById($p.songListId);
+        int i = l.relation2Index($p.relationId);
+        m.updateSongList_song(m.list_play.id , l.getSongs());
+        l = m.list_play;
+        $p.relationId = l.index2Relation(i);
+        l.position = $p;
+        sendIntent(IntentActions.PlaySongList , l);
+    }
+
+    private void playSongGroup(SongGroup $g) {
         SongListModel l = AppInstance.model.song.songList;
         PlayModel p = AppInstance.model.play;
-
         l.updateSongList_song(l.list_play.id , $g.songs);
         p.index = $g.index;
-        sendIntent(IntentActions.PlaySongs , $g);
+        sendIntent(IntentActions.PlaySongs2 , $g);
     }
 
 
-
-//getter andSetter
+//getter and Setter
     private MyAllMusic get_ui_allMusic() {
         if(_ui_allMusic==null){
             _ui_allMusic = new MyAllMusic(_context, null);

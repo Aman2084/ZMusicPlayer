@@ -28,9 +28,12 @@ public class SongListItem extends ZObservable {
      */
     public int index = -1;
     public boolean selected = false;
-    public String stause = Stop;
 
     public Song song = null;
+
+    /**播放参数*/
+    public String stause = Stop;
+    public int position ;
 
     public SongListItem clone(){
         SongListItem s = new SongListItem();
@@ -41,6 +44,7 @@ public class SongListItem extends ZObservable {
         s.isFavorite = isFavorite;
         s.song = song;
         s.stause = stause;
+        s.position = position;
         return s;
     }
 }

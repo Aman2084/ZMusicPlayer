@@ -70,4 +70,9 @@ public class SubPageTitle extends RelativeLayout {
         String s = t.getText().toString();
         return s;
     }
+
+    public void set_textColor(int $c){
+        TextView t = (TextView) findViewById(txt);
+        t.setTextColor($c);
+    }
 }

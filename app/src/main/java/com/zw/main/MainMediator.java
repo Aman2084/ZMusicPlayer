@@ -12,12 +12,13 @@ import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
 import com.zw.MainActivity;
-import com.zw.MainApplication;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.AppNotificationNames;
 import com.zw.global.IntentActions;
 import com.zw.global.IntentNotice;
+import com.zw.global.model.data.SongList;
+import com.zw.global.model.music.PlayPosition;
 
 /**
  * ZMusicPlayer 1.0
@@ -49,47 +50,52 @@ public class MainMediator extends Mediator {
         _fragment_music.addObserver(onMusic);
 
         AppInstance.MainUI_my.addObserver(onMy);
-        boolean isPlay = MainApplication.getInstance().player.isPlaying();
+        boolean isPlay = AppInstance.model.play.isPlaying;
         _fragment_music.setPlaying(isPlay);
         _fragment_music.refuse_song();
     }
 
-//Listeners
+//Listeners\
     private ZObserver onMusic = new ZObserver() {
         @Override
             public void onNotification(ZNotification $n) {
-                String s = null;
-                switch ($n.name){
-                    case ZNotifcationNames.Pause:
-                        s = IntentActions.Pause;
-                        break;
-                    case ZNotifcationNames.Play:
-                        s = IntentActions.Play;
-                        break;
-                    case ZNotifcationNames.Next:
-                        s = IntentActions.PlayNext;
-                        break;
-                    case ZNotifcationNames.Show:
-                        s = IntentActions.ShowPlayPage;
-                        break;
-                }
-
-                if(s!=null){
-                    sendIntent(s);
-                }
-
+            String s = null;
+            switch ($n.name){
+                case ZNotifcationNames.Pause:
+                    s = IntentActions.Pause;
+                    break;
+                case ZNotifcationNames.Play:
+                    s = IntentActions.Play;
+                    break;
+                case ZNotifcationNames.Next:
+                    s = IntentActions.PlayNext;
+                    break;
+                case ZNotifcationNames.Show:
+                    s = IntentActions.ShowPlayPage;
+                    break;
             }
-        };
+
+            if(s!=null){
+                sendIntent(s);
+            }
+
+        }
+    };
 
     private ZObserver onMy = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
             switch ($n.name){
-                case IntentActions.PlaySongs:
-                    sendIntent(IntentActions.PlaySongList , $n.data);
-                    break;
                 case AppNotificationNames.EditSongList:
                     sendIntent(IntentActions.EditSongList , $n.data);
+                    break;
+                case AppNotificationNames.PlaySongList:
+                    SongList l = (SongList)$n.data;
+                    if(l.items.size()>0){
+                        int relation = l.items.get(0).relationId;
+                        PlayPosition p = new PlayPosition(l.id , relation , 0);
+                        sendIntent(IntentActions.PrePlaySongList , p);
+                    }
                     break;
             }
         }

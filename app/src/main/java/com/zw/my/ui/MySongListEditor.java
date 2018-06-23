@@ -16,13 +16,16 @@ import android.widget.TextView;
 import com.aman.ui.containers.ZRelativeLayout;
 import com.aman.ui.containers.subPage.AnimationTypes;
 import com.aman.ui.containers.subPage.ISubpage;
+import com.aman.utils.message.ZLocalBroadcast;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
 import com.zw.R;
+import com.zw.global.IntentActions;
 import com.zw.global.model.MySongModel;
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
+import com.zw.global.model.music.PlayPosition;
 import com.zw.my.adapter.MyListSongsAdapter;
 import com.zw.my.ui.item.MySongItem;
 import com.zw.ui.containers.SubPageTitle;
@@ -135,7 +138,7 @@ public class MySongListEditor extends ZRelativeLayout implements ISubpage {
         _ad_common = new MyListSongsAdapter(new ZObserver() {
             @Override
             public void onNotification(ZNotification $n) {
-                onItem_edit($n);
+                onItem_common($n);
             }
         });
 
@@ -200,7 +203,9 @@ public class MySongListEditor extends ZRelativeLayout implements ISubpage {
     };
 
     private void onItem_common(ZNotification $n) {
-        //TODO... onItem
+        SongListItem s = (SongListItem)$n.data;
+        PlayPosition p = new PlayPosition(_data.id , s.relationId);
+        ZLocalBroadcast.sendAppIntent(IntentActions.PrePlaySongList , p);
     }
 
     private void onItem_edit(ZNotification $n) {

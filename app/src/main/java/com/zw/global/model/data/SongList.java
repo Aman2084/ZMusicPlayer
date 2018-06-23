@@ -1,5 +1,7 @@
 package com.zw.global.model.data;
 
+import com.zw.global.model.music.PlayPosition;
+
 import java.util.ArrayList;
 
 /**
@@ -27,14 +29,8 @@ public class SongList {
 
     public ArrayList<SongListItem> items = new ArrayList<>();
 
-    public int getSongNum(){
-        return items.size();
-    }
-
-
-//操作数据部分
-    public boolean useBtn = true;
-
+//程序行为附带参数
+    public PlayPosition position;
 
 //操作接口
     public boolean deleteSongs(ArrayList<String> $a) {
@@ -48,6 +44,27 @@ public class SongList {
             }
         }
         return b;
+    }
+
+    public int relation2Index(int $relationId) {
+        int n = -1;
+        for (int i = 0; i <items.size() ; i++) {
+            SongListItem item = items.get(i);
+            if(item.relationId==$relationId){
+                n = i;
+                break;
+            }
+        }
+        return n;
+    }
+
+    public int index2Relation(int $index) {
+        int r = -1;
+        SongListItem item = items.get($index);
+        if(item!=null){
+            r = item.relationId;
+        }
+        return r;
     }
 
 
@@ -87,6 +104,14 @@ public class SongList {
         return item;
     }
 
+    public ArrayList<Song> getSongs(){
+        ArrayList<Song> a = new ArrayList<>();
+        for (int i = 0; i <items.size() ; i++) {
+            a.add(items.get(i).song);
+        }
+        return a;
+    }
+
     public void setPlayByRelation(int $relationId){
         SongListItem o = getPlayingItem();
         if(o!=null){
@@ -117,6 +142,9 @@ public class SongList {
     }
 
     public void setPauseItemByIndex(int $index){
+        if(items==null || items.size()==0){
+            return;
+        }
         SongListItem o = getPlayingItem();
         if(o!=null){
             o.stause = SongListItem.Stop;
@@ -125,6 +153,11 @@ public class SongList {
         if(o!=null){
             o.stause = SongListItem.Pause;
         }
+
+    }
+
+    public int getSongNum(){
+        return items.size();
     }
 
 }

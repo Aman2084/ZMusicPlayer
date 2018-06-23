@@ -4,17 +4,13 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
-import com.aman.media.ZAudioPlayer;
 import com.aman.ui.controls.ZViewPager;
 import com.aman.utils.message.ZLocalBroadcast;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
-import com.zw.MainApplication;
-import com.zw.global.AppNotificationNames;
 import com.zw.global.IntentActions;
 import com.zw.global.model.data.SongListItem;
-import com.zw.global.model.music.PlayProgress;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -29,6 +25,14 @@ import java.util.TimerTask;
  */
 
 public class MusicSongPager extends ZViewPager {
+
+    private ArrayList<SongListItem> _data;
+    private int _index;
+
+    private MusicSongAdapter _adapter;
+    private Timer _timer;
+    private PlayTask _task;
+
 
     private class PlayTask extends TimerTask{
         public int relationId;
@@ -46,11 +50,6 @@ public class MusicSongPager extends ZViewPager {
             return super.cancel();
         }
     }
-
-
-    private MusicSongAdapter _adapter;
-    private Timer _timer;
-    private PlayTask _task;
 
     public MusicSongPager(Context $c , AttributeSet $a) {
         super($c, $a);
@@ -85,17 +84,17 @@ public class MusicSongPager extends ZViewPager {
 
             SongListItem s = _adapter.getDataByPosition($position);
             if(s!=null){
-                sendNotification(AppNotificationNames.playSongListItem , s);
-
                 if(_timer!=null){
                     _timer.cancel();
                     _task.cancel();
                 }
 
-                _timer = new Timer();
-                _task = new PlayTask();
-                _task.relationId = s.relationId;
-                _timer.schedule(_task , 1000);
+                if(s.stause!=SongListItem.Play){
+                    _timer = new Timer();
+                    _task = new PlayTask();
+                    _task.relationId = s.relationId;
+                    _timer.schedule(_task , 1000);
+                }
             }
         }
 
@@ -105,7 +104,13 @@ public class MusicSongPager extends ZViewPager {
                 _hasScroll = true;
             }else if($state==ViewPager.SCROLL_STATE_IDLE){
                 _hasScroll = false;
-                //TODO... 607  滑动定位...
+
+                int position = getCurrentItem();
+                if(position==0){
+                    setCurrentItem(_data.size()-2 , false);
+                }else if(position==(_data.size()-1)){
+                    setCurrentItem(1 , false);
+                }
             }
         }
     };
@@ -117,67 +122,42 @@ public class MusicSongPager extends ZViewPager {
         }
     };
 
-//interface
-    @Override
-    public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
-        //TODO... 607 setCurrentItem
+//Tools
+    private void refuse() {
+        if(_data==null || _data.size()==0){
+            return;
+        }
+        _adapter.setData(_data);
+        setCurrentItem(_index+1 , false);
     }
+
+//interface
 
     public void setData(ArrayList<SongListItem> $a, int $index) {
-        _adapter.setData($a , $index);
-        int i = $a.size()*300 + $index;
-        setCurrentItem(i);
+        _data = new ArrayList<>();
+        _data.addAll($a);
+        SongListItem s = _data.get(0);
+        _data.add(s);
+        s = _data.get(_data.size()-2);
+        _data.add(0 , s);
+        _index = $index;
+        refuse();
     }
 
-
-    public void setData_progress(PlayProgress $p) {
-        MusicSongPagerItem item = getCurrentPagerItem();
-        if(item!=null){
-            item.setData_progress($p);
-        }
+    public void setData_index(int $index) {
+        _index = $index;
+        setCurrentItem(_index+1 , false);
     }
 
-    public void setData_play(SongListItem $item) {
-        ZAudioPlayer player = getPlayer();
-        int index = _adapter.getIndexByRelationId($item.relationId);
-        int oldIndex = getCurrentItem();
-        if(index!=oldIndex){
-            setCurrentItem(index);
-        }
-        MusicSongPagerItem item = getCurrentPagerItem();
-        if(item==null){
-            return;
-        }
-
-        PlayProgress p = new PlayProgress($item.song.getDuration() ,  player.getCurrentPosition());
-        setData_progress(p);
-        item.play();
-    }
-
-    public void pause() {
-        MusicSongPagerItem item = getCurrentPagerItem();
-        if(item==null){
-            return;
-        }
-        item.pause();
+    public void clear() {
+        _data = new ArrayList<>();
+        _adapter.setData(_data);
     }
 
 //getter and setter
 
-    private ZAudioPlayer getPlayer(){
-        return MainApplication.getInstance().player;
-    }
-
-    private MusicSongPagerItem getCurrentPagerItem(){
-        int p = this.getCurrentItem();
-        MusicSongPagerItem item = _adapter.getItemByPosition(p);
-        return item;
-    }
-
     public SongListItem getCurrentData(){
-        int i = this.getCurrentItem();
-        SongListItem o = _adapter.getDataByPosition(i);
+        SongListItem o = _data.get(_index);
         return o;
     }
 

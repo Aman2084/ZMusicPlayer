@@ -3,16 +3,12 @@ package com.zw;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+import com.aman.ui.controls.Alert;
 import com.aman.utils.message.ZLocalBroadcast;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.zw.global.AppInstance;
 import com.zw.global.IntentActions;
 import com.zw.global.model.AppModel;
@@ -36,9 +32,9 @@ public class MainActivity extends Activity {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
+    private GoogleApiClient client;
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +47,7 @@ public class MainActivity extends Activity {
         AppInstance.layer_third = (FrameLayout) this.findViewById(R.id.thirdLayer);
         AppInstance.layer_popUp = (FrameLayout) this.findViewById(R.id.popUpLayer);
 
-        //初始化数据模型
+        //初始化数据模
         AppInstance.songSQL = SongDBSQL.getInstance(this, SongDBSQL.Version);
         AppInstance.songListSQL = SongListDBSQL.getInstance(this, SongListDBSQL.Version);
         AppInstance.relationDBSQL = RelationDBSQL.getInstance(this, SongListDBSQL.Version);
@@ -61,7 +57,11 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ZMusicService.class);
         startService(intent);
 
+//        intent = new Intent(this, TestService.class);
+//        startService(intent);
+
         //初始化功能模块
+
         _mediator_main = new MainMediator(this);
         _mediator_my = new MyMediator(this);
         _mediator_music = new MusicMediator(this);
@@ -70,20 +70,13 @@ public class MainActivity extends Activity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-    @Override
-    protected void onDestroy() {
-        AppInstance.clear();
-        ZLocalBroadcast.sendAppIntent(IntentActions.Stop);
-        super.onDestroy();
+//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Main Page") // TODO: Define a title for the content shown.
@@ -94,7 +87,7 @@ public class MainActivity extends Activity {
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
-    }
+    }*/
 
     @Override
     public void onStart() {
@@ -102,17 +95,25 @@ public class MainActivity extends Activity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+//        client.connect();
+//        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
+        //TODO...  621
+        Alert.clear();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+//        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+//        client.disconnect();
+    }
+
+    @Override
+    protected void onDestroy() {
+        AppInstance.clear();
+        ZLocalBroadcast.sendAppIntent(IntentActions.Stop);
+        super.onDestroy();
     }
 }

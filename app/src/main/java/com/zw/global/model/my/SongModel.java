@@ -164,7 +164,12 @@ public class SongModel extends ZProgress {
         ArrayList<Song> a = new ArrayList<>();
         for (int i = 0; i <_allSongs.size() ; i++) {
             Song s = _allSongs.get(i);
-            boolean b = $albumId.equals(s.getAlbumId());
+            boolean b;
+            if($albumId==null){
+                b = s.getAlbumId()==null;
+            }else{
+                b = $albumId.equals(s.getAlbumId());
+            }
             if(b){
                 a.add(s);
             }

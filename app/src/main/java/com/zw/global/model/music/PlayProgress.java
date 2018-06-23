@@ -10,7 +10,6 @@ package com.zw.global.model.music;
 
 public class PlayProgress {
 
-
     /**乐曲时长（毫秒）*/
     public int duration = 0;
     /**

@@ -12,7 +12,6 @@ import com.zw.music.SongMenu;
 
 public class PlayModel {
 
-    public SongMenu menu = null;
 
     public String playModel = SongMenu.Order;
     public boolean isLoop = true;
@@ -23,4 +22,10 @@ public class PlayModel {
     public int index = 0;
 
     public PlayProgress progress = new PlayProgress(0 , 0);
+
+    public void reset(){
+        isPlaying = false;
+        index = 0;
+        progress.reset();
+    }
 }

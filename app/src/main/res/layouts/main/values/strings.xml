@@ -30,6 +30,7 @@
     <string name="my_inputNull">输入为空</string>
     <string name="my_selectSongsTitle">请选择歌曲</string>
     <string name="my_editSongsLst">编辑歌单</string>
+    <string name="global_unknown">未知</string>
     <string name="global_delete">删除</string>
     <string name="global_complete">完成</string>
     <string name="global_edit">编辑</string>
@@ -40,5 +41,7 @@
     <string name="my_add2">添加至</string>
     <string name="my_add2List">添加至歌单</string>
     <string name="global_close">关闭</string>
-    <string name="music_clearlist">清空列表</string>
+    <string name="music_list_clear">清空列表</string>
+    <string name="music_list_title">播放列表</string>
+    <string name="music_list_ifclear">是否清空播放列表？</string>
 </resources>

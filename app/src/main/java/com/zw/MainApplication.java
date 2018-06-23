@@ -1,8 +1,9 @@
 package com.zw;
 
 import android.app.Application;
+import android.os.Handler;
 
-import com.aman.media.ZAudioPlayer;
+import com.aman.utils.Debuger;
 import com.aman.utils.message.ZLocalBroadcast;
 
 /**
@@ -17,14 +18,29 @@ public class MainApplication extends Application {
 
     private static MainApplication _app;
 
-    public ZAudioPlayer player;
+    private Handler handler = new Handler();
+
+    private Runnable runner = new Runnable() {
+        @Override
+        public void run() {
+            trace("onTime");
+            handler.postDelayed(runner , 3000);
+        }
+    };
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         ZLocalBroadcast.applicationContext = this;
-        player = new ZAudioPlayer();
         _app = this;
+//        this.getApplicationContext().startService()
+        handler.post(runner);
+    }
+
+    public void trace(String $s){
+        $s = "Application--" + $s;
+        Debuger.traceTime($s);
     }
 
     public static MainApplication getInstance(){

@@ -26,21 +26,23 @@ public class IntentActions {
     public static final String ShowThirdSubPage = "showThirdSubPage";
 
 //播放控制
-    public static final String PlayMyAllMusic = "playMyAllMusic";
-    public static final String PlayMyFavorites = "playMyFavorites";
-    public static final String PlaySongs = "playSongs";
+    public static final String PrePlaySongs = "prePlaySongs";
+    public static final String PlaySongs2 = "playSongs";
+    public static final String PrePlaySongList = "prePlaySongList";
     public static final String PlaySongList = "playSongList";
+
     public static final String Play = "play";
-    public static final String Jump2RelationId = "jump2RelationId";
     public static final String Pause = "pause";
     public static final String PlayNext = "playNext";
+    public static final String PlayPrev = "playPrev";
+    public static final String Jump2RelationId = "jump2RelationId";
     public static final String Stop = "stop";
     public static final String Seek = "seek";
 
     public static final String ChangPlayModel = "changPlayModel";
     public static final String ChangPlayLoop = "changPlayLoop";
 
-
     public static final String NewSongList = "newSongList";
     public static final String EditSongList = "editSongList";
+    public static final String ClearPlayList = "clearPlayList";
 }

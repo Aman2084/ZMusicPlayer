@@ -52,6 +52,25 @@ public class SongMenu {
         refuse();
     }
 
+    /**
+     * 强行下一曲（不考虑循环和模式）
+     */
+    public SongListItem next_super(){
+        SongListItem item = next_order();
+        return item;
+    }
+    public SongListItem prev_super(){
+        SongListItem s = null;
+        _index --;
+        if(_index<0){
+            _index = _arr.size() -1;
+        }
+        s = _arr.get(_index);
+        return s;
+    }
+
+
+
     public SongListItem next(){
         SongListItem item = null;
 
@@ -173,8 +192,8 @@ public class SongMenu {
     }
 
     public int getCurrectIndex(){
-        if (_arr==null || _arr.size()==0) {
-            return 0;
+        if (isEmpty()) {
+            return -1;
         }
 
         int i = _index;
@@ -255,5 +274,16 @@ public class SongMenu {
             _index = index;
         }
         return s;
+    }
+
+    public boolean isEmpty(){
+        boolean b = _arr==null || _arr.size()==0;
+        return b;
+    }
+
+    public void clear(){
+        _arr.clear();
+        _list = null;
+        lastSong = null;
     }
 }

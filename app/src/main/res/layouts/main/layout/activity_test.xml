@@ -2,35 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_test"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:padding="15dp">
 
+    <View
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/blue"/>
 
-    <LinearLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_vertical_margin">
+    <View
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/blue"
+        android:layout_alignParentRight="true"/>
 
-        <Button
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="变大"/>
+    <View
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+    <View
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/blue"
+        android:layout_alignParentBottom="true"/>
 
-        <Button
-            android:id="@+id/btn_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="缩小"/>
-
-    </LinearLayout>
-
-    <com.zw.music.ui.pager.MusicSongPager
-        android:id="@+id/page"
-        android:layout_below="@id/bar"
-        android:layout_width="300dp"
-        android:layout_height="300dp"/>
 
 </RelativeLayout>

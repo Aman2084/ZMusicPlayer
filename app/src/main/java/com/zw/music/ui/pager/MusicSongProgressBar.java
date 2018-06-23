@@ -121,6 +121,7 @@ public class MusicSongProgressBar extends ZFrameLayout {
                 onMove(c);
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_OUTSIDE:
                 onUp(c);
                 break;
         }
@@ -268,19 +269,37 @@ public class MusicSongProgressBar extends ZFrameLayout {
     }
 
 //interface
-    @Override
-    public void setData(Object $o) {
+    public void updata(PlayProgress $o){
         if(_touchType==TouchType.Outter){
             return;
         }
         setData2((PlayProgress) $o);
     }
 
+    public void reSetData(PlayProgress $o){
+        _touchType = TouchType.Other;
+        setData2($o);
+    }
+
+    public void resetData(int $duration ,int $position){
+        PlayProgress p = new PlayProgress($duration , $position);
+        reSetData(p);
+    }
+
+
+    /*public void reset(int $duration){
+
+        if(data!=null){
+            PlayProgress p = new PlayProgress($duration , 0);
+            setData2(p);
+        }
+    }*/
+
 //getter and setter
-    private void setData2(PlayProgress $g) {
+    public void setData2(PlayProgress $g) {
         super.setData($g);
-        invalidate();
         _txt_currect.setText(ZUtils.millisecond2Str($g.position));
         _txt_total.setText(ZUtils.millisecond2Str($g.duration));
+        invalidate();
     }
 }

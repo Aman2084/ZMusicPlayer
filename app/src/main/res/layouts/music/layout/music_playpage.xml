@@ -22,8 +22,11 @@
 
     <TextView android:id="@+id/txt_title"
         android:layout_width="match_parent" android:layout_height="30dp"
-        android:textAlignment="center" android:textSize="22sp"
-        android:layout_below="@id/title" android:layout_marginTop="20dp"/>
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
+        android:text="@string/global_unknown"/>
 
     <TextView android:id="@+id/txt_singer"
         android:layout_width="match_parent" android:layout_height="20dp"
@@ -71,7 +74,6 @@
 
     <FrameLayout
         android:id="@+id/listCore"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-         />
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
 
 </merge>

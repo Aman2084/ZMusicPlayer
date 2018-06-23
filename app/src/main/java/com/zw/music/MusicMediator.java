@@ -24,7 +24,6 @@ import com.zw.music.progresses.MusicPlayPageProgress;
 
 public class MusicMediator extends Mediator {
 
-
     private MusicPlayPageProgress _playPage;
 
     public MusicMediator(Context $c) {
@@ -35,8 +34,7 @@ public class MusicMediator extends Mediator {
     @Override
     protected String[] getActions_application() {
         String[] a = new String[]{
-            IntentActions.PlaySongs
-            ,IntentActions.ShowPlayPage
+            IntentActions.ShowPlayPage
             ,IntentNotice.PlayLoopChanged
             ,IntentNotice.PlayModelChanged
             ,IntentNotice.MusicStart
@@ -55,16 +53,9 @@ public class MusicMediator extends Mediator {
 
         boolean b = _playPage!=null && _playPage.isShowing();
 
-
-
         switch ($intent.getAction()){
             case IntentActions.ShowPlayPage:
                 getPlayPage().show();
-                break;
-            case IntentActions.PlaySongs:
-                if(b){
-                    _playPage.refuse_song();
-                }
                 break;
             case IntentNotice.PlayModelChanged:
                 if(b){
@@ -100,9 +91,9 @@ public class MusicMediator extends Mediator {
     private ZObserver onPlayPage = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-            switch ($n.name){
+        switch ($n.name){
 
-            }
+        }
         }
     };
 

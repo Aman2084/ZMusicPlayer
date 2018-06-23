@@ -4,6 +4,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZObserver;
 import com.zw.global.AppInstance;
 import com.zw.global.model.data.SongListItem;
@@ -23,10 +24,7 @@ public class MusicSongAdapter extends PagerAdapter {
 
 
     private ArrayList<SongListItem> _data;
-    private ArrayList<View> _views;
     private ZObserver _observer;
-
-    private int _index = 100000;
 
     private ArrayList<MusicSongPagerItem> _arr_item;
 
@@ -43,7 +41,7 @@ public class MusicSongAdapter extends PagerAdapter {
             return 1;
         }
 
-        int n = 600000;
+        int n = _data.size();
         return n;
     }
 
@@ -68,22 +66,22 @@ public class MusicSongAdapter extends PagerAdapter {
             _arr_item.add(item);
         }
 
-
         PlayProgress g = new PlayProgress(0 , 0);
         if(_data!=null && _data.size()>0){
-            int i = $position % _data.size();
+            int i = $position;
             SongListItem s = _data.get(i);
             item.setData(s);
             g.duration = s.song.getDuration();
+            s.sendNotification(ZNotifcationNames.Progress , g);
         }else{
             item.setData(null);
         }
-        item.setData_progress(g);
 
         item.position = $position;
         item.isLive = true;
 
         $c.addView(item);
+        item.postInvalidate();
         return item;
     }
 
@@ -106,8 +104,7 @@ public class MusicSongAdapter extends PagerAdapter {
 
 //interface
 
-    public void setData(ArrayList<SongListItem> $a , int $index){
-        _index = $index;
+    public void setData(ArrayList<SongListItem> $a){
         _data = $a;
         notifyDataSetChanged();
     }
@@ -126,18 +123,6 @@ public class MusicSongAdapter extends PagerAdapter {
             }
         }
         return item;
-    }
-
-    public int getIndexByRelationId(int $relationId){
-        int index = -1;
-        for (int i = 0; i <_data.size() ; i++) {
-            SongListItem item = _data.get(i);
-            if(item.relationId==$relationId){
-                index = 300 * _data.size() +i;
-                break;
-            }
-        }
-        return index;
     }
 
     public SongListItem getDataByPosition(int $position) {
