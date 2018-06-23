@@ -29,17 +29,17 @@ abstract public class Mediator implements Observer{
 
     public Mediator(Context $c){
         _context = $c;
-        initroadcast();
+        initBroadcast();
     }
 
     /**
      * 构造函数
      * */
     public Mediator(){
-        initroadcast();
+        initBroadcast();
     }
 
-    protected void initroadcast(){
+    protected void initBroadcast(){
         String[] a = getActions_application();
         if( a!=null && a.length>0){
             ZLocalBroadcast.registerAppReceiver(a , receiver);

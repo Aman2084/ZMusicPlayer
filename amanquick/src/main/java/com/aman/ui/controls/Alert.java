@@ -157,6 +157,13 @@ public class Alert extends ZFrameLayout {
         a.setData($message , $title , $btns , $o);
     }
 
+    public static void clear() {
+        if(_instance!=null){
+            _instance.deleteObservers();
+            _instance = null;
+        }
+    }
+
     private void setData(String $message, String $title, int $btns, ZObserver $o) {
         $btns = ($btns==0) ? 1 : $btns;
 
@@ -192,39 +199,47 @@ public class Alert extends ZFrameLayout {
         return _instance;
     }
 
+    public static Alert getInstance(Context $c){
+        if(_instance==null){
+            try{
+                _instance = new Alert($c , null);
+            }catch (SingletonException $e){}
+        }
+        return _instance;
+    }
+
 
 
     private Button getBtn_ok(){
       if(_btn_ok==null){
-          _btn_ok = creatBtn(R.id.btn_ok , R.string.ok);
+          _btn_ok = creatBtn(OK , R.string.ok);
       }
         return _btn_ok;
     }
 
     private Button getBtn_yes(){
         if(_btn_yes==null){
-            _btn_yes = creatBtn(R.id.btn_yes , R.string.yes);
+            _btn_yes = creatBtn(Yes , R.string.yes);
         }
         return _btn_yes;
 
     }
     private Button getBtn_no(){
         if(_btn_no==null){
-            _btn_no = creatBtn(R.id.btn_no , R.string.no);
+            _btn_no = creatBtn(No , R.string.no);
         }
         return _btn_no;
     }
     private Button getBtn_sure(){
         if(_btn_sure==null){
-            _btn_sure = creatBtn(R.id.btn_sure , R.string.sure);
+            _btn_sure = creatBtn(Sure , R.string.sure);
         }
         return _btn_sure;
     }
     private Button getBtn_cancel(){
         if(_btn_cancel==null){
-            _btn_cancel = creatBtn(R.id.btn_cancel , R.string.cancel);
+            _btn_cancel = creatBtn(Cancel , R.string.cancel);
         }
         return _btn_cancel;
     }
-
 }

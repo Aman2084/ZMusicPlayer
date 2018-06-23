@@ -19,6 +19,8 @@ public class ZNotifcationNames {
     public static final String Yes = "yes";
     public static final String No = "no";
 
+    public static final String Updata = "updata";
+    public static final String Change = "change";
     public static final String Add = "add";
     public static final String Remove = "remove";
     public static final String Creat = "creat";
@@ -26,10 +28,10 @@ public class ZNotifcationNames {
     public static final String Close = "close";
     public static final String Complete = "complete";
     public static final String Selected = "selected";
-    public static final String Change = "change";
     public static final String Next = "next";
     public static final String Show= "show";
     public static final String Clear = "clear";
+    public static final String Progress = "progress";
 
     public static final String DeleteItem = "deleteItem";
 

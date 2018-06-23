@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondBlack"
+    android:minHeight="64dp"
+    android:padding="3dp"
+    android:id="@+id/root">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:src="@drawable/music_page_defaulticon"
+        android:clickable="false"/>
+
+    <ImageView
+        android:id="@+id/btn_next"
+        style="@style/music_notifyBtn"
+        android:src="@drawable/music_notify_next"
+        android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/btn_play"
+        style="@style/music_notifyBtn"
+        android:src="@drawable/music_notify_pause"
+        android:layout_toLeftOf="@id/btn_next"
+        android:layout_width="24dp"
+        android:layout_marginRight="15dp"/>
+    <ImageView
+        android:id="@+id/btn_pre"
+        style="@style/music_notifyBtn"
+        android:src="@drawable/music_notify_pre"
+        android:layout_toLeftOf="@id/btn_play"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img"
+        android:layout_alignTop="@id/img"
+        android:paddingLeft="10dp"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:clickable="false"/>
+    <TextView
+        android:id="@+id/txt_singer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img"
+        android:layout_below="@id/txt_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/grayplay"
+        android:textSize="12sp"
+        android:clickable="false"/>
+
+
+</RelativeLayout>

@@ -18,7 +18,7 @@ import android.util.Log;
 public class ZLocalBroadcast {
 
     /**Application 上下文*/
-    public static Context applicationContext = null;
+    public static Context applicationContext;
 
     public static boolean sendAppIntent(String $action){
         return sendAppIntent($action , null);
