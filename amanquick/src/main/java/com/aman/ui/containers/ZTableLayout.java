@@ -78,4 +78,8 @@ public class ZTableLayout extends TableLayout implements IZObservable {
     }
 
     public void setData(Object $o){ data = $o; }
+
+    public void destroy() {
+        deleteObservers();
+    }
 }

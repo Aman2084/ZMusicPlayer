@@ -107,5 +107,4 @@ public class MathUtils {
         c.offset($center);
         return c;
     }
-
 }

@@ -72,6 +72,11 @@ abstract public class Mediator implements Observer{
 
     public void destroy(){
         ZLocalBroadcast.unregisterAppReceiver(receiver);
+        _context = null;
     }
 
+
+    public Context getContext(){
+      return _context;
+    }
 }

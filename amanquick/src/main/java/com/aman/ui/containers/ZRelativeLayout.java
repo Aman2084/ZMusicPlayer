@@ -78,4 +78,8 @@ public class ZRelativeLayout extends RelativeLayout implements IZObservable {
     }
 
     public void setData(Object $o){ data = $o; }
+
+    public void destroy() {
+        deleteObservers();
+    }
 }

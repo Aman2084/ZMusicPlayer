@@ -1,11 +1,14 @@
 package com.aman.utils;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RemoteViews;
 
 /**
  * AmanQuick 1.0
@@ -50,7 +53,7 @@ public class UIUtils {
         AlertDialog dialog = builder.create();
         dialog.show();
         return dialog;
-    };
+    }
 
 
     public static AlertDialog alert(Context $c ,
@@ -65,7 +68,7 @@ public class UIUtils {
         AlertDialog dialog = builder.create();
         dialog.show();
         return dialog;
-    };
+    }
 
     public static void setPosAndSize(View $v , Rect $r){
         $v.setX($r.left);
@@ -77,9 +80,40 @@ public class UIUtils {
         $v.setLayoutParams(p);
     }
 
+    public static void setOnClickPendingIntent(Context $c , RemoteViews $v , int $id , String $action){
+        Intent it = new Intent($action);
+        PendingIntent p = PendingIntent.getBroadcast($c , 0 ,
+                it , PendingIntent.FLAG_UPDATE_CURRENT);
+        $v.setOnClickPendingIntent($id , p);
+    }
+
+    public static void setOnClickPendingService(Context $c , RemoteViews $v , int $id , String $action , Class<?> $cls){
+        Intent it = new Intent($c, $cls);
+//        it.setAction($action);
+        PendingIntent p = PendingIntent.getService($c , 0 , it , PendingIntent.FLAG_UPDATE_CURRENT);
+        $v.setOnClickPendingIntent($id , p);
+    }
+
+
+
+    /**
+     * 计算ProgressBar的value
+     * @param $position    等比例当前值
+     * @param $duration    等比例总值
+     * @param $max         ProgressBar的max值
+     * @return             ProgressBar的Value
+     */
+    public static int calcProgressBarValue(int $position , int $duration , int $max){
+        float position  = (float)$position;
+        float duration  = (float)$duration;
+        float f = 100*(position / duration);
+        int num = (int)f;
+        return num;
+    }
 
     public static int getRandomColor(){
         int n = (int) (Math.random()*16777216);
         return n;
     }
+
 }

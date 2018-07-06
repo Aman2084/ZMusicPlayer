@@ -73,4 +73,8 @@ public class ZViewGroup extends ViewGroup implements IZObservable {
     }
 
     public void setData(Object $o){ data = $o; }
+
+    public void destroy() {
+        deleteObservers();
+    }
 }

@@ -169,9 +169,15 @@ public class SubPageManager implements Observer{
             return;
         }
         clear();
+
         if($v==null){
             return;
         }
+        ViewGroup g = (ViewGroup)$v.getParent();
+        if(g!=null){
+            g.removeView($v);
+        }
+
         _currectView = $v;
         _container.addView(_currectView);
 
@@ -207,5 +213,4 @@ public class SubPageManager implements Observer{
             _currectView = null;
         }
     }
-
 }

@@ -35,6 +35,13 @@ abstract public class ZService extends Service {
         return result;
     }
 
+    @Override
+    public void onDestroy() {
+        ZLocalBroadcast.unregisterReceiver(getApplicationContext() , receiver);
+        super.onDestroy();
+
+    }
+
     protected BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context $context, Intent $intent) {

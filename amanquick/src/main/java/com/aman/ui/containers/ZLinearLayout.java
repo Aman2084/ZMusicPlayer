@@ -78,4 +78,8 @@ public class ZLinearLayout extends LinearLayout implements IZObservable {
     }
 
     public void setData(Object $o){ data = $o; }
+
+    public void destroy() {
+        deleteObservers();
+    }
 }

@@ -73,5 +73,7 @@ public class ZFragment extends Fragment implements IZObservable {
 
     public void setData(Object $o){ data = $o; }
 
-
+    public void destroy() {
+        deleteObservers();
+    }
 }
