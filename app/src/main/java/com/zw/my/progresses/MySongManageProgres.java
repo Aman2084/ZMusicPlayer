@@ -34,9 +34,14 @@ public class MySongManageProgres extends ZProgress {
     private MySongManage _ui = null;
     private MySongListSelector _selector;
 
-
     public MySongManageProgres() {
         super(null, null);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        disposeUI();
     }
 
 //interface

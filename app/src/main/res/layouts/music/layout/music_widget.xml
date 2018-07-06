@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/root"
+    android:padding="5dp"
+    android:background="@color/alphaBlack2">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/music_page_defaulticon"
+        android:clickable="false"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img"
+        android:layout_alignTop="@id/img"
+        android:layout_marginLeft="25dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:clickable="false"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:background="@color/alphawhite"
+        android:layout_below="@id/txt_name"
+        android:layout_toRightOf="@id/img"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="10dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/progress"
+        android:layout_alignLeft="@id/progress"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/btn_pre"
+            style="@style/music_widgetBtn"
+            android:src="@drawable/music_notify_pre"/>
+
+        <ImageView
+            android:id="@+id/btn_play"
+            style="@style/music_widgetBtn"
+            android:src="@drawable/music_notify_pause"/>
+
+        <ImageView
+            android:id="@+id/btn_next"
+            style="@style/music_widgetBtn"
+            android:src="@drawable/music_notify_next"/>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

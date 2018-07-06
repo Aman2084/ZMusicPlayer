@@ -32,12 +32,25 @@ import java.util.ArrayList;
 
 public class MyEditSongListProgress extends ZProgress {
 
-    private MySongListEditor _editor;
     private SongList _data;
+    private MySongListEditor _editor;
     private MySongSelector _selecter;
 
     public MyEditSongListProgress() {
         super(null, null);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        if(_selecter!=null){
+            _selecter.deleteObserver(onSelecter);
+            _selecter = null;
+        }
+        if(_editor!=null){
+            _editor.deleteObserver(onEditor);
+            _editor = null;
+        }
     }
 
 //logic
@@ -55,7 +68,6 @@ public class MyEditSongListProgress extends ZProgress {
     }
 
     private void delete(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(AppInstance.mainActivity);
         String s_ok = AppUtils.id2String(R.string.global_ok);
         String s_cancel = AppUtils.id2String(R.string.global_ok);
         String s_title = AppUtils.id2String(R.string.my_deleteSure);

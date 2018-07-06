@@ -1,19 +1,11 @@
 package com.zw.music;
 
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.widget.RemoteViews;
 
 import com.aman.media.ZAudioNotification;
 import com.aman.media.ZAudioPlayer;
@@ -22,14 +14,11 @@ import com.aman.utils.message.ZLocalBroadcast;
 import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
-import com.aman.utils.service.ZService;
 import com.zw.MainActivity;
-import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.IntentActions;
 import com.zw.global.IntentNotice;
 import com.zw.global.enums.SharedPreferencesKeys;
-import com.zw.global.model.AppModel;
 import com.zw.global.model.MySongModel;
 import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongList;
@@ -37,7 +26,9 @@ import com.zw.global.model.data.SongListItem;
 import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.music.PlayPosition;
 import com.zw.global.model.music.PlayProgress;
+import com.zw.global.model.music.SongMenu;
 import com.zw.global.model.my.SongListModel;
+import com.zw.music.servive.MusicServiceBase_Widget;
 
 import java.util.ArrayList;
 
@@ -51,11 +42,10 @@ import static com.zw.global.AppInstance.model;
  * @Email 1390792438@qq.com
  */
 
-public class ZMusicService extends ZService {
+public class ZMusicService extends MusicServiceBase_Widget {
 
     private ZAudioPlayer _player;
     private SongMenu _menu;
-    private Handler _handler;
 
     /**
      * 切换未完成时记录
@@ -66,17 +56,14 @@ public class ZMusicService extends ZService {
     @Override
     public void onCreate() {
         _menu = new SongMenu();
-        _handler = new Handler();
+
+        if(!AppInstance.initialized){
+            AppInstance.init(getApplicationContext());
+        }
+
         //初始化数据
         PlayModel p = getPlayModel();
-
         SongListModel l = AppInstance.model.song.songList;
-        SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        p.index = p1.getInt(SharedPreferencesKeys.CurrectMusicIndex , 0);
-        p.progress.position = p1.getInt(SharedPreferencesKeys.CurrectMusicPosition , 0);
-        p.playModel = p1.getString(SharedPreferencesKeys.PlayModel , SongMenu.Order);
-        p.isLoop = p1.getBoolean(SharedPreferencesKeys.PlayLoop , true);
         _menu.setData(l.list_play , p.index);
         _menu.setMode(p.playModel);
         _menu.setIsLoop(p.isLoop);
@@ -87,6 +74,7 @@ public class ZMusicService extends ZService {
             ZAudioPlayer player = getPlayer();
             player.prepare(item.song.getPath());
         }
+
         super.onCreate();
     }
 
@@ -95,26 +83,18 @@ public class ZMusicService extends ZService {
         super.onStartCommand($intent, $flags, $startId);
         getPlayer().addObserver(onPlayer);
 
-        String[] a = {
-                IntentActions.PlayNext
-                ,IntentActions.PlayPrev
-                ,IntentActions.Play
-                ,IntentActions.Pause
-                ,ZNotifcationNames.Click
-        };
-        IntentFilter f = new IntentFilter();
-        for (int i = 0; i<a.length ; i++) {
-            String s = a[i];
-            f.addAction(s);
+        String s = $intent.getAction();
+        if(s!=null && s.length()>0){
+            receiveIntent(getBaseContext() , $intent);
         }
-        this.registerReceiver(onNotifcation , f);
-        _handler.post(_run_notification);
+        updataWidget();
         return START_STICKY;
     }
 
     @Override
     protected String[] getActions_application() {
         String[] a = new String[]{
+
             IntentActions.PlaySongs2
             ,IntentActions.PlaySongList
             ,IntentActions.Stop
@@ -122,6 +102,8 @@ public class ZMusicService extends ZService {
             ,IntentActions.Pause
             ,IntentActions.Seek
             ,IntentActions.PlayNext
+            ,IntentActions.PlayPrev
+            ,IntentActions.PlayOrPause
             ,IntentActions.Jump2RelationId
             ,IntentActions.ChangPlayLoop
             ,IntentActions.ChangPlayModel
@@ -163,8 +145,16 @@ public class ZMusicService extends ZService {
                 p.pause();
                 break;
             case IntentActions.PlayNext:
-                if(_menu.hasNext()){
-                    playNext();
+                playNext_super();
+                break;
+            case IntentActions.PlayPrev:
+                playPrev_super();
+                break;
+            case IntentActions.PlayOrPause:
+                if(_player!=null && _player.isPlaying()){
+                    p.pause();
+                }else{
+                    play();
                 }
                 break;
             case IntentActions.ChangPlayLoop:
@@ -211,18 +201,21 @@ public class ZMusicService extends ZService {
                 case ZAudioNotification.Prepared:
                     p = new PlayProgress(n.duration , n.position);
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicReady, p);
+                    updataWidget_song();
                     break;
                 case ZAudioNotification.Play:
                     m.isPlaying = true;
                     list_play.setPlayByRelation(_menu.getCurrectSong().relationId);
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicStart, _menu.getCurrectSong());
-                    _handler.post(_run_notification);
+                    updataNotifcation();
+                    updataWidget_state();
                     break;
                 case ZAudioNotification.Pause:
                     m.isPlaying = false;
                     list_play.setPauseByRelation(_menu.getCurrectSong().relationId);
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicPause);
-                    _handler.post(_run_notification);
+                    updataNotifcation();
+                    updataWidget_state();
                     break;
                 case ZAudioNotification.Stop:
                     m.isPlaying = false;
@@ -230,7 +223,8 @@ public class ZMusicService extends ZService {
                         list_play.setStopByRelation(_menu.getCurrectSong().relationId);
                     }
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicStop);
-                    _handler.post(_run_notification);
+                    updataNotifcation();
+                    updataWidget_state();
                     break;
                 case ZAudioNotification.Seek:
                     p = getPlayModel().progress;
@@ -242,10 +236,12 @@ public class ZMusicService extends ZService {
                     }else{
                         _lock_seek = false;
                     }
+                    updataWidget_progress();
                     break;
                 case ZAudioNotification.Progress:
                     getPlayModel().progress.setData(n.duration , n.position);
                     p = new PlayProgress(n.duration , n.position);
+                    updataWidget_progress();
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicProgress, p);
                     break;
                 case ZAudioNotification.Error:
@@ -259,11 +255,43 @@ public class ZMusicService extends ZService {
                     list_play.setStopByRelation(_menu.getCurrectSong().relationId);
                     ZLocalBroadcast.sendAppIntent(IntentNotice.MusicComplete, _menu.getCurrectSong());
                     playNext();
-                    _handler.post(_run_notification);
+                    updataNotifcation();
                     break;
             }
         }
     };
+
+    @Override
+    protected void onNotifcation(Intent $it) {
+        switch ($it.getAction()){
+            case IntentActions.Play:
+                play();
+                break;
+            case IntentActions.Pause:
+                _player.pause();
+                break;
+            case IntentActions.PlayPrev:
+                playPrev_super();
+                break;
+            case IntentActions.PlayNext:
+                playNext_super();
+                break;
+            case IntentActions.PlayOrPause:
+                if(_player!=null && _player.isPlaying()){
+                    _player.pause();
+                }else{
+                    play();
+                }
+                break;
+            case ZNotifcationNames.Click:
+                Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getApplication().startActivity(it);
+                break;
+        }
+    }
+
+    //Tools
 
     private void playNext() {
         SongListItem s = _menu.next();
@@ -378,8 +406,8 @@ public class ZMusicService extends ZService {
     }
 
     private void savePlayProgress(){
-        SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor e = p1.edit();
+        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor e = p.edit();
         e.putInt(SharedPreferencesKeys.CurrectMusicIndex , _menu.getCurrectIndex());
         e.putInt(SharedPreferencesKeys.CurrectMusicPosition , getPlayer().getCurrentPosition());
     }
@@ -431,91 +459,12 @@ public class ZMusicService extends ZService {
         savePlayProgress();
         super.onDestroy();
     }
-//Notification
-    private Runnable _run_notification = new Runnable() {
-        @Override
-        public void run() {
-            String str = "com.zw.music.sign";
-            SongListItem s = _menu.getCurrectSong();
-            boolean playing = _player==null ? false : _player.isPlaying();
-            String song = s==null ? "" : s.song.getDisplayName();
-            String singer = s==null ? "" : s.song.getDisplaySinger();
-            Bitmap b = s==null ? null : s.song.getBmp(ZMusicService.this);
-            Notification notify = getNotify(ZMusicService.this , str , playing , song , singer , b);
-            startForeground(101 , notify);
-        }
-    };
-
-    private Notification getNotify(Context $c , String $evt ,
-                                   boolean $isPlay , String $song , String $singer , Bitmap $bmp){
-        RemoteViews notify = new RemoteViews($c.getPackageName() , R.layout.music_notification);
-        int id = $isPlay ? R.drawable.music_notify_pause : R.drawable.music_notify_play;
-        notify.setImageViewResource(R.id.btn_play , id);
-        notify.setTextViewText(R.id.txt_name , $song);
-        notify.setTextViewText(R.id.txt_singer , $singer);
-        if($bmp==null){
-            notify.setImageViewResource(R.id.img , R.drawable.music_page_defaulticon);
-        }else{
-            notify.setImageViewBitmap(R.id.img , $bmp);
-        }
-
-        Intent it = new Intent(IntentActions.PlayNext);
-        PendingIntent p = PendingIntent.getBroadcast($c , 0 ,
-                it , PendingIntent.FLAG_UPDATE_CURRENT);
-        notify.setOnClickPendingIntent(R.id.btn_next , p);
-
-        it = new Intent(IntentActions.PlayPrev);
-        p = PendingIntent.getBroadcast($c , 0 ,
-                it , PendingIntent.FLAG_UPDATE_CURRENT);
-        notify.setOnClickPendingIntent(R.id.btn_pre , p);
-
-        String s = $isPlay ? IntentActions.Pause : IntentActions.Play;
-        it = new Intent(s);
-        p = PendingIntent.getBroadcast($c , 0 ,
-                it , PendingIntent.FLAG_UPDATE_CURRENT);
-        notify.setOnClickPendingIntent(R.id.btn_play , p);
-
-
-        it = new Intent(ZNotifcationNames.Click);
-        p = PendingIntent.getBroadcast($c , 0 ,
-                it , PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder b = new NotificationCompat.Builder($c);
-        b.setContent(notify).setSmallIcon(R.drawable.my_main_ic_music);
-        b.setContentIntent(p);
-        Notification n = b.build();
-        return n;
-    }
-
-    private BroadcastReceiver onNotifcation = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context $c, Intent $it) {
-            switch ($it.getAction()){
-                case IntentActions.Play:
-                    play();
-                    break;
-                case IntentActions.Pause:
-                    _player.pause();
-                    break;
-                case IntentActions.PlayPrev:
-                    playPrev_super();
-                    break;
-                case IntentActions.PlayNext:
-                    playNext_super();
-                    break;
-                case ZNotifcationNames.Click:
-                    Intent it = new Intent(getApplicationContext(), MainActivity.class);
-                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    getApplication().startActivity(it);
-                    break;
-            }
-        }
-    };
 
 
 //Getter and Setter
 
     private PlayModel getPlayModel(){
-        return AppModel.getInstance().play;
+        return AppInstance.model.play;
     }
     private ZAudioPlayer getPlayer(){
         if(_player ==null){

@@ -30,6 +30,15 @@ public class MusicMediator extends Mediator {
         super($c);
     }
 
+    @Override
+    public void destroy() {
+        if(_playPage!=null){
+            _playPage.destroy();
+            _playPage = null;
+        }
+        super.destroy();
+    }
+
 //Intent
     @Override
     protected String[] getActions_application() {
@@ -86,14 +95,13 @@ public class MusicMediator extends Mediator {
         }
     }
 
-
 //Listener
     private ZObserver onPlayPage = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-        switch ($n.name){
+            switch ($n.name){
 
-        }
+            }
         }
     };
 
@@ -105,5 +113,4 @@ public class MusicMediator extends Mediator {
         }
         return _playPage;
     }
-
 }

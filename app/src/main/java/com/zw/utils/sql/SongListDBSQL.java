@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.aman.utils.SQLUtils;
 import com.aman.utils.ZUtils;
@@ -48,7 +47,6 @@ public class SongListDBSQL extends SQLiteOpenHelper {
 //listeners
     @Override
     public void onCreate(SQLiteDatabase $db) {
-        Log.d("initDB===" , "songlist");
         String s = SQLUtils.dropTable(Name);
         $db.execSQL(s);
         s = SQLUtils.CreateTable + Name;

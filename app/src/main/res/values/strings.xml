@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">ZMusicPlayer</string>
+    <string name="mainTitle">Aman的音乐</string>
+    <string name="main_nav_my">我的</string>
+    <string name="main_nav_music">音乐</string>
+    <string name="main_nav_time">定时</string>
+    <string name="main_nav_setting">设置</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_allmusic">所有音乐</string>
+    <string name="my_myfav">我的收藏</string>
+    <string name="my_music">音乐</string>
+    <string name="my_songer">歌手</string>
+    <string name="my_album">专辑</string>
+    <string name="my_folder">文件夹</string>
+    <string name="my_scan">扫描</string>
+    <string name="my_scanTitle">扫描歌曲</string>
+    <string name="my_importMusicTitle">要导入的文件夹</string>
+    <string name="my_importSong">导入%s首</string>
+    <string name="my_deleteSure">确认删除</string>
+    <string name="my_deleteListSure">确认要删除歌单《%s》吗？</string>
+    <string name="global_ok">确定</string>
+    <string name="global_cancel">取消</string>
+    <string name="global_selectedAll">全选</string>
+    <string name="global_songUnit">首</string>
+    <string name="global_songNum">%s首</string>
+    <string name="my_creatList">新建歌单</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="my_inputsonglistname">请输入歌单名</string>
+    <string name="my_inputNull">输入为空</string>
+    <string name="my_selectSongsTitle">请选择歌曲</string>
+    <string name="my_editSongsLst">编辑歌单</string>
+    <string name="global_unknown">未知</string>
+    <string name="global_delete">删除</string>
+    <string name="global_complete">完成</string>
+    <string name="global_edit">编辑</string>
+    <string name="global_manage">管理</string>
+    <string name="my_deleteSongList">删除歌单</string>
+    <string name="global_play">播放</string>
+    <string name="global_batchManage">批量管理</string>
+    <string name="my_add2">添加至</string>
+    <string name="my_add2List">添加至歌单</string>
+    <string name="global_close">关闭</string>
+    <string name="music_list_clear">清空列表</string>
+    <string name="music_list_title">播放列表</string>
+    <string name="music_list_ifclear">是否清空播放列表？</string>
 </resources>

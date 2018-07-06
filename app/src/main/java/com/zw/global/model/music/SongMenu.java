@@ -1,4 +1,4 @@
-package com.zw.music;
+package com.zw.global.model.music;
 
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
@@ -23,8 +23,9 @@ public class SongMenu {
     /**乱序（每首歌播放一次）*/
     public static final String Disorder = "disorder";
 
-    /**是否输出过：setData后是否被getNext过
-    private boolean _nexted = false;
+    /**
+     * 是否输出过：setData后是否被getNext过
+     * private boolean _nexted = false;
      */
     private String _mode = Order;
     private boolean _isLoop = false;

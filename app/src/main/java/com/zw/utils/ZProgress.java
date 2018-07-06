@@ -14,11 +14,16 @@ import com.aman.utils.observer.ZObservable;
  */
 
 public class ZProgress extends ZObservable {
+
     public ZProgress(@Nullable Object $owner, @Nullable String $name) {
         super($owner, $name);
     }
 
     protected void sendIntent(String $action , @Nullable Object $data){
         ZLocalBroadcast.sendAppIntent($action , $data);
+    }
+
+    public void destroy() {
+//        this.deleteObservers();
     }
 }

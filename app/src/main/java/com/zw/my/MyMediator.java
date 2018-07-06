@@ -11,7 +11,6 @@ import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObservable;
 import com.aman.utils.observer.ZObserver;
-import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.AppNotificationNames;
 import com.zw.global.IntentActions;
@@ -22,7 +21,6 @@ import com.zw.global.model.data.SongList;
 import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.music.PlayPosition;
 import com.zw.global.model.my.SongListModel;
-import com.zw.main.MainContainerFragment;
 import com.zw.my.progresses.MyCreatSongListProgress;
 import com.zw.my.progresses.MyEditSongListProgress;
 import com.zw.my.progresses.MyScanProgress;
@@ -56,12 +54,42 @@ public class MyMediator extends Mediator {
 
     public MyMediator(Context $c){
         super($c);
-        init();
     }
 
-    private void init() {
-        MainContainerFragment f = (MainContainerFragment)AppInstance.mainActivity.getFragmentManager().findFragmentById(R.id.mainContainer);
-        f.init();
+    @Override
+    public void destroy() {
+        super.destroy();
+        if(_ui_allMusic!=null){
+            _ui_allMusic.deleteObserver(this);
+            _ui_allMusic = null;
+        }
+        if(_ui_musicFolders!=null){
+            _ui_musicFolders.deleteObserver(this);
+            _ui_musicFolders = null;
+        }
+        if(_ui_favorite!=null){
+            _ui_favorite.deleteObserver(onFavorite);
+            _ui_favorite = null;
+        }
+        if(_scan!=null){
+            _scan.deleteObserver(this);
+            _scan.destroy();
+            _scan = null;
+        }
+        if(_creatSongList!=null){
+            _creatSongList.destroy();
+            _creatSongList.deleteObserver(onCreatSongList);
+            _creatSongList = null;
+        }
+        if(_editSongList!=null){
+            _editSongList.destroy();
+            _editSongList = null;
+        }
+        if(_songManage!=null){
+            _songManage.destroy();
+            _songManage.deleteObserver(onSongManage);
+            _songManage = null;
+        }
     }
 
 //Notifcation
@@ -119,7 +147,7 @@ public class MyMediator extends Mediator {
         ZNotification n = (ZNotification)$data;
         Object data = n.data;
         if($o instanceof MyScanProgress){
-            if(n.name== ZNotifcationNames.Complete){
+            if(n.name.equals(ZNotifcationNames.Complete)){
                 MyMusicFolders f = get_ui_MusicFolders();
                 f.setData((ArrayList<Song>)data);
                 sendIntent(IntentActions.ShowThirdSubPage ,f);

@@ -16,7 +16,6 @@ import com.aman.utils.message.ZLocalBroadcast;
 
 public class MainApplication extends Application {
 
-    private static MainApplication _app;
 
     private Handler handler = new Handler();
 
@@ -24,7 +23,7 @@ public class MainApplication extends Application {
         @Override
         public void run() {
             trace("onTime");
-            handler.postDelayed(runner , 3000);
+            handler.postDelayed(runner , 10000);
         }
     };
 
@@ -33,9 +32,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ZLocalBroadcast.applicationContext = this;
-        _app = this;
-//        this.getApplicationContext().startService()
-        handler.post(runner);
+//        handler.post(runner);
     }
 
     public void trace(String $s){
@@ -43,7 +40,4 @@ public class MainApplication extends Application {
         Debuger.traceTime($s);
     }
 
-    public static MainApplication getInstance(){
-        return _app;
-    }
 }

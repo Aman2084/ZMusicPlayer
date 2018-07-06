@@ -1,5 +1,6 @@
 package com.zw.main;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -42,8 +43,22 @@ public class MainMediator extends Mediator {
         init();
     }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        _svm_second.clear();
+        _svm_third.clear();
+        _fragment_music.deleteObserver(onMusic);
+        AppInstance.MainUI_my.deleteObserver(onMy);
+    }
+
 //init
+
     private void init() {
+        FragmentManager m = ((Activity)_context).getFragmentManager();
+        MainContainerFragment f = (MainContainerFragment) m.findFragmentById(R.id.mainContainer);
+        f.init();
+
         _svm_second = new SubPageManager(AppInstance.layer_second);
         _svm_third = new SubPageManager(AppInstance.layer_third);
 
@@ -55,7 +70,7 @@ public class MainMediator extends Mediator {
         _fragment_music.refuse_song();
     }
 
-//Listeners\
+//Listeners
     private ZObserver onMusic = new ZObserver() {
         @Override
             public void onNotification(ZNotification $n) {
@@ -85,19 +100,19 @@ public class MainMediator extends Mediator {
     private ZObserver onMy = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-            switch ($n.name){
-                case AppNotificationNames.EditSongList:
-                    sendIntent(IntentActions.EditSongList , $n.data);
-                    break;
-                case AppNotificationNames.PlaySongList:
-                    SongList l = (SongList)$n.data;
-                    if(l.items.size()>0){
-                        int relation = l.items.get(0).relationId;
-                        PlayPosition p = new PlayPosition(l.id , relation , 0);
-                        sendIntent(IntentActions.PrePlaySongList , p);
-                    }
-                    break;
-            }
+        switch ($n.name){
+            case AppNotificationNames.EditSongList:
+                sendIntent(IntentActions.EditSongList , $n.data);
+                break;
+            case AppNotificationNames.PlaySongList:
+                SongList l = (SongList)$n.data;
+                if(l.items.size()>0){
+                    int relation = l.items.get(0).relationId;
+                    PlayPosition p = new PlayPosition(l.id , relation , 0);
+                    sendIntent(IntentActions.PrePlaySongList , p);
+                }
+                break;
+        }
         }
     };
 
@@ -139,7 +154,6 @@ public class MainMediator extends Mediator {
                 AppInstance.MainUI_my.refuse();
                 break;
 
-            //TODO...  101 处理消息
             case IntentNotice.MusicStart:
                 _fragment_music.setPlaying(true);
                 _fragment_music.refuse_song();

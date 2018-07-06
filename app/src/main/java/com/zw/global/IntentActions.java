@@ -33,6 +33,7 @@ public class IntentActions {
 
     public static final String Play = "play";
     public static final String Pause = "pause";
+    public static final String PlayOrPause = "playOrPause";
     public static final String PlayNext = "playNext";
     public static final String PlayPrev = "playPrev";
     public static final String Jump2RelationId = "jump2RelationId";
@@ -45,4 +46,6 @@ public class IntentActions {
     public static final String NewSongList = "newSongList";
     public static final String EditSongList = "editSongList";
     public static final String ClearPlayList = "clearPlayList";
+    public static final String ShowActivity = "showActivity";
+
 }

@@ -1,6 +1,7 @@
 package com.zw.global;
 
 import android.app.Activity;
+import android.content.Context;
 import android.widget.FrameLayout;
 
 import com.zw.global.model.AppModel;
@@ -19,6 +20,8 @@ import com.zw.utils.sql.SongListDBSQL;
 
 public class AppInstance {
 
+    public static boolean initialized  = false;
+
     public static SongDBSQL songSQL;
     public static SongListDBSQL songListSQL;
     public static RelationDBSQL relationDBSQL;
@@ -30,6 +33,16 @@ public class AppInstance {
     public static FrameLayout layer_popUp;
 
     public static MyMainContent MainUI_my;
+
+
+    public static void init(Context $c){
+        //初始化数据模
+        songSQL = SongDBSQL.getInstance($c, SongDBSQL.Version);
+        songListSQL = SongListDBSQL.getInstance($c, SongListDBSQL.Version);
+        relationDBSQL = RelationDBSQL.getInstance($c, SongListDBSQL.Version);
+        model = new AppModel($c);
+        initialized = true;
+    }
 
 
     public static void clear() {

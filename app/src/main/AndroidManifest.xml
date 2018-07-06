@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--
+
 
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -20,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
 
+        <!--
         <activity android:name=".test.TestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -30,9 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        -->
 
         <service android:name=".music.ZMusicService"
+            android:enabled="true" android:exported="true"/>
+        <service android:name=".music.servive.WidgetService"
             android:enabled="true" android:exported="true"/>
         <service android:name=".test.TestService"
             android:enabled="true" android:exported="true"/>
@@ -40,6 +42,20 @@
         <provider
             android:name=".test.MyContantProvider"
             android:authorities="com.zw.test" />
+
+        <receiver android:name=".music.ui.MusicWidgetProvider"
+            android:label="@string/app_name">
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/music_widget_provider"/>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="playOrPause"/>
+                <action android:name="playNext"/>
+                <action android:name="playPrev"/>
+            </intent-filter>
+
+        </receiver>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
 

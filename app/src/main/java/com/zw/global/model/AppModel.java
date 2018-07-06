@@ -1,6 +1,6 @@
 package com.zw.global.model;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
@@ -17,22 +17,16 @@ import com.zw.global.model.music.PlayModel;
 
 public class AppModel {
 
-    private static AppModel _instance = null;
-
     public MySongModel song = null;
     public PlayModel play = null;
     public UIModel ui;
     public SettingsModel settings;
 
-    public AppModel() throws Exception{
-        if(_instance!=null){
-            throw new Exception("Singleton");
-        }
-        _instance = this;
+    public AppModel(Context $c){
         ui = new UIModel();
         settings = new SettingsModel();
         song = new MySongModel();
-        play = new PlayModel();
+        play = new PlayModel($c);
     }
 
     public SongListItem getCurrectSongListItem(){
@@ -40,16 +34,5 @@ public class AppModel {
         SongList l = song.songList.list_play;
         item = l.getItemByIndex(play.index);
         return item;
-    }
-
-    public static AppModel getInstance(){
-        if(_instance ==null){
-            try{
-                _instance = new AppModel();
-            }catch (Exception $e){
-                Log.e("====" , "error");
-            }
-        }
-        return _instance;
     }
 }

@@ -23,7 +23,7 @@ import com.zw.global.model.data.SongList;
 import com.zw.global.model.data.SongListItem;
 import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.my.SongListModel;
-import com.zw.music.SongMenu;
+import com.zw.global.model.music.SongMenu;
 import com.zw.music.ui.list.MusicSongList;
 import com.zw.music.ui.pager.MusicSongPager;
 import com.zw.ui.containers.SubPageTitle;
@@ -89,6 +89,16 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
 
         refuse_playMode();
         refuse_playLoop();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        _pager.deleteObservers();
+        _list.deleteObservers();
+        for (SongListItem item:_data) {
+            item.deleteObservers();
+        }
     }
 
 //init
@@ -201,6 +211,7 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
                 SongListItem s = l.getItemByIndex(i);
                 s = s.clone();
                 s.index = i;
+                s.selected = i==p.index;
                 a.add(s);
             }
             _data = a;

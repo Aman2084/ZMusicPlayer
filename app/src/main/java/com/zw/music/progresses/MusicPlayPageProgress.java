@@ -66,6 +66,12 @@ public class MusicPlayPageProgress extends ZProgress {
         }
     };
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        clear();
+    }
+
 //Private Tool
     private void clear(){
         if(_playPage!=null){
@@ -83,8 +89,8 @@ public class MusicPlayPageProgress extends ZProgress {
         }
         refuse_song();
         sendIntent(IntentActions.ShowThirdSubPage , _playPage);
-
     }
+
     public boolean isShowing(){
         return _playPage!=null;
     }

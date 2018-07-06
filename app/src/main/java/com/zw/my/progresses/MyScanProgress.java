@@ -5,11 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.aman.utils.observer.ZNotifcationNames;
-import com.aman.utils.observer.ZObservable;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.model.data.Song;
 import com.zw.utils.AppUtils;
+import com.zw.utils.ZProgress;
 
 import java.util.List;
 
@@ -22,19 +22,30 @@ import java.util.List;
  * 扫描本地音乐的过程
  */
 
-public class MyScanProgress extends ZObservable {
+public class MyScanProgress extends ZProgress {
 
     private ProgressDialog _diaplog;
-    private boolean _scaning = false;
 
+    private boolean _scaning = false;
     private List<Song> _arr;
+    private MyScanThread _thread;
 
     public MyScanProgress(){
         super(null , null);
     }
 
-
-    private MyScanThread _thread;
+    @Override
+    public void destroy() {
+        super.destroy();
+        if(_diaplog!=null){
+            _diaplog.cancel();
+            _diaplog = null;
+        }
+        if(_thread!=null){
+            _thread.clear();
+            _thread = null;
+        }
+    }
 
 //listeners
     public void scan(){

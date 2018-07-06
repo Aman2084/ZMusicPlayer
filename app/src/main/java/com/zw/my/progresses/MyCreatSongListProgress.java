@@ -27,27 +27,44 @@ import java.util.ArrayList;
 public class MyCreatSongListProgress extends ZProgress{
 
     private int _id;
+    private MySongListNameDoalog _dialog;
+    private MySongSelector _selecter = null;
+
 
     public MyCreatSongListProgress() {
         super(null, null);
     }
 
-    private MySongSelector _selecter = null;
+    @Override
+    public void destroy() {
+        super.destroy();
+        if(_selecter!=null){
+            _selecter.deleteObserver(onSelecter);
+            _selecter = null;
+        }
+        if(_dialog!=null){
+            _dialog.destory();
+            _dialog.cancel();
+            _dialog = null;
+        }
+    }
 
-//logic
+    //logic
 
     //Step1 显示歌曲名Dialog
     public void addSongList() {
-        MySongListNameDoalog d = new MySongListNameDoalog(onDialog);
-        d.show();
+        _dialog = new MySongListNameDoalog(onDialog);
+        _dialog.show();
     }
 
     //Step2 确定歌单名（1.操作数据库 + 2.建立本地数据模型 + 3.弹出歌曲选择界面）
     private ZObserver onDialog = new ZObserver() {
         @Override
         public void onNotification(ZNotification $n) {
-            MySongModel m = AppInstance.model.song;
+            _dialog.destory();
+            _dialog = null;
             if($n.name.equals(ZNotifcationNames.OK)){
+                MySongModel m = AppInstance.model.song;
                 SongList l = m.songList.creatSongList((String) $n.data);
                 _id = l.id;
                 if(_selecter==null){

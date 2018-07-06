@@ -70,6 +70,9 @@ public class SongList {
 
 //getter and setter
     public SongListItem getItemByIndex(int $index){
+        if($index>=items.size()){
+            return null;
+        }
         return items.get($index);
     }
 

@@ -51,5 +51,13 @@ public class CenterDialog extends Dialog {
         // 点击Dialog外部消失
         setCanceledOnTouchOutside(true);
     }
+
+    public void destory(){
+        if(_observable!=null){
+            _observable.deleteObservers();
+            _observable = null;
+        }
+    }
+
 }
 

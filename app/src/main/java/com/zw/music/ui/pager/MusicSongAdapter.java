@@ -8,6 +8,7 @@ import com.aman.utils.observer.ZNotifcationNames;
 import com.aman.utils.observer.ZObserver;
 import com.zw.global.AppInstance;
 import com.zw.global.model.data.SongListItem;
+import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.music.PlayProgress;
 
 import java.util.ArrayList;
@@ -71,7 +72,13 @@ public class MusicSongAdapter extends PagerAdapter {
             int i = $position;
             SongListItem s = _data.get(i);
             item.setData(s);
-            g.duration = s.song.getDuration();
+            SongListItem cs = AppInstance.model.getCurrectSongListItem();
+            if(cs!=null && cs.relationId==s.relationId){
+                PlayModel m = AppInstance.model.play;
+                g.setData(m.progress);
+            }else{
+                g.duration = s.song.getDuration();
+            }
             s.sendNotification(ZNotifcationNames.Progress , g);
         }else{
             item.setData(null);
