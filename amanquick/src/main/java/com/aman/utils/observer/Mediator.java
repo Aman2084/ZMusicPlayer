@@ -23,8 +23,9 @@ import java.util.Observer;
  *      2. Observer观察者（但不具备被观察身份）
  */
 
-abstract public class Mediator implements Observer{
+abstract public class Mediator implements Observer,IZObservable{
 
+    protected ZObservable observable = new ZObservable(this ,null);
     protected Context _context;
 
     public Mediator(Context $c){
@@ -71,6 +72,7 @@ abstract public class Mediator implements Observer{
     public void update(Observable $o, Object $data) {}
 
     public void destroy(){
+        observable.deleteObservers();
         ZLocalBroadcast.unregisterAppReceiver(receiver);
         _context = null;
     }
@@ -78,5 +80,54 @@ abstract public class Mediator implements Observer{
 
     public Context getContext(){
       return _context;
+    }
+
+    @Override
+    public void addObserver(Observer $o) {
+        observable.addObserver($o);
+    }
+
+    @Override
+    public void deleteObserver(Observer $o) {
+        observable.deleteObserver($o);
+    }
+
+    @Override
+    public void deleteObservers() {
+        observable.deleteObservers();
+    }
+
+    @Override
+    public void sendNotification(ZNotification $n) {
+        if($n.target==null){
+            $n.target = observable;
+        }
+        if($n.owner==null){
+            $n.owner = this;
+        }
+        observable.sendNotification($n);
+    }
+
+    @Override
+    public void sendNotification(String $name) {
+        ZNotification n = new ZNotification($name);
+        sendNotification(n);
+    }
+
+    @Override
+    public void sendNotification(String $name, Object $data) {
+        ZNotification n = new ZNotification($name , $data);
+        sendNotification(n);
+    }
+
+    @Override
+    public void sendNotification(String $name, Object $data, String $action) {
+        ZNotification n = new ZNotification($name , $data , $action);
+        sendNotification(n);
+    }
+
+    @Override
+    public void setName(String $str) {
+        observable.setName($str);
     }
 }

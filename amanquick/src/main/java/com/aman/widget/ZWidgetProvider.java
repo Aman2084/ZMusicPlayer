@@ -15,7 +15,7 @@ import static com.aman.utils.message.ZLocalBroadcast.applicationContext;
  *
  * @author Aman
  * @Email 1390792438@qq.com
- * 增加对中央ZLocalBroadcast的监听
+ * 桌面部件： 增加对中央ZLocalBroadcast的监听
  */
 
 abstract public class ZWidgetProvider extends AppWidgetProvider {
