@@ -12,6 +12,8 @@ package com.zw.global;
 
     public static final String Rename = "rename";
 
+
+    public static final String CheckPermissionForScan = "checkPermissionForScan";
     public static final String Scan = "scan";
 
     public static final String Manage = "manage";

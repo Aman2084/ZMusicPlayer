@@ -18,6 +18,7 @@ import com.zw.global.model.MySongModel;
 import com.zw.global.model.data.Song;
 import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongList;
+import com.zw.global.model.data.SongListItem;
 import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.music.PlayPosition;
 import com.zw.global.model.my.SongListModel;
@@ -27,6 +28,7 @@ import com.zw.my.progresses.MyScanProgress;
 import com.zw.my.progresses.MySongManageProgres;
 import com.zw.my.ui.MyAllMusic;
 import com.zw.my.ui.MyFavorite;
+import com.zw.my.ui.MyMainContent;
 import com.zw.my.ui.MyMusicFolders;
 import com.zw.my.ui.MySongManage;
 
@@ -106,18 +108,21 @@ public class MyMediator extends Mediator {
         }else if(_ui_musicFolders!=null &&owner==_ui_musicFolders){
             onMusicFolders(n);
         }else{
-            onProgress($o , $data);
+            onScan($o , $data);
         }
     }
 
 //Listener
 
     private void onMusicFolders(ZNotification $n) {
+        MySongModel m = AppInstance.model.song;
         switch($n.name){
             case ZNotifcationNames.Complete:
                 ArrayList<Song> s = (ArrayList<Song>) $n.data;
-                AppInstance.model.song.song.set_allSongs(s);
+                m.song.set_allSongs(s);
+                m.songList.importSongs(s);
                 _ui_allMusic.refause();
+                sendIntent(IntentActions.Import_SetService);
                 break;
         }
     }
@@ -126,6 +131,7 @@ public class MyMediator extends Mediator {
         MySongModel m = AppInstance.model.song;
         switch($n.name){
             case AppNotificationNames.Scan:
+//                checkScanPermission();
                 getScan().scan();
                 break;
             case AppNotificationNames.Manage:
@@ -143,7 +149,15 @@ public class MyMediator extends Mediator {
         }
     }
 
-    private void onProgress(Object $o, Object $data) {
+//Scan
+    private void checkScanPermission() {
+        //TODO.. 713
+//        sendNotification(AppNotificationNames.CheckPermissionForScan);
+//        MainActivity a = (MainActivity)AppInstance.mainActivity;
+//        a.shouldShowRequestPermissionRationale("android.permission.WRITE_EXTERNAL_STORAGE");
+    }
+
+    private void onScan(Object $o, Object $data) {
         ZNotification n = (ZNotification)$data;
         Object data = n.data;
         if($o instanceof MyScanProgress){
@@ -200,6 +214,7 @@ public class MyMediator extends Mediator {
                 ,IntentActions.PrePlaySongList
                 ,IntentActions.PrePlaySongs
                 ,IntentActions.ClearPlayList
+                ,IntentActions.Import_SetUI
         };
         return a;
     }
@@ -236,6 +251,9 @@ public class MyMediator extends Mediator {
                 SongListModel m = AppInstance.model.song.songList;
                 m.updateSongList_song(m.list_play.id , new ArrayList<Song>());
                 break;
+            case IntentActions.Import_SetUI:
+                refuseByImport();
+                break;
         }
 
         if(v!=null){
@@ -243,8 +261,13 @@ public class MyMediator extends Mediator {
         }
     }
 
+/************************Tools*************************/
 
-    /************************Tools*************************/
+    private void refuseByImport() {
+        MyMainContent c = AppInstance.MainUI_my;
+        c.refuse();
+    }
+
 
     private void showMyFavorites() {
         if(_ui_favorite!=null){
@@ -268,11 +291,18 @@ public class MyMediator extends Mediator {
     }
 
     private void playSongGroup(SongGroup $g) {
-        SongListModel l = AppInstance.model.song.songList;
+        SongListModel m = AppInstance.model.song.songList;
+        SongList l = m.list_play;
         PlayModel p = AppInstance.model.play;
-        l.updateSongList_song(l.list_play.id , $g.songs);
+        m.updateSongList_song(m.list_play.id , $g.songs);
         p.index = $g.index;
-        sendIntent(IntentActions.PlaySongs2 , $g);
+
+        SongListItem item = l.getItemByIndex(p.index);
+        if(item==null){
+            return;
+        }
+        l.position = new PlayPosition(l.id , item.relationId);
+        sendIntent(IntentActions.PlaySongList, l);
     }
 
 

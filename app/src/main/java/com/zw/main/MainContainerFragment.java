@@ -1,7 +1,6 @@
 package com.zw.main;
 
 
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.aman.ui.containers.ZFragment;
 import com.aman.utils.message.ZIntent;
 import com.aman.utils.message.ZLocalBroadcast;
+import com.aman.utils.observer.ZNotifcationNames;
 import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.IntentActions;
@@ -22,7 +23,7 @@ import com.zw.my.ui.MyMainContent;
 
 import java.util.ArrayList;
 
-public class MainContainerFragment extends Fragment {
+public class MainContainerFragment extends ZFragment {
 
 
     private ArrayList<View> viewList = new ArrayList<>();
@@ -62,8 +63,24 @@ public class MainContainerFragment extends Fragment {
         _pageView.setAdapter(_adapter);
         _pageView.setCurrentItem(0);
         AppInstance.MainUI_my = (MyMainContent)v0;
-//        _pageView.setmod
+        _pageView.addOnPageChangeListener(onPage);
     }
+
+//Listener
+    private ViewPager.OnPageChangeListener onPage = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int $position) {
+            sendNotification(ZNotifcationNames.Selected, $position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {}
+    };
 
 
 //Broadcast

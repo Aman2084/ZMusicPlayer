@@ -5,13 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aman.ui.containers.items.ZRelativeItem;
 import com.aman.utils.UIUtils;
 import com.aman.utils.observer.ZNotifcationNames;
+import com.aman.utils.observer.ZNotification;
 import com.aman.utils.observer.ZObserver;
 import com.zw.R;
 import com.zw.global.AppNotificationNames;
@@ -31,8 +32,8 @@ public class MySongItem extends ZRelativeItem {
 //    private static MySongItem showBtnItem;
 
     private LinearLayout _core_btns;
-    private ImageButton _btn_fav;
-    private ImageButton _btn_delete;
+    private ImageView _btn_fav;
+    private ImageView _btn_delete;
     private CheckBox _checkbox;
 
     private TextView _txt_name;
@@ -54,11 +55,11 @@ public class MySongItem extends ZRelativeItem {
         _txt_singer = (TextView)findViewById(R.id.txt_singer);
 
         _core_btns = (LinearLayout) findViewById(R.id.core_btn);
-        _btn_fav = (ImageButton)findViewById(R.id.btn_fav);
-        _btn_delete = (ImageButton)findViewById(R.id.btn_delete);
+        _btn_fav = (ImageView)findViewById(R.id.btn_fav);
+        _btn_delete = (ImageView)findViewById(R.id.btn_delete);
         _checkbox = (CheckBox) findViewById(R.id.checkbox);
-//        _scroll = new ScrollShowHideHelper(_core_btns);
 
+//        _scroll = new ScrollShowHideHelper(_core_btns);
 
         int[] ids = {R.id.btn_fav , R.id.btn_delete};
         UIUtils.setOnClickByIds(this , ids , onBtns);
@@ -85,10 +86,10 @@ public class MySongItem extends ZRelativeItem {
     private CompoundButton.OnCheckedChangeListener onCheck = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton $buttonView, boolean $isChecked) {
-        if(data!=null && data instanceof SongListItem){
-            ((SongListItem) data).selected = $isChecked;
-            sendNotification(ZNotifcationNames.Selected , $isChecked);
-        }
+            if(data!=null && data instanceof SongListItem){
+                ((SongListItem) data).selected = $isChecked;
+                sendNotification(ZNotifcationNames.Selected , $isChecked);
+            }
         }
     };
 
@@ -101,7 +102,7 @@ public class MySongItem extends ZRelativeItem {
             switch($v.getId()){
                 case R.id.btn_fav:
                     if(item!=null){
-                        type = item.isFavorite ? AppNotificationNames.UNFavorite : AppNotificationNames.Favorite;
+                        type = item.song.isFavorite ? AppNotificationNames.UNFavorite : AppNotificationNames.Favorite;
                     }
                     break;
                 case R.id.btn_delete:
@@ -110,6 +111,16 @@ public class MySongItem extends ZRelativeItem {
             }
             if(type!=null){
                 sendNotification(type , data);
+            }
+        }
+    };
+
+    private ZObserver onData = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            if($n.name==ZNotifcationNames.Change){
+                SongListItem item = (SongListItem)data;
+                setSelected(item.selected);
             }
         }
     };
@@ -143,6 +154,9 @@ public class MySongItem extends ZRelativeItem {
 //interface
     @Override
     public void setData(Object $o) {
+        if(data!=null && data instanceof SongListItem){
+            ((SongListItem) $o).deleteObserver(onData);
+        }
         super.setData($o);
         Song s = null;
         if($o instanceof Song){
@@ -152,6 +166,7 @@ public class MySongItem extends ZRelativeItem {
             s = item.song;
             _checkbox.setSelected(item.selected);
             refuse_favorite();
+            item.addObserver(onData);
         }
 
         if(s!=null){
@@ -197,7 +212,7 @@ public class MySongItem extends ZRelativeItem {
             return;
         }
 
-        int imgId = o.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
+        int imgId = o.song.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
         _btn_fav.setImageResource(imgId);
     }
 

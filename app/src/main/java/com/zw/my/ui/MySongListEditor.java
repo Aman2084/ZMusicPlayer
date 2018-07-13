@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,10 +50,10 @@ public class MySongListEditor extends ZRelativeLayout implements ISubpage {
     private SubPageTitle _title;
     private EditText _input;
     private Button _btn_add;
-    private Button _btn_delete;
-    private Button _btn_ok;
-    private Button _btn_edit;
-    private Button _btn_deleteSongList;
+    private ImageView _btn_delete;
+    private ImageView _btn_ok;
+    private ImageView _btn_edit;
+    private ImageView _btn_deleteSongList;
     private CheckBox _check;
 
     private ListView _list_edit;
@@ -74,10 +75,10 @@ public class MySongListEditor extends ZRelativeLayout implements ISubpage {
         _title = (SubPageTitle) findViewById(R.id.title);
         _input = (EditText) findViewById(R.id.input);
         _btn_add = (Button) findViewById(R.id.btn_add);
-        _btn_delete = (Button) findViewById(R.id.btn_delete);
-        _btn_ok = (Button) findViewById(R.id.btn_ok);
-        _btn_edit = (Button) findViewById(R.id.btn_edit);
-        _btn_deleteSongList = (Button) findViewById(R.id.btn_deleteSongList);
+        _btn_delete = (ImageView) findViewById(R.id.btn_delete);
+        _btn_ok = (ImageView) findViewById(R.id.btn_ok);
+        _btn_edit = (ImageView) findViewById(R.id.btn_edit);
+        _btn_deleteSongList = (ImageView) findViewById(R.id.btn_deleteSongList);
         _check = (CheckBox)findViewById(R.id.checkbox);
 
         _list_edit = (ListView) findViewById(R.id.list_edit);
@@ -131,7 +132,7 @@ public class MySongListEditor extends ZRelativeLayout implements ISubpage {
         _ad_edit = new SongsAdapter(new ZObserver() {
             @Override
             public void onNotification(ZNotification $n) {
-                onItem_common($n);
+                onItem_edit($n);
             }
         });
 

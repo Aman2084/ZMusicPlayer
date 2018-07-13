@@ -2,45 +2,37 @@
     xmlns:myradio="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="40dp"
     tools:context="com.zw.main.MainNavigationFragment"
-    android:background="@drawable/main_navigation_bg">
+    android:background="@color/alphawhite2">
 
     <RadioGroup
         android:id="@+id/raidoGroup"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <com.zw.ui.controls.MyRadioButton
             android:id="@+id/btn_mySpace"
             style="@style/main_navigation"
-            android:text="@string/main_nav_my"
-            android:textColor="@color/red"
-            android:checked="true"
-            myradio:drawableSize="40dp"
-            myradio:drawableTop="@drawable/main_navigation_my"/>
-
-        <com.zw.ui.controls.MyRadioButton
-            android:id="@+id/btn_music"
-            style="@style/main_navigation"
-            android:text="@string/main_nav_music"
-            myradio:drawableSize="40dp"
-            myradio:drawableTop="@drawable/main_navigation_music"/>
+            myradio:mydrawableSize="40dp"
+            myradio:drawableTop="@drawable/main_navigation_my"
+            myradio:drawableTopSelected = "@drawable/main_navigation_my_selected"
+            android:checked="true"/>
 
         <com.zw.ui.controls.MyRadioButton
             android:id="@+id/btn_time"
             style="@style/main_navigation"
-            android:text="@string/main_nav_time"
-            myradio:drawableSize="40dp"
-            myradio:drawableTop="@drawable/main_navigation_time"/>
+            myradio:mydrawableSize="40dp"
+            myradio:drawableTop="@drawable/main_navigation_time"
+            myradio:drawableTopSelected="@drawable/main_navigation_time_selected"/>
 
         <com.zw.ui.controls.MyRadioButton
             android:id="@+id/btn_setting"
             style="@style/main_navigation"
-            android:text="@string/main_nav_setting"
-            myradio:drawableSize="40dp"
-            myradio:drawableTop="@drawable/main_navigation_setting"/>
+            myradio:mydrawableSize="40dp"
+            myradio:drawableTop="@drawable/main_navigation_setting"
+            myradio:drawableTopSelected="@drawable/main_navigation_setting_selected"/>
 
     </RadioGroup>
 </RelativeLayout>

@@ -80,12 +80,12 @@ public class SongListModel extends ZProgress{
         }
 
         for (SongListItem s:list_fav.items) {
-            s.isFavorite = true;
+            s.song.isFavorite = true;
         }
     }
 
 
-//增删
+//增
 
     public SongList creatSongList(String $title){
         return creatSongList($title , SongList.Type_user);
@@ -173,13 +173,22 @@ public class SongListModel extends ZProgress{
         }else{
             l = getSongListById($id);
         }
-        if(l==null){
+        updateSongList_song(l , $a);
+    }
+
+    /**
+     * 更新歌单中的歌曲
+     * @param $l     歌单
+     * @param $a    歌曲列表
+     */
+    private void updateSongList_song(SongList $l , ArrayList<Song> $a){
+        if($l==null){
             return;
         }
 
         RelationDBSQL sql = AppInstance.relationDBSQL;
         sql.openWriteLink();
-        ArrayList<SongListItem> a = sql.update(l , $a);
+        ArrayList<SongListItem> a = sql.update($l , $a);
         sql.close();
 
         for (int i = 0; i <a.size() ; i++) {
@@ -193,8 +202,9 @@ public class SongListModel extends ZProgress{
         }
         signFavorite(a);
 
-        l.items = a;
+        $l.items = a;
     }
+
 
 
     public void updateSongList_title(int $id , String $title){
@@ -245,7 +255,6 @@ public class SongListModel extends ZProgress{
         }
     }
 
-
     /**
      * <br/><br/>
      * 根据SongId把相关的Song和SongList中的相关数据从数据库和本地数据中删除
@@ -283,38 +292,17 @@ public class SongListModel extends ZProgress{
     }
 
     /**
-     * 设置单曲收藏属性
-     * */
-    public void setFavorite(SongListItem $o){
-        boolean b = isFavorite($o.songId);
-        if(b==$o.isFavorite){
-            return;
+     * 充新导入歌曲后校验所有歌单
+     * @param $a
+     */
+    public void importSongs(ArrayList<Song> $a) {
+        ArrayList<SongList> arr = getAll();
+        for (int i = 0; i <arr.size() ; i++) {
+            SongList l = arr.get(i);
+            ArrayList<Song> a = compareSongs(l , $a);
+            updateSongList_song(l , a);
         }
-        if(!$o.isFavorite){
-            ArrayList<SongListItem> a = new ArrayList<>();
-            a.add($o);
-            deleteSongsFromeList(list_fav , a , false);
-        }else{
-            ArrayList<Song> a = new ArrayList<>();
-            a.add($o.song);
-            ArrayList<SongListItem> arr = addSong2List(list_fav , a , false);
-            for (SongListItem item:arr){
-                item.isFavorite = true;
-            }
-        }
-        sendIntent(IntentNotice.SongList_UpDataFavorite , null);
     }
-
-    private void sendUpdateIntent(SongList $l){
-        ArrayList<SongList> a = new ArrayList<>();
-        a.add($l);
-        sendUpdateIntent(a);
-    }
-
-    private void sendUpdateIntent(ArrayList<SongList> $a){
-        sendIntent(IntentNotice.SongList_UpData , $a);
-    }
-
 
 //查
     private void findSongsForList(ArrayList<SongListItem> $a , ArrayList<Song> $s) {
@@ -348,6 +336,7 @@ public class SongListModel extends ZProgress{
         return _allSongLists;
     }
 
+//tools
     /**
      * 查询并标记一组SongListItem的收藏（isFavorite）属性
      *
@@ -361,11 +350,52 @@ public class SongListModel extends ZProgress{
         }
 
         for (SongListItem s:$a) {
-            s.isFavorite = ids.contains(s.songId);
+            s.song.isFavorite = ids.contains(s.songId);
         }
     }
 
-    private boolean isFavorite(String $songId){
+    /**
+     * 设置单曲收藏属性
+     * */
+    public void setFavorite(SongListItem $o){
+        boolean b = isFavorite($o.songId);
+        if(b==$o.song.isFavorite){
+            return;
+        }
+        if(!$o.song.isFavorite){
+            ArrayList<SongListItem> a = new ArrayList<>();
+            $o = list_fav.getItemBySongId($o.songId);
+            a.add($o);
+            deleteSongsFromeList(list_fav , a , false);
+        }else{
+            ArrayList<Song> a = new ArrayList<>();
+            a.add($o.song);
+            ArrayList<SongListItem> arr = addSong2List(list_fav , a , false);
+            for (SongListItem item:arr){
+                item.song.isFavorite = true;
+            }
+        }
+        sendIntent(IntentNotice.SongList_UpDataFavorite , null);
+    }
+
+    private void sendUpdateIntent(SongList $l){
+        ArrayList<SongList> a = new ArrayList<>();
+        a.add($l);
+        sendUpdateIntent(a);
+    }
+
+    private void sendUpdateIntent(ArrayList<SongList> $a){
+        sendIntent(IntentNotice.SongList_UpData , $a);
+    }
+
+    private ArrayList<SongList> getAll(){
+        ArrayList<SongList> a = new ArrayList<>(_allSongLists);
+        a.add(0 , list_play);
+        a.add(0 , list_fav);
+        return a;
+    }
+
+    public boolean isFavorite(String $songId){
         boolean b = false;
         for (SongListItem s: list_fav.items) {
             if(s.songId==$songId){
@@ -374,5 +404,26 @@ public class SongListModel extends ZProgress{
             }
         }
         return b;
+    }
+
+    /**
+     * 计算歌曲列表
+     * @param $l    目标SongList
+     * @param $a    目标Song列表
+     * @return      所需歌曲列表
+     */
+    private ArrayList<Song> compareSongs(SongList $l , ArrayList<Song> $a){
+        ArrayList<Song> a = new ArrayList<>();
+        for (SongListItem item:$l.items) {
+            String path = item.song.getPath();
+            for (int i=0;i<$a.size();i++){
+                Song s = $a.get(i);
+                if(path.equals(s.getPath())){
+                    a.add(s);
+                    break;
+                }
+            }
+        }
+        return a;
     }
 }

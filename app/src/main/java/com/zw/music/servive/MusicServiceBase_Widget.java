@@ -16,7 +16,7 @@ import com.zw.global.IntentActions;
 import com.zw.global.model.data.SongListItem;
 import com.zw.global.model.music.PlayModel;
 import com.zw.global.model.music.PlayProgress;
-import com.zw.music.ui.MusicWidgetProvider;
+import com.zw.music.widget.MusicWidgetProvider;
 
 /**
  * ZMusicPlayer 1.0
@@ -43,7 +43,7 @@ public class MusicServiceBase_Widget extends MusicServiceBase_Notification {
 
         Bitmap bmp = item==null ?null : item.song.getBmp(c);
         if(bmp==null){
-            v.setImageViewResource(R.id.img , R.drawable.music_page_defaulticon);
+            v.setImageViewResource(R.id.img , R.drawable.main_music_defaulticon);
         }else{
             v.setImageViewBitmap(R.id.img , bmp);
         }
@@ -80,7 +80,7 @@ public class MusicServiceBase_Widget extends MusicServiceBase_Notification {
 
         Bitmap bmp = item==null ?null : item.song.getBmp(c);
         if(bmp==null){
-            v.setImageViewResource(R.id.img , R.drawable.music_page_defaulticon);
+            v.setImageViewResource(R.id.img , R.drawable.main_music_defaulticon);
         }else{
             v.setImageViewBitmap(R.id.img , bmp);
         }

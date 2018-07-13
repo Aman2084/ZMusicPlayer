@@ -109,12 +109,12 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
     private void changeFavorite() {
         SongListItem item = _pager.getCurrentData();
         if(item!=null){
-            item.isFavorite = !item.isFavorite;
+            item.song.isFavorite = !item.song.isFavorite;
+            int id = item.song.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
+            _btn_fav.setBackgroundResource(id);
+
             SongListModel m = model.song.songList;
             m.setFavorite(item);
-
-            int id = item.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
-            _btn_fav.setBackgroundResource(id);
         }
     }
 
@@ -190,8 +190,10 @@ public class MusicPlayPage extends ZRelativeLayout implements ISubpage {
         if($item.songId.equals(_songId)){
             return;
         }
+        SongListModel m = AppInstance.model.song.songList;
         _songId = $item.songId;
-        int id = $item.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
+        $item.song.isFavorite = m.isFavorite(_songId);
+        int id = $item.song.isFavorite ? R.drawable.my_global_fav : R.drawable.my_global_unfav;
         _btn_fav.setBackgroundResource(id);
         _txt_title.setText($item.song.getDisplayName());
         _txt_singer.setText($item.song.getDisplaySinger());

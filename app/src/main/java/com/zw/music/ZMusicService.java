@@ -95,8 +95,7 @@ public class ZMusicService extends MusicServiceBase_Widget {
     protected String[] getActions_application() {
         String[] a = new String[]{
 
-            IntentActions.PlaySongs2
-            ,IntentActions.PlaySongList
+            IntentActions.PlaySongList
             ,IntentActions.Stop
             ,IntentActions.Play
             ,IntentActions.Pause
@@ -108,6 +107,7 @@ public class ZMusicService extends MusicServiceBase_Widget {
             ,IntentActions.ChangPlayLoop
             ,IntentActions.ChangPlayModel
             ,IntentActions.ClearPlayList
+            ,IntentActions.Import_SetService
         };
         return a;
     }
@@ -122,7 +122,7 @@ public class ZMusicService extends MusicServiceBase_Widget {
         ZAudioPlayer p = getPlayer();
 
         switch($intent.getAction()){
-            case IntentActions.PlaySongs2:
+            /*case IntentActions.PlaySongs:
                 SongGroup g = (SongGroup)data;
                 SongList l = group2List(g);
                 _menu.setData(l , g.index);
@@ -130,9 +130,9 @@ public class ZMusicService extends MusicServiceBase_Widget {
                 if(item!=null){
                     play(item);
                 }
-                break;
+                break;*/
             case IntentActions.PlaySongList:
-                l = (SongList) data;
+                SongList l = (SongList) data;
                 playSongList(l);
                 break;
             case IntentActions.Stop:
@@ -179,6 +179,9 @@ public class ZMusicService extends MusicServiceBase_Widget {
             case IntentActions.ClearPlayList:
                 clearList();
                 break;
+            case IntentActions.Import_SetService:
+                onImport();
+                break;
         }
     }
 
@@ -194,7 +197,7 @@ public class ZMusicService extends MusicServiceBase_Widget {
         @Override
         public void onNotification(ZNotification $n) {
             ZAudioNotification n = (ZAudioNotification) $n;
-            PlayProgress p = null;
+            PlayProgress p;
             PlayModel m = AppInstance.model.play;
             SongList list_play = AppInstance.model.song.songList.list_play;
             switch(n.name){
@@ -291,8 +294,7 @@ public class ZMusicService extends MusicServiceBase_Widget {
         }
     }
 
-    //Tools
-
+//播放控制
     private void playNext() {
         SongListItem s = _menu.next();
         if(s!=null){
@@ -376,6 +378,39 @@ public class ZMusicService extends MusicServiceBase_Widget {
         }else{
             play(item);
         }
+    }
+
+
+//其他
+    private void onImport() {
+        PlayModel p = AppInstance.model.play;
+        MySongModel m =  AppInstance.model.song;
+
+        boolean hasPlayingSong = false;
+        //处理menu
+        SongListItem item = _menu.getCurrectSong();
+        if(item!=null){
+            String s = item.song.getPath();
+            _menu.setData(m.songList.list_play);
+            int i = _menu.getIndexByPath(s);
+            hasPlayingSong = i>-1;
+            if(hasPlayingSong){
+                _menu.setIndex(i);
+            }
+            p.progress.position = item.song.getDuration();
+        }
+        p.index = _menu.getCurrectIndex();
+
+        //播放控制
+        boolean playing = _player!=null &&  _player.isPlaying();
+        if(!hasPlayingSong && playing){
+            _player.stop();
+            p.isPlaying = false;
+            p.progress.position = 0;
+        }
+
+        ZLocalBroadcast.sendAppIntent(IntentActions.Import_SetUI);
+//        _menu.setData();
     }
 
     private void clearList() {

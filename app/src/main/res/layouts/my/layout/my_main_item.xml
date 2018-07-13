@@ -5,13 +5,11 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:clickable="false"/>
-
-
 
     <TextView
         android:id="@+id/txt_name"
@@ -28,9 +26,9 @@
 
     <ImageButton
         android:id="@+id/btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/my_main_btn_play"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/my_main_btn_play"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>

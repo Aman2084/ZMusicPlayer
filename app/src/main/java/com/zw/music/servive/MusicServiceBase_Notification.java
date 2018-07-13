@@ -85,7 +85,7 @@ public class MusicServiceBase_Notification extends ZService {
         notify.setTextViewText(R.id.txt_name , $song);
         notify.setTextViewText(R.id.txt_singer , $singer);
         if($bmp==null){
-            notify.setImageViewResource(R.id.img , R.drawable.music_page_defaulticon);
+            notify.setImageViewResource(R.id.img , R.drawable.main_music_defaulticon);
         }else{
             notify.setImageViewBitmap(R.id.img , $bmp);
         }

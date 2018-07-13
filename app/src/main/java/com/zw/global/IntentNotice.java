@@ -32,4 +32,7 @@ public class IntentNotice {
     public static final String MusicListComplete = "musicListComplete";
     public static final String MusicError = "musicError";
     public static final String MusicSeekComplete = "musicSeekComplete";
+
+    public static final String ActivityResumed = "activityResumed";
+//    public static final String PlayMusicResumed = "activityResumed";
 }

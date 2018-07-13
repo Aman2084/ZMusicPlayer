@@ -70,7 +70,7 @@ public class SongList {
 
 //getter and setter
     public SongListItem getItemByIndex(int $index){
-        if($index>=items.size()){
+        if($index<0 || $index>=items.size()){
             return null;
         }
         return items.get($index);
@@ -89,6 +89,17 @@ public class SongList {
         SongListItem item = null;
         for (SongListItem o:items) {
             if(o.relationId==$relacation){
+                item = o;
+                break;
+            }
+        }
+        return item;
+    }
+
+    public SongListItem getItemBySongId(String $songId){
+        SongListItem item = null;
+        for (SongListItem o:items) {
+            if(o.songId.equals($songId)){
                 item = o;
                 break;
             }

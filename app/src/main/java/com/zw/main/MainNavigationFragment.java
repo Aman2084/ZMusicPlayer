@@ -3,23 +3,21 @@ package com.zw.main;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import com.aman.utils.UIUtils;
 import com.aman.utils.message.ZLocalBroadcast;
 import com.zw.R;
 import com.zw.global.IntentActions;
+import com.zw.ui.controls.MyRadioButton;
 
 /**
  * A simple {@link Fragment} subclass.
  * 上方导航Bar
  */
 public class MainNavigationFragment extends Fragment {
-
 
     private View[] _btns;
 
@@ -35,40 +33,59 @@ public class MainNavigationFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main_navigation, container, false);
         ViewGroup vg = (ViewGroup) v;
-        int[] a1 = {R.id.btn_mySpace , R.id.btn_music , R.id.btn_time , R.id.btn_setting};
-        View[] a2 = UIUtils.findViewsByIds(vg , a1);
-        for (int i = 0; i <a2.length ; i++) {
-            RadioButton b = (RadioButton)a2[i];
-            b.setOnClickListener(onItemClick);
-        }
-        _btns = a2;
+        int[] a = {R.id.btn_mySpace , R.id.btn_time , R.id.btn_setting};
+        UIUtils.setOnClickByIds(vg , a , onItemClick);
+        _btns = UIUtils.findViewsByIds(vg , a);
         return v;
     }
 
 
 //Listener
     private View.OnClickListener onItemClick = new View.OnClickListener() {
-        public void onClick(View v) {
+        public void onClick(View $v) {
             String s = null;
             String[] a = {IntentActions.ShowMyMain , IntentActions.ShowMusicMain ,
                     IntentActions.ShowTimeMain , IntentActions.ShowSettingMain};
-            for (int i = 0; i < _btns.length; i++) {
-                RadioButton b = (RadioButton) _btns[i];
-                boolean bool = b == v;
-                if(bool){
-                    s = a[i];
-                }
-                int color = (b == v ? R.color.red : R.color.black);
-                int c  = ContextCompat.getColor(b.getContext() , color);
-                b.setTextColor(c);
+
+            switch ($v.getId()){
+                case R.id.btn_mySpace:
+                    s = IntentActions.ShowMyMain;
+                    break;
+                case R.id.btn_time:
+                    s = IntentActions.ShowTimeMain;
+                    break;
+                case R.id.btn_setting:
+                    s = IntentActions.ShowSettingMain;
+                    break;
             }
 
+            for (View v:_btns) {
+                MyRadioButton b = (MyRadioButton)v;
+                b.refuseTop();
+            }
+
+            /*
+            ViewGroup g = (ViewGroup)getView();
+            MyRadioButton b = (MyRadioButton)g.findViewById(R.id.btn_mySpace);
+            b.refuseTop();
+            b = (MyRadioButton)g.findViewById(R.id.btn_time);
+            b.refuseTop();
+            b = (MyRadioButton)g.findViewById(R.id.btn_setting);
+            b.refuseTop();
+            */
             if(s!=null){
                 ZLocalBroadcast.sendAppIntent(s);
             }
         }
     };
-
+//interface
+    public void setSelectedIndex(int $posion){
+        for (int i = 0; i <_btns.length ; i++) {
+            MyRadioButton b = (MyRadioButton)_btns[i];
+            b.setChecked(i==$posion);
+            b.refuseTop();
+        }
+    }
 
 
 }

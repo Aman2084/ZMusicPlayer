@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_below="@id/title"
-        android:background="@drawable/global_barbg"
+        android:background="@drawable/my_songlist_barbg"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:visibility="gone">
@@ -53,7 +53,7 @@
         android:layout_height="43dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
-        android:background="@drawable/global_barbg"
+        android:background="@drawable/my_songlist_barbg"
         android:visibility="gone">
 
         <CheckBox
@@ -64,27 +64,23 @@
             android:text="@string/global_selectedAll"
             android:textStyle="bold"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_ok"
-            android:layout_width="60dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="@string/global_complete"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
-            android:background="@drawable/global_btnbg1_green"/>
+            android:background="@drawable/my_global_ok"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_delete"
-            android:layout_width="60dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="@string/global_delete"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/btn_ok"
-            android:textSize="14sp"
-            android:background="@drawable/global_btnbg1_red"/>
+            android:background="@drawable/my_songlist_delete"/>
     </RelativeLayout>
 
     <ListView
@@ -101,27 +97,25 @@
         android:layout_height="43dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
-        android:background="@drawable/global_barbg">
+        android:background="@drawable/my_songlist_barbg">
 
-        <Button
+        <ImageView
             android:id="@+id/btn_edit"
-            android:layout_width="60dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="@string/global_edit"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:textSize="14sp"
-            android:background="@drawable/global_btnbg1_green"/>
+            android:background="@drawable/my_global_edit"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btn_deleteSongList"
-            android:layout_width="80dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="@string/my_deleteSongList"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/btn_edit"
             android:textSize="14sp"
-            android:background="@drawable/global_btnbg1_red"/>
+            android:background="@drawable/my_songlist_delete"/>
     </RelativeLayout>
 
 

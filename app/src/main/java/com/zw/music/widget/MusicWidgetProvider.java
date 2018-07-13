@@ -1,4 +1,4 @@
-package com.zw.music.ui;
+package com.zw.music.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -45,7 +45,7 @@ public class MusicWidgetProvider extends AppWidgetProvider {
         SongListItem item = AppInstance.model.getCurrectSongListItem();
         Bitmap bmp = item==null ?null : item.song.getBmp($c);
         if(bmp==null){
-            v.setImageViewResource(R.id.img , R.drawable.music_page_defaulticon);
+            v.setImageViewResource(R.id.img , R.drawable.main_music_defaulticon);
         }else{
             v.setImageViewBitmap(R.id.img , bmp);
         }

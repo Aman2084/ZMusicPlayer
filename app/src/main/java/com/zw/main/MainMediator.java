@@ -1,6 +1,5 @@
 package com.zw.main;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -34,12 +33,21 @@ public class MainMediator extends Mediator {
     private SubPageManager _svm_second;
     private SubPageManager _svm_third;
 
+    private MainNavigationFragment _fragment_navigation;
+    private MainContainerFragment _fragment_main;
     private MainMusicFragment _fragment_music;
+
 
     public MainMediator(Context $c){
         super($c);
         FragmentManager m = ((MainActivity) $c).getFragmentManager();
         _fragment_music = (MainMusicFragment) m.findFragmentById(R.id.mainMusic);
+        _fragment_main = (MainContainerFragment) m.findFragmentById(R.id.mainContainer);
+        _fragment_navigation = (MainNavigationFragment)m.findFragmentById(R.id.mainNavigation);
+
+        _svm_second = new SubPageManager(AppInstance.layer_second);
+        _svm_third = new SubPageManager(AppInstance.layer_third);
+
         init();
     }
 
@@ -48,29 +56,38 @@ public class MainMediator extends Mediator {
         super.destroy();
         _svm_second.clear();
         _svm_third.clear();
-        _fragment_music.deleteObserver(onMusic);
+        _fragment_main.deleteObserver(onMain);
         AppInstance.MainUI_my.deleteObserver(onMy);
+        _fragment_music.deleteObserver(onMusic);
     }
 
 //init
 
     private void init() {
-        FragmentManager m = ((Activity)_context).getFragmentManager();
-        MainContainerFragment f = (MainContainerFragment) m.findFragmentById(R.id.mainContainer);
-        f.init();
-
-        _svm_second = new SubPageManager(AppInstance.layer_second);
-        _svm_third = new SubPageManager(AppInstance.layer_third);
-
+        _fragment_main.init();
+        AppInstance.MainUI_my.addObserver(onMy);
+        _fragment_main.addObserver(onMain);
         _fragment_music.addObserver(onMusic);
 
-        AppInstance.MainUI_my.addObserver(onMy);
         boolean isPlay = AppInstance.model.play.isPlaying;
         _fragment_music.setPlaying(isPlay);
         _fragment_music.refuse_song();
     }
 
 //Listeners
+
+    private ZObserver onMain = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            switch ($n.name){
+                case ZNotifcationNames.Selected:
+                    int i = (int)$n.data;
+                    _fragment_navigation.setSelectedIndex(i);
+                    break;
+            }
+        }
+    };
+
     private ZObserver onMusic = new ZObserver() {
         @Override
             public void onNotification(ZNotification $n) {
@@ -123,16 +140,18 @@ public class MainMediator extends Mediator {
         String[] a = {
             IntentActions.ShowSecondSubPage
             ,IntentActions.ShowThirdSubPage
+            ,IntentActions.ShowPlayPage
+            ,IntentActions.Import_SetUI
             ,IntentNotice.SongList_Creat
             ,IntentNotice.SongList_Delete
             ,IntentNotice.SongList_UpData
-            ,IntentActions.ShowPlayPage
             ,IntentNotice.MusicStart
             ,IntentNotice.MusicPause
             ,IntentNotice.MusicComplete
             ,IntentNotice.MusicListComplete
             ,IntentNotice.MusicStop
             ,IntentNotice.MusicError
+
 
         };
         return a;
@@ -167,6 +186,13 @@ public class MainMediator extends Mediator {
             case IntentNotice.MusicError:
 
                 break;
+            case IntentActions.Import_SetUI:
+                refuseByImport();
+                break;
         }
+    }
+
+    private void refuseByImport() {
+        _fragment_music.refuse_song();
     }
 }

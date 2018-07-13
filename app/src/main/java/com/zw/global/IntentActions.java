@@ -27,7 +27,6 @@ public class IntentActions {
 
 //播放控制
     public static final String PrePlaySongs = "prePlaySongs";
-    public static final String PlaySongs2 = "playSongs";
     public static final String PrePlaySongList = "prePlaySongList";
     public static final String PlaySongList = "playSongList";
 
@@ -46,6 +45,8 @@ public class IntentActions {
     public static final String NewSongList = "newSongList";
     public static final String EditSongList = "editSongList";
     public static final String ClearPlayList = "clearPlayList";
+    public static final String Import_SetService = "import_setService";
+    public static final String Import_SetUI = "import_setUI";
     public static final String ShowActivity = "showActivity";
 
 }

@@ -31,7 +31,7 @@ public class MainMusicFragment extends ZFragment {
     private TextView _txt_song;
     private TextView _txt_singer;
 
-    private boolean _isPlay = true;
+    private boolean _isPlay = false;
 
     public MainMusicFragment() {
         // Required empty public constructor

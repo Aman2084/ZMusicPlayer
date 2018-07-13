@@ -11,6 +11,7 @@
     <color name="alphaBlack2">#80000000</color>
     <color name="white">#ffffff</color>
     <color name="alphawhite">#80ffffff</color>
+    <color name="alphawhite2">#50ffffff</color>
     <color name="yellow">#ffff00</color>
     <color name="gold">#ffd700</color>
     <color name="gray">#e5e5e5</color>

@@ -17,6 +17,9 @@ public class MyRadioButton extends RadioButton {
 
     private int _drawSize;
 
+    private Drawable _top;
+    private Drawable _top_selected;
+
 
     public MyRadioButton(Context $c){
         this($c , null , 0);
@@ -36,11 +39,15 @@ public class MyRadioButton extends RadioButton {
         for (int i = 0; i < n ; i++) {
             int arrt = a.getIndex(i);
             switch (arrt){
-                case R.styleable.MyRadioButton_drawableSize:
-                    _drawSize = a.getDimensionPixelSize(R.styleable.MyRadioButton_drawableSize, 50);
+                case R.styleable.MyRadioButton_mydrawableSize:
+                    _drawSize = a.getDimensionPixelSize(R.styleable.MyRadioButton_mydrawableSize, 50);
                     break;
                 case R.styleable.MyRadioButton_drawableTop:
                     top = a.getDrawable(arrt);
+                    _top = top;
+                    break;
+                case R.styleable.MyRadioButton_drawableTopSelected:
+                    _top_selected = a.getDrawable(arrt);
                     break;
                 case R.styleable.MyRadioButton_drawableBottom:
                     bottom = a.getDrawable(arrt);
@@ -54,7 +61,14 @@ public class MyRadioButton extends RadioButton {
             }
         }
         a.recycle();
+
+        top = isChecked() ? _top_selected : _top;
         setCompoundDrawablesWithIntrinsicBounds(left , top , right , bottom);
+    }
+
+    public void refuseTop(){
+        Drawable top = isChecked() ? _top_selected : _top;
+        setCompoundDrawablesWithIntrinsicBounds(null , top , null , null);
     }
 
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable $left ,

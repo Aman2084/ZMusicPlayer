@@ -35,7 +35,7 @@ public class SongModel extends ZProgress {
     }
 
 
-//增
+//改
     public void set_allSongs(ArrayList<Song> $allSongs) {
         _allSongs = $allSongs;
         AppInstance.songSQL.resetAllSong($allSongs);
@@ -64,7 +64,6 @@ public class SongModel extends ZProgress {
 
         sql_song.openWriteLink();
         sql_relation.openWriteLink();
-        int num = 0;
         for (int i = 0; i <_allSongs.size(); i++) {
             Song s = _allSongs.get(i);
             if($a.indexOf(s.get_id())>-1){
@@ -74,7 +73,7 @@ public class SongModel extends ZProgress {
                 //删除歌曲表数据
                 sql_song.deleteById(s.get_id());
                 //删除歌单中的表数据
-                num += sql_relation.deleteBySongId(s.get_id());
+                sql_relation.deleteBySongId(s.get_id());
                 a.add(s);
             }
         }

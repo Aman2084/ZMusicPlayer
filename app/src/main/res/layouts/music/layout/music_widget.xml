@@ -12,7 +12,7 @@
         android:scaleType="fitXY"
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/music_page_defaulticon"
+        android:src="@drawable/main_music_defaulticon"
         android:clickable="false"/>
 
     <TextView
@@ -63,11 +63,6 @@
             android:id="@+id/btn_next"
             style="@style/music_widgetBtn"
             android:src="@drawable/music_notify_next"/>
-
     </LinearLayout>
-
-
-
-
 
 </RelativeLayout>

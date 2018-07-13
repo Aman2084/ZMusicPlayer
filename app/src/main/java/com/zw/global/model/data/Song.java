@@ -52,6 +52,8 @@ public class Song {
     private boolean _hasBitmap = true;
     private SoftReference<Bitmap> _bmp = null;
 
+    /**是否为收藏歌曲*/
+    public boolean isFavorite = false;
 
     public Song(){
 //        super(null , null);

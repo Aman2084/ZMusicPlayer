@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aman.ui.containers.ZRelativeLayout;
+import com.aman.utils.observer.ZNotifcationNames;
 import com.zw.R;
 
 /**
  * Created by Administrator on 2017/8/8.
  */
 
-public class MyMainItem extends RelativeLayout {
+public class MyMainItem extends ZRelativeLayout {
 
     public MyMainItem(Context $c, AttributeSet $a){
         super($c , $a);
@@ -31,6 +34,11 @@ public class MyMainItem extends RelativeLayout {
         String str = a.getString(R.styleable.MyMainItem_itemName);
         TextView t = (TextView)findViewById(R.id.txt_name);
         t.setText(str);
+
+
+        ImageView btn = (ImageButton)this.findViewById(R.id.btn);
+        btn.setOnClickListener(onClick);
+        this.setOnClickListener(onClick);
     }
 
     public void setNum(int $n){
@@ -38,4 +46,16 @@ public class MyMainItem extends RelativeLayout {
         TextView t = (TextView)findViewById(R.id.txt_num);
         t.setText(str);
     }
+
+    private OnClickListener onClick = new OnClickListener() {
+        @Override
+        public void onClick(View $v) {
+            boolean b = $v.getId()==R.id.btn;
+            String s = b ? ZNotifcationNames.Play : ZNotifcationNames.Click;
+            sendNotification(s);
+        }
+    };
+
+
+
 }

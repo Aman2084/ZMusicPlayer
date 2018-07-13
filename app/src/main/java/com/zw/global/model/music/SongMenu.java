@@ -43,14 +43,13 @@ public class SongMenu {
 
     public void setData(SongList $l , int $index){
         _list = $l;
-        _arr.clear();
-        if($l.items!=null){
-            _arr.addAll($l.items);
-        }
-
         _index = $index;
         lastSong = null;
         refuse();
+    }
+
+    public void setIndex(int $i){
+        _index = $i;
     }
 
     /**
@@ -151,17 +150,17 @@ public class SongMenu {
     }
 
     private void refuse(){
-        SongListItem s = getCurrectSong();
         _arr.clear();
-        _index = -1;
         if(_list==null || _list.items==null || _list.items.size()==0){
             return;
         }
+        _arr.addAll(_list.items);
+        SongListItem s = getCurrectSong();
+        _index = -1;
 
-        //不循环播放时，首次时进行随机排列
+        //不循环随机播放时，首次时进行随机排列
         if(_mode.equals(Disorder) && !_isLoop){
-            _arr.addAll(_list.items);
-            _index = -1;
+            _index = 0;
             int l = _arr.size();
             for (int i = 0; i <l-1 ; i++) {
                 int n = l-1-i;
@@ -177,9 +176,8 @@ public class SongMenu {
             }
         }
 
-        //顺序播放时，对相关变量进行调整
-        if(_mode.equals(Order)){
-            _arr.addAll(_list.items);
+        //顺序/单曲播放时，对相关变量进行调整
+        if(!_mode.equals(Disorder)){
             _index = _arr.indexOf(s);
         }
     }
@@ -275,6 +273,18 @@ public class SongMenu {
             _index = index;
         }
         return s;
+    }
+
+    public int getIndexByPath(String $p){
+        int index = -1;
+        for (int i = 0; i <_arr.size() ; i++) {
+            SongListItem o = _arr.get(i);
+            if(o.song.getPath().equals($p)){
+                _index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     public boolean isEmpty(){

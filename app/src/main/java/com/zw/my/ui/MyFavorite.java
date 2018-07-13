@@ -61,7 +61,7 @@ public class MyFavorite extends ZRelativeLayout implements ISubpage {
                 case AppNotificationNames.UNFavorite:
                     SongListItem s = (SongListItem)$n.data;
                     SongListModel m = AppInstance.model.song.songList;
-                    s.isFavorite = false;
+                    s.song.isFavorite = false;
                     m.setFavorite(s);
                     _apader.removeSong(s);
                     break;

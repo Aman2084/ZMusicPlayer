@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <View android:minHeight="60dp" android:layout_width="0dp" android:layout_height="60dp"/>
+    <View android:minHeight="45dp" android:layout_width="0dp" android:layout_height="45dp"/>
     <TextView
         android:id="@+id/txt_num"
         android:layout_width="wrap_content"
@@ -10,17 +10,16 @@
         style="@style/global_singleLineText"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:textSize="14dp"
-        />
+        android:layout_marginRight="10dp"
+        android:textSize="14dp"/>
+
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/global_singleLineText"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@id/txt_num"
         android:textSize="14dp"/>
-
 </merge>

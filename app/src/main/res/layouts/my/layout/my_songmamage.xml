@@ -16,28 +16,30 @@
         android:id="@+id/core_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/my_songlist_barbg"
+        android:paddingRight="5dp">
 
         <RelativeLayout
             android:id="@+id/bar_normal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_manage"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_manage"
-                android:background="@drawable/global_btnbg1_red"
+                android:src="@drawable/my_global_edit"
+                android:scaleType="fitCenter"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="5dp"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_play"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_play"
-                android:background="@drawable/global_btnbg1_green"
+                android:src="@drawable/my_song_play"
+                android:scaleType="fitCenter"
                 android:layout_toLeftOf="@id/btn_manage"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="10dp"/>
         </RelativeLayout>
 
 
@@ -45,21 +47,20 @@
             android:id="@+id/bar_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
+            <ImageView
                 android:id="@+id/btn_complete"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_complete"
-                android:background="@drawable/global_btnbg1_green"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"/>
+                android:src="@drawable/my_global_ok"
+                android:scaleType="fitCenter"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_batch"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_batchManage"
-                android:background="@drawable/global_btnbg1_red"
                 android:layout_toLeftOf="@id/btn_complete"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="15dp"
+                android:src="@drawable/my_global_batch"
+                android:scaleType="fitCenter"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -74,29 +75,28 @@
                 android:text="@string/global_selectedAll"
                 android:layout_centerVertical="true"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_back"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_complete"
-                android:background="@drawable/global_btnbg1_green"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"/>
+                android:src="@drawable/my_global_ok"
+                android:scaleType="fitCenter"
+                android:layout_alignParentRight="true"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_delete"
                 style="@style/my_bottomBtn"
-                android:text="@string/global_delete"
-                android:background="@drawable/global_btnbg1_red"
+                android:src="@drawable/my_songlist_delete"
+                android:scaleType="fitCenter"
                 android:layout_toLeftOf="@id/btn_back"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="5dp"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_add2list"
                 style="@style/my_bottomBtn"
-                android:text="@string/my_add2"
-                android:background="@drawable/global_btnbg1_yellow"
+                android:src="@drawable/my_song_add"
+                android:scaleType="fitCenter"
                 android:layout_toLeftOf="@id/btn_delete"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="5dp"/>
         </RelativeLayout>
 
     </FrameLayout>

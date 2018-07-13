@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.aman.ui.containers.ZRelativeLayout;
@@ -44,8 +46,10 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
     private View _bar_edit;
     private View _bar_batch;
     private ListView _list;
+    private CheckBox _check;
 
     private boolean _useBrowse = true;
+    private boolean _checkByCode = false;
     private AnimationTypes _showType = AnimationTypes.Right;
     private ArrayList<SongListItem> _data;
 
@@ -56,7 +60,7 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
      * Batch    批量操作模式
      * NoBrowse 无浏览模式,并初始化显示为Manage模式
      * */
-    public static enum DisplayMode {
+    public enum DisplayMode {
         Browse, Manage, Batch, NoBrowse
     }
 
@@ -70,6 +74,7 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
         _bar_edit = findViewById(R.id.bar_edit);
         _bar_batch = findViewById(R.id.bar_batch);
         _list = (ListView)findViewById(R.id.list);
+        _check = (CheckBox)findViewById(R.id.checkbox);
 
         _apater = new ManageAtapter(onItem);
         _list.setAdapter(_apater);
@@ -77,6 +82,7 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
         int[] ids = {R.id.btn_manage,R.id.btn_play,R.id.btn_complete,
                 R.id.btn_batch,R.id.btn_back,R.id.btn_delete,R.id.btn_add2list};
         UIUtils.setOnClickByIds(this , ids , onClick);
+        _check.setOnCheckedChangeListener(onCheck);
     }
 
     private class ManageAtapter extends MyListSongsAdapter{
@@ -145,13 +151,33 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
                     }
                     break;
                 case R.id.btn_play:
-                    //TODO...  play
+                    play();
                     break;
-
             }
 
             if(type!=null){
                 sendNotification(type , data);
+            }
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener onCheck = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton $buttonView, boolean $isChecked) {
+            if(_checkByCode){
+                _checkByCode = false;
+                return;
+            }
+
+            if(_data==null || _data.isEmpty()){
+                return;
+            }
+
+            for (SongListItem o:_data) {
+                if(o.selected!=$isChecked){
+                    o.selected = $isChecked;
+                    o.sendNotification(ZNotifcationNames.Change);
+                }
             }
         }
     };
@@ -167,7 +193,7 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
             switch ($n.name){
                 case AppNotificationNames.Favorite:
                 case AppNotificationNames.UNFavorite:
-                    o.isFavorite = !o.isFavorite;
+                    o.song.isFavorite = !o.song.isFavorite;
                     item.refuse_favorite();
                     sendNotification($n.name , $n.data);
                     break;
@@ -180,12 +206,26 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
                 case ZNotifcationNames.Click:
                     play(o);
                     break;
+                case ZNotifcationNames.Selected:
+                    boolean b = (Boolean)$n.data;
+                    if(!b){
+                        _checkByCode = true;
+                        _check.setChecked(false);
+                    }
+                    break;
             }
         }
     };
 
 
 //Logic
+
+    private void play(){
+        SongGroup g = new SongGroup();
+        g.songs = MySongModel.SongListItems2Songs(_data);
+        g.name = _title.get_text();
+        ZLocalBroadcast.sendAppIntent(IntentActions.PrePlaySongs , g);
+    }
 
     private void play(SongListItem $o){
         SongGroup g = new SongGroup();
@@ -194,7 +234,6 @@ public class MySongManage extends ZRelativeLayout implements ISubpage {
         g.name = _title.get_text();
         ZLocalBroadcast.sendAppIntent(IntentActions.PrePlaySongs , g);
     }
-
 
     private void changeDisplayMode(DisplayMode $mode){
         _apater.setDisplayMode($mode);

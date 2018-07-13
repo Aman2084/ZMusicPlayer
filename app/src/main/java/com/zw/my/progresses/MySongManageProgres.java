@@ -131,8 +131,10 @@ public class MySongManageProgres extends ZProgress {
     }
 
     private void disposeUI() {
-        _ui.deleteObserver(onUI);
-        _ui = null;
+        if(_ui!=null){
+            _ui.deleteObserver(onUI);
+            _ui = null;
+        }
         if(_selector!=null){
             _selector.deleteObserver(onSelector);
             _selector = null;

@@ -9,7 +9,10 @@ import android.widget.FrameLayout;
 
 import com.aman.ui.controls.Alert;
 import com.aman.utils.Debuger;
+import com.aman.utils.observer.ZNotification;
+import com.aman.utils.observer.ZObserver;
 import com.zw.global.AppInstance;
+import com.zw.global.AppNotificationNames;
 import com.zw.main.MainMediator;
 import com.zw.music.MusicMediator;
 import com.zw.music.ZMusicService;
@@ -44,14 +47,6 @@ public class MainActivity extends Activity {
         startService(intent);
 
         Debuger.traceTime("onCreat");
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle $s) {
-        $s.putString("activity" , "helloworld!");
-        super.onSaveInstanceState($s);
-        Debuger.traceTime("onSaveInstanceState");
     }
 
     @Override
@@ -95,6 +90,7 @@ public class MainActivity extends Activity {
             _mediator_music = new MusicMediator(this);
             _mediator_time = new TimeMediator(this);
             _mediator_settings = new SettingMediator(this);
+            _mediator_my.addObserver(onMy);
         }
     }
 
@@ -120,8 +116,6 @@ public class MainActivity extends Activity {
         Alert.clear();
 
         Debuger.traceTime("onStop");
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
 //        AppIndex.AppIndexApi.end(client, getIndexApiAction());
 //        client.disconnect();
     }
@@ -132,4 +126,22 @@ public class MainActivity extends Activity {
         super.onDestroy();
     }
 
+
+    private ZObserver onMy = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            switch($n.name){
+                case AppNotificationNames.CheckPermissionForScan:
+//                    shouldShowRequestPermissionRationale("android.permission.WRITE_EXTERNAL_STORAGE");
+                    break;
+            }
+        }
+    };
+
+    /*
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    */
 }

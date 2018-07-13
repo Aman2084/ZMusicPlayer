@@ -22,6 +22,8 @@ import com.zw.R;
 import com.zw.global.AppInstance;
 import com.zw.global.AppNotificationNames;
 import com.zw.global.IntentActions;
+import com.zw.global.model.MySongModel;
+import com.zw.global.model.data.SongGroup;
 import com.zw.global.model.data.SongList;
 import com.zw.my.ui.item.MyMainItem;
 import com.zw.my.ui.item.MySongListItem;
@@ -58,9 +60,9 @@ public class MyMainContent extends ZLinearLayout {
         _btn_addList = (RelativeLayout) findViewById(R.id.btn_add);
         _list = (ListView)findViewById(R.id.list);
 
-        _item_all.setOnClickListener(onMainItem);
-        _item_fav.setOnClickListener(onMainItem);
-        _btn_addList.setOnClickListener(onMainItem);
+        _item_all.addObserver(onMainItem);
+        _item_fav.addObserver(onMainItem);
+        _btn_addList.setOnClickListener(onAddBtn);
 
         AbsListView.LayoutParams p = new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT , AbsListView.LayoutParams.WRAP_CONTENT);
@@ -82,8 +84,8 @@ public class MyMainContent extends ZLinearLayout {
 
 
 
-    //Event Handler
-    private OnClickListener onMainItem = new OnClickListener() {
+//Listener
+    private OnClickListener onAddBtn = new OnClickListener() {
         @Override
         public void onClick(View v) {
             String str = null;
@@ -96,6 +98,36 @@ public class MyMainContent extends ZLinearLayout {
             }
             if(str!=null){
                 ZLocalBroadcast.sendAppIntent(str);
+            }
+        }
+    };
+
+    private ZObserver onMainItem = new ZObserver() {
+        @Override
+        public void onNotification(ZNotification $n) {
+            String str = null;
+            Object data = null;
+            boolean isAll = $n.owner==_item_all;
+            switch ($n.name){
+                case ZNotifcationNames.Click:
+                    str = isAll ? IntentActions.ShowMyAllMusic : IntentActions.ShowMyFavorites;
+                    break;
+                case ZNotifcationNames.Play:
+                    MySongModel m = AppInstance.model.song;
+                    SongGroup g = new SongGroup();
+                    if(isAll){
+                        g.songs = m.song.get_allSongs();
+                    }else{
+                        g.songs = m.songList.list_fav.getSongs();
+                    }
+                    if(g.songs!=null && !g.songs.isEmpty()){
+                        str = IntentActions.PrePlaySongs;
+                        data = g;
+                    }
+                    break;
+            }
+            if(str!=null){
+                ZLocalBroadcast.sendAppIntent(str , data);
             }
         }
     };
@@ -120,13 +152,6 @@ public class MyMainContent extends ZLinearLayout {
     public void refuse() {
         ArrayList<SongList> a = AppInstance.model.song.songList.get_allSongList();
         _adater.setData(a);
-        int n = _list.getChildCount();
-        for (int i = 0; i <n ; i++) {
-            View v = _list.getChildAt(i);
-//            v instanceof  ;
-//            if(!())
-
-        }
     }
 }
 

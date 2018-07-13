@@ -20,8 +20,6 @@ public class SongListItem extends ZObservable {
 
     public String songId = null;
     public int relationId = -1;
-    /**是否为收藏歌曲*/
-    public boolean isFavorite = false;
 
     /**
      * 在歌单中的序列
@@ -41,7 +39,6 @@ public class SongListItem extends ZObservable {
         s.songId = songId;
         s.relationId = relationId;
         s.selected = selected;
-        s.isFavorite = isFavorite;
         s.song = song;
         s.stause = stause;
         s.position = position;
